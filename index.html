@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Cross-scale Bitcoin price model, 2010–2040: power law × saturation ceiling × halving cycles</title>
-<meta name="description" content="Bitcoin price as a power law in the age of the network with logistic saturation and halving cycles. Cross-scale model in which three layers of the price are stitched together: the Metcalfe exponent sets the slope of power-law growth; a monetary ceiling sets the height that growth runs into; and that same monetary ceiling, by straightening the trend, turns one and the same cycle into deeper drawdowns and weaker rallies. Four sliders, five falsification criteria, monthly resolution since 2010.">
-<link rel="canonical" href="https://neokrasav4ik.github.io/btc-model/">
-<link rel="alternate" hreflang="ru" href="https://neokrasav4ik.github.io/btc-model/ru.html">
-<link rel="alternate" hreflang="en" href="https://neokrasav4ik.github.io/btc-model/">
-<link rel="alternate" hreflang="x-default" href="https://neokrasav4ik.github.io/btc-model/">
+<meta name="description" content="Bitcoin price as a power law in network age with saturation and halving cycles. Three stitched layers link the power-law slope, monetary ceiling and four-year fluctuations: saturation flattens the trend while the multiplier ζ simultaneously damps cycle amplitude. Four sliders, five falsification criteria, monthly resolution since 2010.">
+<link rel="canonical" href="https://saycale.github.io/btc-model/">
+<link rel="alternate" hreflang="ru" href="https://saycale.github.io/btc-model/ru.html">
+<link rel="alternate" hreflang="en" href="https://saycale.github.io/btc-model/">
+<link rel="alternate" hreflang="x-default" href="https://saycale.github.io/btc-model/">
 <style>
 /* IBM Plex (SIL OFL 1.1), local copies — no external requests */
 @font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;src:url('fonts/ibm-plex-mono-cyrillic-400-normal.woff2') format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
@@ -41,7 +41,7 @@
   --mdl:#1E5FA8;
   --band:rgba(30,95,168,.13);
   --band-soft:rgba(30,95,168,.085);
-  --col:1180px;
+  --col:100%;
   --pos:#1F7A5A;
   --neg:#A83232;
   --epoch:rgba(17,23,30,.035);
@@ -60,7 +60,7 @@
 html{scroll-behavior:smooth}
 body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased}
 :focus-visible{outline:2px solid var(--mdl);outline-offset:2px}
-.wrap{max-width:1560px;margin:0 auto;padding:36px 28px 72px}
+.wrap{max-width:1920px;margin:0 auto;padding:36px 28px 72px}
 header{border-bottom:1px solid var(--rule);padding-bottom:16px;margin-bottom:20px}
 .hrow{display:flex;align-items:baseline;justify-content:space-between;gap:24px;flex-wrap:wrap;margin:0 0 10px}
 .hrow h1{margin:0}
@@ -321,9 +321,9 @@ ul.tight li{margin-bottom:5px}
   <p class="eyebrow">P(t) = 10<sup>A</sup> · t<sup>3β</sup> × saturation(W) × ζ·[euphoria(d<sub>e</sub>) − panic(d<sub>p</sub>)]</p>
   <div class="hrow">
     <h1>Cross-scale Bitcoin price model, 2010–2040</h1>
-    <p class="dateline">Compiled in August 2026 · observed through early August 2026 · everything to the right is computed</p>
+    <p class="dateline">Compiled in August 2026 · observed through 24 August 2026 · everything to the right is computed</p>
   </div>
-  <p class="sub">Three layers stitched together: the Metcalfe exponent sets the slope of the power-law growth; a monetary ceiling sets the height that growth runs into; and that same ceiling, by straightening the trend, turns one and the same cycle into deeper drawdowns and weaker rallies. Each layer owns its own time scale: the first governs decades, the second governs how it all ends, the third governs the four-year waves inside.</p>
+  <p class="sub">Three layers stitched together: the Metcalfe exponent sets the slope of power-law growth, the monetary ceiling sets the height that growth runs into, and the cycle layer describes four-year rallies and drawdowns. As the trend approaches the ceiling it flattens: with cycle amplitude held constant this would deepen the peak-to-trough drawdown and weaken the subsequent recovery, but the multiplier ζ simultaneously damps the cycle itself. Each layer acts on its own time scale: the first governs decades, the second determines the long-run plateau, and the third governs the four-year fluctuations within the trend.</p>
   <nav class="nav">
     <a href="#read">How to read</a>
     <a href="#cycles">Cycles</a>
@@ -398,7 +398,7 @@ ul.tight li{margin-bottom:5px}
         <div class="hint"><span>1.60 · n log n</span><span class="mark" id="mbmark">reference value</span><span>2.05 · n²</span></div>
       </div>
       <div class="fit" id="fit">
-        <div class="k">Misses from the trend over history<span class="info" tabindex="0" role="button" aria-label="What a miss from the trend is"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="7.15" y="6.9" width="1.7" height="4.9" rx=".85" fill="currentColor"/><circle cx="8" cy="4.5" r="1.05" fill="currentColor"/></svg><span class="tip">How many observed months lie further than <b>±0.5 dex</b> from the trend — that is, deviate from it by more than a factor of three. At the measured β there are 14 out of 194, and almost all of them fall on the peaks of 2011 and 2013/14, where the price itself behaved abnormally.<br><br>The colour of the counter changes continuously along with the number of misses, without steps. The counter reacts only to the β slider above it. A shift of one tenth downward takes the misses to 17, two tenths to 26, and more than half of the new ones fall on 2010–2012. The fit holds inside a very narrow corridor — that is the point of the check.</span></span></div>
+        <div class="k">Misses from the trend over history<span class="info" tabindex="0" role="button" aria-label="What a miss from the trend is"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="7.15" y="6.9" width="1.7" height="4.9" rx=".85" fill="currentColor"/><circle cx="8" cy="4.5" r="1.05" fill="currentColor"/></svg><span class="tip">How many observed months lie further than <b>±0.5 dex</b> from the trend — that is, deviate from it by more than a factor of three. At the reference β there are 14 out of 194; 10 of them fall in 2011 and 2013/14, where the price itself behaved abnormally.<br><br>The colour of the counter changes continuously along with the number of misses, without steps. The counter reacts only to the β slider above it. A shift of one tenth downward takes the misses to 17, two tenths to 26, and more than half of the new ones fall on 2010–2012. The fit holds inside a very narrow corridor — that is the point of the check.</span></span></div>
         <span class="v" id="g-fit">—</span>
       </div>
 
@@ -455,7 +455,7 @@ ul.tight li{margin-bottom:5px}
 <p>Three lines. The grey dashed one carries the trend: a power law with saturation, cycles removed. The dashes work as a spine the asset keeps returning to, and by themselves predict nothing. The blue one multiplies that spine by the cycle overlay. The orange one shows what happened.</p>
 <p>The upper panel runs on a logarithmic scale. The lower one carries the residual, measured in <b>dex</b>. Dex expresses “how many times” in logarithmic form: +1 dex puts the price ten times above the trend, −0.3 dex roughly halves it, zero lands exactly on the spine.</p>
 <p>Everything else on both panels is markup. The grey bands are the halving epochs H0–H8. The dashed vertical separates fact from calculation: observations to the left, model only to the right, at the current slider positions. The thin lines at ±0.5 dex below are the regime band from falsification criterion 5.</p>
-<p>As of August 2026 the residual holds around <b>−0.36 dex</b>, that is, the price sits a little below half the trend. This looks worse than it behaves: every post-halving trough parked between −0.24 and −0.38 dex. A trough is supposed to look like that. The alarming signal would be a residual that leaves the ±0.5 dex band and stays out: that is falsification criterion 5, which has never fired for longer than five months.</p>
+<p>As of 24 August 2026 the residual is about <b>−0.27 dex</b>: the price of $77.4k is roughly 54% of the trend. This is comparable with the calibrated intramonth trough nodes of earlier cycles, which lie between −0.24 and −0.38 dex, although the <code>OBS</code> array contains approximate monthly closes and does not reproduce that range directly. Of 194 monthly observations, 14 left the ±0.5 dex band; the longest continuous excursion lasted five months, from November 2013 through March 2014. Falsification criterion 5 requires an excursion lasting more than two years and has never fired.</p>
 
 <h2 id="cycles">Cycles</h2>
 <table id="cyc">
@@ -481,7 +481,7 @@ ul.tight li{margin-bottom:5px}
 <p>Hence the logarithmic scale on the chart, where each division means a factor of ten. A power law straightens out on such a scale, and departures from it become visible to the eye. Proportions are preserved too: a fall from $100 to $50 looks like a fall from $100,000 to $50,000, because for the owner both mean a half.</p>
 <div class="aside">
   <div class="t">Two free parameters and a way to check them</div>
-  <p>Layer 1 carries two fitted numbers: the exponent and a multiplier. Those two have to reproduce 194 monthly observations spanning six orders of magnitude in price, and the residual leaves ±0.5 dex in only 14 of them — almost exclusively on the blow-offs of 2011 and 2013/14, where the price itself behaved abnormally.</p>
+  <p>Layer 1 carries two fitted numbers: the exponent and a multiplier. Those two have to reproduce 194 monthly observations spanning six orders of magnitude in price, and the residual leaves ±0.5 dex in only 14 of them; 10 fall in 2011 and 2013/14, where the price itself behaved abnormally.</p>
   <p>Those same 14 out of 194 are what the miss counter under the β slider shows, so the claim “β was measured, not chosen” is not to be taken on trust. Move the β slider to 1.70 and the misses become 26, with more than half of the new ones falling on 2010–2012: the early history falls off first, because it is what sets the slope. Nearly doubling on a shift of two tenths is what the words “narrow corridor” amount to.</p>
   <p>When β changes, the curve is recalibrated through a reference point at the logarithmic centre of the observations — day 2971 from genesis, February 2017. The rotation happens around the centre of mass of the data rather than around an arbitrary end, otherwise the slider would break the fit for a reason having nothing to do with the exponent itself.</p>
   <p>Whether all of this counts as evidence or as curve fitting is discussed below, in the <a href="#objections">objections</a>, since it comes up first thing every time.</p>
@@ -493,14 +493,14 @@ ul.tight li{margin-bottom:5px}
 <div class="aside">
   <div class="t">How the ceiling gets into the plateau</div>
   <p>The plateau level is a monetary constraint. Terminal capitalisation is made up of the number of owners and how much falls to each owner on average, and the price comes from dividing by the coin supply: <code>plateau = W · A / S</code>, where <code>A</code> = $8,447 of terminal holding per person and <code>S</code> ≈ 20.7M coins in circulation by the mid-2030s. The ceiling enters linearly: an error by a factor of two moves the plateau by a factor of two.</p>
-  <p>The $8,447 itself comes from a division, not from a measurement. Of the three quantities — ceiling, average holding size, plateau level — only two are independent, the third is computed from them. The outer two are pinned. The base ceiling is 1610 million owners: the middle of the plausible corridor of 1300–1900 and about 27% of adults. The base plateau is $657k, that is, a terminal capitalisation of $13.6T, a little under half the value of all the gold ever mined. From there <code>A</code> = $13.6T / 1610M = $8,447 per owner. After that <code>A</code> is fixed and the slider moves only <code>W</code>: capitalisation and plateau follow it linearly, while the average holding size stays as it was.</p>
+  <p>The $8,447 itself comes from a division, not from a measurement. Of the three quantities — ceiling, average holding size, plateau level — only two are independent, the third is computed from them. The outer two are pinned. The base ceiling is 1610 million owners: near the middle of the plausible corridor of 1300–1900 and about 27% of adults. The base plateau is $657k, that is, a terminal capitalisation of $13.6T, a little under half the value of all the gold ever mined. From there <code>A</code> = $13.6T / 1610M = $8,447 per owner. After that <code>A</code> is fixed and the slider moves only <code>W</code>: capitalisation and plateau follow it linearly, while the average holding size stays as it was.</p>
   <p>On its own <code>A</code> is not measured. It is the calibration base expressed per person, and arguing with the plateau level makes sense precisely through it: $8,447 per owner is of the same order as an average retail brokerage account, and it either looks plausible or it does not.</p>
-  <p>The Metcalfe exponent is absent here, and that is deliberate. The temptation to run the plateau through the same β is strong, but the arithmetic does not survive it: at 106M owners as of mid-2026 and a trend of $144k, growth of the network to 1610M would give a multiplier of 15.19<sup>β</sup> ≈ 174, that is, a plateau on the order of $25M. The power law describes the acceleration, not the place where acceleration ends; what it runs into is the size of world wealth. So β lives only in the slope of the first layer, and the second layer counts money.</p>
+  <p>The Metcalfe exponent is absent here, and that is deliberate. The temptation to run the plateau through the same β is strong, but the arithmetic does not survive even a conservative sensitivity case: using the lower industry benchmark of 106M owners and a trend of $144k, growth to 1610M would give a multiplier of 15.19<sup>β</sup> ≈ 174, or a plateau near $25M. Owner estimates vary too widely for $25M to be a forecast, but the example shows why β is not extended into the plateau. The power law describes the acceleration, not the place where acceleration ends; what it runs into is the size of world wealth. So β lives only in the slope of the first layer, and the second layer counts money.</p>
 </div>
 <p>Sensitivity to all of this is what the “owner ceiling” slider exposes. Move it: the whole right-hand part of the chart travels up and down — and not by level alone. The ceiling enters the cycle by a second route, through the multiplier ζ, so the amplitude travels along with the plateau: at the base decays the H5 drawdown runs from 23% at a ceiling of 700M to 40% at 3200, and at the lower edge the troughs almost flatten out. Two things stay untouched: the historical part of the chart, where φ = 1.00 and saturation has not yet kicked in, and the whole of the first layer — the ceiling does not turn the slope of the power law. The travel of the slider measures what share of the 2030s rests on a quantity nobody has yet counted.</p>
 <div class="aside">
   <div class="t">Why the ceiling is not counted in addresses</div>
-  <p>Today (August 2026) roughly 106M owners map onto 57M non-zero addresses, and the ratio is falling: custodial services and exchange-traded funds recruit holders who never touch an address on the chain. Measuring the size of the network in addresses makes less sense with every year.</p>
+  <p>As of August 2026 about 57M non-zero addresses can be measured on-chain, but the number of owners cannot: industry estimates vary widely, and custodial services or exchange-traded funds can place many holders behind one address. There is therefore no defensible one-to-one address-to-owner ratio. Measuring the size of the network in addresses alone makes less sense with every year.</p>
   <p>As long as the decay reads as moderate, the contradiction is tolerable. If the decay is irreversible, the contradiction becomes direct: you cannot claim at once that euphoria died because the composition of holders changed and count the ceiling as if the ratio of addresses to owners had stayed historical. So the plateau is computed from the number of owners. The number of addresses does not enter the calculation at all.</p>
 </div>
 
@@ -538,18 +538,18 @@ ul.tight li{margin-bottom:5px}
 <p>The reverse holds too. A compatible setting is not a well-founded one. “Cycle never broke” passes the check almost without remarks, but it requires treating H4 as a fluke, and there is (so far) no independent evidence for that. Hence the neutral colour of the indicator rather than green: it catches a mismatch, it does not grade.</p>
 
 <h3>Owner ceiling: 1300–1900 million</h3>
-<p>The scale is capitalisation itself: the plateau is terminal capitalisation divided by the coin supply, and gold stands alongside as a distantly similar non-digital analogue. By the mid-2030s about 20.7M coins will be in circulation, and all the gold ever mined is worth roughly $31T as of 2026. At 6 billion adults the ruler looks like this:</p>
+<p>The scale is capitalisation itself: the plateau is terminal capitalisation divided by the coin supply, and gold stands alongside as a distantly similar non-digital analogue. By the mid-2030s about 20.7M coins will be in circulation, and all the gold ever mined is worth roughly $32.5T as of August 2026. At 6 billion adults the ruler looks like this:</p>
 <table class="expl">
- <tr><td class="n"><b>1000</b></td><td>plateau $408k · capitalisation $8.4T · <b>27% of gold</b> · 17% of adults — adoption continues, bitcoin stays a niche asset</td></tr>
- <tr><td class="n"><b>1300</b></td><td>plateau $530k · $11.0T · <b>35% of gold</b> · 22% of adults — the lower edge of the plausible</td></tr>
- <tr><td class="n"><b>1610</b></td><td>plateau $657k · $13.6T · <b>44% of gold</b> · 27% of adults — <b>base</b>, ≡ $8,447 of holding per owner</td></tr>
- <tr><td class="n"><b>1800</b></td><td>plateau $735k · $15.2T · <b>49% of gold</b> · 30% of adults — the upper edge of the plausible</td></tr>
- <tr><td class="n"><b>2600</b></td><td>plateau $1.06M · $22.0T · <b>71% of gold</b> · 43% of adults — requires a change of monetary regime, which the model does not contain</td></tr>
+ <tr><td class="n"><b>1000</b></td><td>plateau $408k · capitalisation $8.4T · <b>26% of gold</b> · 17% of adults — adoption continues, bitcoin stays a niche asset</td></tr>
+ <tr><td class="n"><b>1300</b></td><td>plateau $530k · $11.0T · <b>34% of gold</b> · 22% of adults — the lower edge of the plausible</td></tr>
+ <tr><td class="n"><b>1610</b></td><td>plateau $657k · $13.6T · <b>42% of gold</b> · 27% of adults — <b>base</b>, ≡ $8,447 of holding per owner</td></tr>
+ <tr><td class="n"><b>1800</b></td><td>plateau $735k · $15.2T · <b>47% of gold</b> · 30% of adults — the upper edge of the plausible</td></tr>
+ <tr><td class="n"><b>2600</b></td><td>plateau $1.06M · $22.0T · <b>68% of gold</b> · 43% of adults — requires a change of monetary regime, which the model does not contain</td></tr>
 </table>
-<p>The familiar anchor is the share of adults owning equities, 15–25%. But that share is low for two reasons: most people have no investable surplus, and there is a barrier to entry — a broker, literacy, trust in the procedure. The second reason is removed over a decade by an adviser available to everyone (AI), the first is widened by growth itself. An upper bound of 25% with the friction removed looks more like a lower one, hence 22–32% and a range of 1300–1900 million owners.</p>
+<p>The 22–32% adoption range is a scenario judgement, not a measured global baseline. Cross-country equity participation is often lower and varies sharply by market; the model assumes that simpler custody, broader access and higher wealth could eventually lift bitcoin ownership above that reference. Applied to a rough adult population of 6 billion, the assumption gives a ceiling of 1300–1900 million owners. The slider exists because this premise is not observed.</p>
 <p>The ceiling moreover governs more than the plateau level. Through the multiplier ζ it sets what share of the cycle survives into the 2030s: the lower the ceiling, the sooner saturation eats the headroom and the amplitude with it. The proportion for epochs H5–H7 is shown in the “Cycle · support” block directly under the slider.</p>
-<p>These figures are recomputed live under the chart, in the <b>“What this requires of money”</b> block. There the same capitalisation is shown not only at the plateau but along the way to it: how much has to be added on average per year and how much over the next twelve months. It is also visible there that <b>issuance amounts to less than one percent of the required increase and keeps falling</b>: the halving as a supply mechanism stops meaning anything quantitatively by 2028, and the cycle is left entirely to demand.</p>
-<p><b>An increase in capitalisation is not an inflow of money.</b> To get the second, the first has to be divided by the capitalisation multiplier: how many dollars of market value a dollar of net buying adds. Empirical estimates range from 2 to 25, so no number is displayed anywhere — the model does not know this multiplier and does not use it. For scale: all the gold ever mined is $31T, the world equity market is on the order of $130T. Issuance is computed from the protocol: 210,000 blocks per epoch, the supply at a halving is known exactly, and linearly in between.</p>
+<p>These figures are recomputed live under the chart, in the <b>“What this requires of money”</b> block. There the same capitalisation is shown not only at the plateau but along the way to it: how much has to be added on average per year and how much over the next twelve months. At the current settings, <b>the dollar value of issuance is less than one percent of the modelled annual increase in capitalisation and keeps falling</b>. This is an accounting comparison, not evidence that halvings cease to affect marginal supply or market expectations.</p>
+<p><b>An increase in capitalisation is not an inflow of money.</b> To get the second, the first has to be divided by the capitalisation multiplier: how many dollars of market value a dollar of net buying adds. Empirical estimates range from 2 to 25, so no number is displayed anywhere — the model does not know this multiplier and does not use it. For scale in August 2026: all the gold ever mined is worth roughly $32.5T, while global listed equities were worth about $152T at the end of 2025. Issuance is computed from the protocol: 210,000 blocks per epoch, the supply at a halving is known exactly, and linearly in between.</p>
 
 <h3>Euphoria decay: 0.15</h3>
 <p>Three reference positions:</p>
@@ -566,13 +566,13 @@ ul.tight li{margin-bottom:5px}
 <div class="aside">
   <div class="t">A possible test of the explanation</div>
   <p>The irreversibility of the decay rests on a specific mechanism: <b>institutionalisation</b>. Euphoric buyers were replaced by funds and custodians, and the market's capacity to overheat disappeared with them.</p>
-  <p>That mechanism has its own observable trace, unconnected to the price — <b>the ratio of non-zero addresses to owners</b>. A holder through a fund never touches an address, so the further the replacement has gone, the lower the ratio. It has been falling for years and stands at about 0.54 as of mid-2026: roughly 57M addresses against 106M owners.</p>
-  <p>Hence a test that can be run monthly and without any model. If the ratio <b>stops falling while the peaks stay dead</b>, institutionalisation stops explaining the decay — and under the zero position of the slider no mechanism remains at all, only four trend observations. Continued falling works the other way: it is an argument for the irreversibility of a larger decay, taken from data that has nothing to do with the price.</p>
-  <p>The ratio here is a trace of <em>this</em> mechanism: the market could have matured for other reasons — deeper derivatives, less leverage — and then the ratio is entitled to stand still while the decay persists. A flat ratio refutes the explanation, not the slider itself.</p>
+  <p>The proposed mechanism should leave a trace outside the price — a growing share of holdings under custodians and funds. Non-zero addresses alone cannot provide that trace: about 57M are observable, but the number of people behind them is not, so an address-to-owner ratio cannot be measured reliably.</p>
+  <p>A valid test would require a consistent independent series for beneficial owners or custodied holdings. If that series stopped showing institutionalisation while the peaks stayed muted, institutionalisation would cease to explain the decay. Such a public monthly series is not used here, so the mechanism remains a hypothesis rather than a completed falsification test.</p>
+  <p>Even that test would address only <em>this</em> mechanism: the market could mature for other reasons — deeper derivatives or less leverage — while the cycle decay remained.</p>
 </div>
 
 <h3>Panic decay: no data</h3>
-<p>There is not a single piece of evidence here. Four troughs over fifteen years stand at roughly the same depth, no movement is visible in them, and the direct reading says to set zero: the bottom did not fade before and will not start fading by itself later.</p>
+<p>There is not a single piece of evidence here. Four troughs over sixteen years stand at roughly the same depth, no movement is visible in them, and the direct reading says to set zero: the bottom did not fade before and will not start fading by itself later.</p>
 <p>What can work against zero is, for instance, the logic of the mechanism. The near-zero upper slider asserts that euphoria disappeared for a reason rather than by chance. And the reason may be various — the composition of holders changed, custody went to institutions, participants gained access to a shared reliable source of information — but any of them is obliged by mechanism to reach the bottom sooner or later.</p>
 <p>The lag is explicable, though. The top of the cycle is made by arriving participants, the bottom by those who stay, and the composition of the latter changes far more slowly. So the decay of panic ought to run behind the decay of euphoria, but it ought to run all the same.</p>
 <p>Because of this the combination “zero on top, zero at the bottom” turns out to be internally contradictory. It means that the cause which killed euphoria acts on exactly half the cycle and does not touch the bottom's own mechanism, and there is at present nothing to explain such selectivity.</p>
@@ -621,7 +621,7 @@ ul.tight li{margin-bottom:5px}
 
 <h3>Why the scenarios stand in this order</h3>
 <p>The four scenarios are four points on <b>one axis</b>. The axis answers a single question: <em>how irreversibly bitcoin stopped being a speculative asset</em>. Maturity on the left, speculation on the right.</p>
-<p>Three sliders move along this axis coherently, and the same mechanism sits under each linkage. Institutional custody damps euphoria because it changes the composition of buyers. It also raises the owner ceiling because it removes the barrier to entry: the lion's share of people do not own an asset of this class because of the broker, the literacy and the trust in the procedure, not because of a lack of interest. One process, both consequences. β stays at its measured value in all four scenarios.</p>
+<p>Three sliders move along this axis coherently, and the same mechanism sits under each linkage. Institutional custody damps euphoria because it changes the composition of buyers. It also raises the owner ceiling because it removes the barrier to entry: the lion's share of people do not own an asset of this class because of the broker, the literacy and the trust in the procedure, not because of a lack of interest. One process, both consequences. β stays at its reference value in all four scenarios.</p>
 <p><b>The owner ceiling works on this axis as headroom.</b> It counts how much road to the plateau is still left, and at the left edge there is the most of it. What damps the cycle is the upper slider: it sets what share of that headroom turns into euphoria. On the left there is plenty of travel and it barely converts. On the right there is less travel, but it is spent in full. Because of this, at the left edge of the axis the cycle has a little over twice as much travel left as at the right. It is dead there for a different reason: the headroom stopped turning into euphoria.</p>
 <p>Hence the monotonicity in both columns at once:</p>
 <table class="expl">
@@ -638,7 +638,7 @@ ul.tight li{margin-bottom:5px}
 
 <h3>A power law on log-log axes fits anything.</h3>
 <p class="verdict part">Answered in part</p>
-<p>The exponent is read straight off the price, but it has an independent decomposition: addresses against time (3.046) and value against addresses (1.838), a product of 5.60 against the measured 5.69. The decomposition confirms the order of magnitude and does not replace the fit — <a href="#objections">caveat below</a>. Layer 1 carries two free numbers in total, set against 194 monthly points across six orders of magnitude. The useful check looks at the structure of the residual; the quality of the fit decides little here. The residual does have structure: humps tied to the halvings, shrinking monotonically. Fitting artefacts do not produce those.</p>
+<p>The exponent is read straight off the price, but it has an independent decomposition: addresses against time (3.046) and value against addresses (1.838), a product of 5.60 against the measured 5.69. The decomposition confirms the order of magnitude and does not replace the fit — <a href="#objections">caveat below</a>. Layer 1 carries two free numbers in total, set against 194 monthly points across six orders of magnitude. The useful check looks at the structure of the residual; the quality of the fit decides little here. The residual does have structure: humps tied to the halvings, shrinking monotonically. That is evidence against an unstructured error, but it does not by itself prove a power-law mechanism; alternative smooth growth curves and the choice of time origin remain live objections.</p>
 <p>The question would be closed by falsification criterion 5: the residual leaves ±0.5 dex and does not return for two years. The criterion is set for use — if it fires the model is thrown out, and recalibration would be cheating.</p>
 
 <h3>You are modelling the one asset that happened to survive.</h3>
@@ -657,7 +657,7 @@ ul.tight li{margin-bottom:5px}
 <p class="verdict cede">Conceded — the weak link</p>
 <p>The objection was correct in the first version of the model (discussed below), and it took the form of a rebuild. The plateau is no longer counted in addresses: it is taken from the number of owners through the average size of a terminal holding, <code>W · $8,447 / 20.7M</code>, and the number of addresses has been removed from the calculation entirely.</p>
 <p>The uncomfortable part survived the rebuild: <em>the same institutionalisation that explains the decay of the cycles simultaneously breaks the measuring instrument</em>. One process produces both effects. The difference is that the model no longer leans on a shrinking instrument: the decay of the cycles and the level of the plateau have stopped depending on one and the same breaking quantity.</p>
-<p class="verdict open">Still open: neither the number of owners nor the average holding size is measured separately. 106M is a summary of industry estimates, not a census; $8,447 per owner is the calibration base expressed per person.</p>
+<p class="verdict open">Still open: neither the number of owners nor the average holding size is measured separately. The 106M figure used in one sensitivity example is a lower industry benchmark, not a census; $8,447 per owner is the calibration base expressed per person.</p>
 
 <h3>Where does Metcalfe's 1.897 come from? It looks fitted after the fact.</h3>
 <p class="verdict part">Partly conceded — it is indeed derived</p>
@@ -667,7 +667,7 @@ ul.tight li{margin-bottom:5px}
 <h3>The exponent 3 is about addresses, and addresses have long stopped growing as a cube.</h3>
 <p class="verdict cede">Conceded — the decomposition does not hold</p>
 <p>The exponent 3.046 in Santostasi &amp; Perrenod is measured over the whole history and rests on the early years, where the network grew from nothing. It does not reproduce on fresh data. The number of non-zero addresses per public summaries: about 18M in August 2017, 28M in January 2020, 40M in February 2022, on the order of 57M by mid-2026. Over nine years that is growth by a little over three times, whereas the cube of the network's age would require growth by eight and a half. The exponent implied by that window is about 1.6, and over the last four years only 1.2.</p>
-<p>Something unpleasant follows: <em>the decomposition 5.69 = 3 × 1.897 works more as a note on where the number came from than as a live check</em>. The power law in the price itself holds — 14 misses out of 194 over fifteen years — but it holds as a regularity in the price, not as the product of two quantities measurable today. The instrument broke on the same side it broke on under the ceiling: custodial services and exchange-traded funds recruit holders who create no addresses.</p>
+<p>Something unpleasant follows: <em>the decomposition 5.69 = 3 × 1.897 works more as a note on where the number came from than as a live check</em>. The power law in the price itself holds — 14 misses out of 194 over sixteen years — but it holds as a regularity in the price, not as the product of two quantities measurable today. The instrument broke on the same side it broke on under the ceiling: custodial services and exchange-traded funds recruit holders who create no addresses.</p>
 
 <h3>There are no confidence intervals here. This is a line, not a forecast.</h3>
 <p class="verdict part">Partly conceded</p>
@@ -675,7 +675,7 @@ ul.tight li{margin-bottom:5px}
 
 <h3>$380k in 2029 is absurdly low / absurdly high.</h3>
 <p class="verdict">Depends on which half you are disputing</p>
-<p>These two complaints are worth separating, because the model answers them differently. The 2029 peak falls in the confident half: from $379k to $542k across all four scenarios, a spread of 1.4 times, since saturation has barely kicked in at that horizon. Most of that spread comes from the euphoria slider; the owner ceiling moves the H5 peak moderately, from $373k to $404k, and what it decides is something else — how much of the cycle remains by the following epochs. Disputing the figure means disputing the power law itself. The 2030s are the fragile half: the same four scenarios give a plateau from $530k to $735k, the spread is wider, and the ceiling is reasonably disputed beyond that range in either direction. Disagreement about 2035 is cheap and expected. Disagreement about 2029 requires an argument about the exponent.</p>
+<p>These two complaints are worth separating, because the model answers them differently. The 2029 peak falls in the less sensitive half: from $379k to $542k across all four scenarios, a spread of 1.4 times, since saturation has barely kicked in at that horizon. Most of that spread comes from the euphoria slider; the owner ceiling moves the H5 peak moderately, from $373k to $404k, and what it decides is something else — how much of the cycle remains by the following epochs. Disputing the figure means disputing the assumed power-law regime, including its exponent, time origin or persistence. The 2030s are the more fragile half: the same four scenarios give a plateau from $530k to $735k, the spread is wider, and the ceiling is reasonably disputed beyond that range in either direction.</p>
 
 <h3>The sentiment-phase story is unfalsifiable hand-waving.</h3>
 <p class="verdict part">Partly conceded</p>
@@ -686,7 +686,7 @@ ul.tight li{margin-bottom:5px}
 <h2 id="falsify">What could refute this</h2>
 <p>Five conditions, from the nearest to the furthest:</p>
 <table class="expl">
- <tr><td class="n"><b>1</b></td><td>The price settles below $58,000. Then late June 2026 was not the trough of the cycle, and with it the lower node of H4 falls apart — the very node the decay amplitude is set by. Testable in the coming months. <span class="pill ok">as of Aug 2026 — $64k</span></td></tr>
+ <tr><td class="n"><b>1</b></td><td>The price settles below $58,000. Then late June 2026 was not the trough of the cycle, and with it the lower node of H4 falls apart — the very node the decay amplitude is set by. Testable in the coming months. <span class="pill ok">as of 24 Aug 2026 — $77k</span></td></tr>
  <tr><td class="n"><b>2</b></td><td>The drawdown of the current cycle goes deeper than 70% from the October 2025 peak, that is, below ≈$37,900. The shallowest fall of the previous cycles was 78% in H3, so at 70% H4 stops differing from them qualitatively and the whole extrapolation of the decay loses its footing: essentially one observation holds it up. <span class="pill ok">as of Aug 2026 — 54%</span></td></tr>
  <tr><td class="n"><b>3</b></td><td>The H5 trough stops shallower than −0.16 dex. The only item on the list the model survives: panic faded following euphoria, the panic slider goes right, the mechanism of the cycle has stopped being purely human. The threshold has moved from −0.24: part of the shallowing of the trough is now explained by saturation through the multiplier ζ, and −0.16 dex is what the right edge of the panic slider gives at the base ceiling. September 2030.</td></tr>
  <tr><td class="n"><b>4</b></td><td>The drawdown of cycle H5 goes deeper than 60% at zero euphoria decay. Rejects irreversible decay in favour of a temporary collapse. At the base ceiling, zero euphoria decay and panic decay of 1 the model gives 20%; with the reverse arrangement, 68%.</td></tr>
@@ -701,7 +701,7 @@ ul.tight li{margin-bottom:5px}
 <p>It does not predict the price of a particular month. The scatter around the central line within a year is comparable to the line itself, and trying to read it as “in March it will be such and such” is an abuse.</p>
 <p>It does not account for discontinuities: regulatory bans in major jurisdictions, cryptographic threats, macro shocks. All three layers describe the behaviour of a system that stays in the current regime.</p>
 <p>It does not separate cause from effect in the sentiment-phase mechanism. The observed link between heterogeneity of beliefs and reversals is real, but it remains an empirical regularity with no proven mechanism under it.</p>
-<p>It does not model the supply side at all — lost coins, the behaviour of long-term holders, exchange balances, mining economics. Everything to do with supply is implicitly folded into the two fitted constants of the first layer.</p>
+<p>The price trajectory does not model market-side supply behaviour — lost coins, long-term holders, exchange balances or mining economics. Protocol issuance appears only in the capitalisation-and-issuance diagnostic below the chart and does not feed back into the price trajectory.</p>
 <div class="aside">
   <div class="t">And the main thing it does not do</div>
   <p>The plateau is tied to a structure of world wealth recognisably like today's: the ceiling scale is read through a share of the value of all the gold ever mined. The cycles assume a market of human participants with heterogeneous beliefs, working through to 2040. Both premises are a bet that <b>no transformative technological discontinuity occurs within the model's horizon</b>.</p>
@@ -724,8 +724,8 @@ ul.tight li{margin-bottom:5px}
   <tr><td>Testability</td><td>A forecast to 2035</td><td>An explicit observed/computed boundary, history overlaid since 2010</td></tr>
  </tbody>
 </table>
-<p>The rebuild aimed at <strong>the form of the result</strong>. The central trajectory barely moved: the middle of the plausible ceiling corridor gives a plateau of $653k against the original $565k, a difference of 16%. In place of a point forecast there is now a claim with its uncertainty marked and with a note on which measurement would narrow that uncertainty.</p>
-<p>Two conceptual problems were fixed along the way. First: addresses served as a measure of network size, whereas the link between addresses and living people is breaking down — 106M owners correspond to about 57M non-zero addresses, and the ratio falls as custodial services and exchange-traded funds grow. Now the plateau is computed from owners, and addresses are removed from the calculation.</p>
+<p>The rebuild aimed at <strong>the form of the result</strong>. The central trajectory barely moved: the base ceiling near the middle of the plausible corridor gives a plateau of $657k against the original $565k, a difference of 16%. In place of a point forecast there is now a claim with its uncertainty marked and with a note on which measurement would narrow that uncertainty.</p>
+<p>Two conceptual problems were fixed along the way. First: addresses served as a measure of network size, although the link between addresses and living people cannot be measured one-to-one: one owner may control many addresses, while a custodian may place many owners behind one. Now the plateau is computed from an owner-ceiling assumption, and addresses are removed from the calculation.</p>
 <p>Second: the cycle was described by one number with a fixed split between top and bottom. In the data these are two different sequences — peaks fall monotonically, troughs do not — and collapsing them into a single parameter erased the only meaningful signal. Now they are separated into two sliders, and a dedicated indicator checks the compatibility of their settings.</p>
 
 <h2 id="repro">How to reproduce this</h2>
@@ -745,10 +745,12 @@ ul.tight li{margin-bottom:5px}
 <p>The <code>OBS</code> array contains approximate month closes compiled from public sources. That is enough for the shape of the residual and not enough for anything requiring precision; before any serious use, replace it with a verified series from one consistent source.</p>
 
 <footer>
-  <p><strong>Data.</strong> Observed values are approximate month closes compiled from public sources; the last value of the series is early August 2026. The page is static: the calculation runs entirely in the browser, with no external requests. The only dependencies are Chart.js 4.4.1 (MIT) for drawing and the IBM Plex fonts (SIL OFL 1.1); both are bundled locally.</p>
+  <p><strong>Data.</strong> Observed values are approximate month closes compiled from public sources; the last value of the series is the intramonth price on 24 August 2026. The page is static: the calculation runs entirely in the browser, with no external requests. The only dependencies are Chart.js 4.4.1 (MIT) for drawing and the IBM Plex fonts (SIL OFL 1.1); both are bundled locally.</p>
   <p><strong>Sources.</strong></p>
   <ul class="srcs">
     <li>Santostasi, G. &amp; Perrenod, S. (2026). <em>A Mechanistic Derivation of the Bitcoin Price Power Law: Network Adoption Dynamics and Generalised Metcalfe Scaling.</em> Zenodo preprint, DOI: <a href="https://doi.org/10.5281/zenodo.19387099">10.5281/zenodo.19387099</a>; peer-reviewed and published in a journal in 2026. Source of the slope 5.69 ± 0.05 at R² = 0.961, the decomposition 3.046 × 1.838, the residual scatter of 0.302 dex and the scale-invariance tests.</li>
+    <li>Baquero, C. &amp; Menezes, R. (2026). <a href="https://arxiv.org/abs/2605.21316"><em>Bitcoin's Power Law: Weak Structure, Strong Forecasts.</em></a> Independent sensitivity analysis of the power-law interpretation, including the choice of time origin and comparisons with alternative growth curves.</li>
+    <li><a href="https://docs.glassnode.com/guides-and-tutorials/on-chain-concepts/entity-adjusted-metrics">Glassnode, Entity-Adjusted Metrics</a> — why addresses cannot be mapped one-to-one to users; <a href="https://www.gold.org/goldhub/data/how-much-gold">World Gold Council</a> — 220,700 tonnes of above-ground gold at the end of 2025; <a href="https://www.world-exchanges.org/news/articles/new-wfe-data-public-markets-post-strong-growth-2025-despite-geopolitical-instability">World Federation of Exchanges</a> — $151.94T of global listed-equity capitalisation at the end of 2025.</li>
     <li>Brause, D. (2026). <em>The Information Coherence Hypothesis: A Unified Informational Framework for Reality, Consciousness, and Meaning.</em> Zenodo. DOI: <a href="https://doi.org/10.5281/zenodo.18812955">10.5281/zenodo.18812955</a> — the frame in which the sentiment-phase mechanism is interpreted: the trough as a maximum of belief differentiation, the peak as fragile pseudo-integration.</li>
     <li>The first version of the model, April 2026: <a href="https://vrooms.to/btc_old.html">vrooms.to/btc_old.html</a>.</li>
   </ul>
@@ -758,7 +760,6 @@ ul.tight li{margin-bottom:5px}
 
 </div>
 
-<script src="chart.umd.js"></script>
 <script src="chart.umd.js"></script>
 <script>
 const OBS_START=[2010,7];
@@ -778,7 +779,7 @@ const OBS=[0.06,0.06,0.06,0.20,0.28,0.30,
 23100,23150,28450,29250,27200,30480,29230,25930,26970,34670,37720,42280,
 42580,61150,71330,60640,67500,62680,64620,58970,63330,70200,96450,93430,
 102400,84400,82500,94200,104600,107200,115800,108500,114000,110500,91000,88000,
-82000,76500,79000,74500,75000,60000,63600,63500];
+82000,76500,79000,74500,75000,60000,63600,77400];
 
 const GEN=Date.UTC(2009,0,3), DAY=864e5;
 const EPOCHS=[
@@ -823,7 +824,7 @@ function ss(x){return .5-.5*Math.cos(Math.PI*Math.min(Math.max(x,0),1));}
 /* Issuance. The nodes are halvings: at each one the supply is known exactly,
    210,000 blocks per epoch. Linear in time between the nodes. Dates after 2024
    are estimates; ±2 months make no difference. */
-const YR=365.25*864e5, GOLD=31e12;
+const YR=365.25*864e5, GOLD=32.5e12;
 const HALV=[[Date.UTC(2012,10,28),10500000],[Date.UTC(2016,6,9),15750000],
             [Date.UTC(2020,4,11),18375000],[Date.UTC(2024,3,20),19687500],
             [Date.UTC(2028,3,15),20343750],[Date.UTC(2032,3,15),20671875],
@@ -976,10 +977,10 @@ const nearPlugin={id:'nr',afterDatasetsDraw(c){
   const t1=ctx.measureText(bl).width<=px-6-ca.left?bl:(ctx.measureText(sh).width<=px-6-ca.left?sh:'');
   if(t1){ctx.textAlign='right';ctx.fillText(t1,px-6,ca.bottom-8);}
   else{ctx.textAlign='left';ctx.fillText(sh,px+5,ca.bottom-8);}
-  const ds=c.data.datasets[2].data;
+  const mdl=c.data.datasets[2].data,obs=c.data.datasets[3].data;
   ctx.font="500 11.5px 'IBM Plex Mono',monospace";ctx.textAlign='center';
   NLAB.forEach(i=>{
-    const v=ds[i];if(v==null)return;
+    const fact=i===NFC&&obs[i]!=null,v=fact?obs[i]:mdl[i];if(v==null)return;
     const gx=x.getPixelForValue(i),gy=y.getPixelForValue(v);
     const t=fmt(v),w=ctx.measureText(t).width+13;
     const bx=Math.max(ca.left+1,Math.min(gx-w/2,ca.right-w-1));
@@ -987,7 +988,7 @@ const nearPlugin={id:'nr',afterDatasetsDraw(c){
     ctx.fillStyle=st.getPropertyValue('--panel');ctx.strokeStyle=st.getPropertyValue('--rule');
     ctx.lineWidth=1;ctx.beginPath();ctx.rect(bx,by,w,19);ctx.fill();ctx.stroke();
     ctx.fillStyle=st.getPropertyValue('--ink');ctx.fillText(t,bx+w/2,by+13.5);
-    ctx.fillStyle=st.getPropertyValue('--mdl');
+    ctx.fillStyle=st.getPropertyValue(fact?'--obs':'--mdl');
     ctx.beginPath();ctx.arc(gx,gy,3.2,0,Math.PI*2);ctx.fill();
   });
   ctx.restore();
@@ -1046,7 +1047,7 @@ function coherence(de,dp,W,B){
      cause and rejects the consequence, and no mechanism is left under the pair —
      hence hard, like the first two. The 1.80 threshold is not a round number:
      that is roughly where the miss counter starts to move, 17 of 194 against 14
-     at the measured value. The right half of the condition repeats the soft
+     at the reference value. The right half of the condition repeats the soft
      check above word for word: “euphoria is alive” has to mean the same thing in
      both places on this page.
 
