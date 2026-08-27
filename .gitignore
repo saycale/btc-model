@@ -1,0 +1,9 @@
+# Local tooling, not part of the site.
+.claude/
+
+# Saved copies of the source articles: read for research, never redistributed.
+# The project's own pages are index.html and ru.html — short, space-free names —
+# so matching on the spaces a browser puts in a saved page's filename is safe.
+*.pdf
+* *.html
+*_files/
