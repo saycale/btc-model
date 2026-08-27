@@ -903,6 +903,31 @@ const epochPlugin={id:'ep',beforeDatasetsDraw(c){
   ctx.restore();
 }};
 
+/* ── Year axis ──────────────────────────────────────────────────────────
+   The category scale carries 372 monthly divisions, so its native ticks
+   and X grid are off. A January is labelled when its four digits fit
+   between neighbouring Januaries (else every second year, else every
+   fifth), and the tick marks are drawn by hand: long under a labelled
+   year, short under the rest. AXW is the shared value-scale width — both
+   panels, main and residual, are forced to it, otherwise their time axes
+   drift apart. */
+const AXW=56;
+const YSPAN=months[months.length-1][0]-months[0][0]+1;
+const yearStep=w=>{const per=(w-AXW-16)/YSPAN;return per>=30?1:per>=17?2:5;};
+const yearPlugin={id:'yr',afterDraw(c){
+  const{ctx,chartArea:ca,scales:{x}}=c;if(!ca)return;
+  const st=getComputedStyle(document.documentElement);
+  const step=yearStep(c.width),on=st.getPropertyValue('--ink-3'),off=st.getPropertyValue('--rule');
+  ctx.save();ctx.lineWidth=1;
+  months.forEach(([y,m],i)=>{
+    if(m!==1)return;
+    const lab=y%step===0,px=Math.round(x.getPixelForValue(i))+.5;
+    ctx.strokeStyle=lab?on:off;
+    ctx.beginPath();ctx.moveTo(px,ca.bottom);ctx.lineTo(px,ca.bottom+(lab?6:3));ctx.stroke();
+  });
+  ctx.restore();
+}};
+
 let FC=0;
 const forecastPlugin={id:'fc',afterDatasetsDraw(c){
   const{ctx,chartArea:ca,scales:{x}}=c;if(!ca)return;ctx.save();
@@ -943,7 +968,7 @@ const obsSeries=months.map((mm,i)=>{
   const j=(mm[0]*12+mm[1])-(OBS_START[0]*12+OBS_START[1]);
   return j>=0&&j<OBS.length?OBS[j]:null;});
 
-let NFC=0,NLAB=[],NA=0,NFCLAB='';
+let NFC=0,NLAB=[],NTICK=[],NA=0,NFCLAB='';
 /* Halving epochs on the detail panel. The same trick as on the upper one,
    but the indices are shifted: the panel draws a slice of months starting at NA. */
 const nearEpochPlugin={id:'nep',beforeDatasetsDraw(c){
@@ -967,6 +992,15 @@ const nearEpochPlugin={id:'nep',beforeDatasetsDraw(c){
 const nearPlugin={id:'nr',afterDatasetsDraw(c){
   const{ctx,chartArea:ca,scales:{x,y}}=c;if(!ca)return;
   const st=getComputedStyle(document.documentElement);ctx.save();
+  /* Tick marks against the months. Every sixth month carries a label, but
+     every month needs a division: long under a labelled one, short elsewhere. */
+  ctx.lineWidth=1;
+  const tk=st.getPropertyValue('--ink-3'),tk0=st.getPropertyValue('--rule');
+  c.data.labels.forEach((_,i)=>{
+    const lab=NTICK.indexOf(i)>=0,mx=Math.round(x.getPixelForValue(i))+.5;
+    ctx.strokeStyle=lab?tk:tk0;
+    ctx.beginPath();ctx.moveTo(mx,ca.bottom);ctx.lineTo(mx,ca.bottom+(lab?6:3));ctx.stroke();
+  });
   const px=x.getPixelForValue(NFC);
   ctx.strokeStyle=st.getPropertyValue('--ink-2');ctx.lineWidth=1;ctx.setLineDash([2,3]);
   ctx.beginPath();ctx.moveTo(px,ca.top);ctx.lineTo(px,ca.bottom);ctx.stroke();ctx.setLineDash([]);
@@ -1286,11 +1320,12 @@ function build(){
 
 
   const xopt={grid:{display:false},border:{color:C.ax},
-    ticks:{color:C.m3,font:{family:'IBM Plex Mono',size:10},maxRotation:0,autoSkip:false,
-      callback:function(v){const s=this.getLabelForValue(v);return s.endsWith('-01')&&+s.slice(0,4)%5===0?s.slice(0,4):''}}};
+    ticks:{color:C.m3,font:{family:'IBM Plex Mono',size:10},maxRotation:0,autoSkip:false,padding:8,
+      callback:function(v,i){const m=months[i];
+        return m&&m[1]===1&&m[0]%yearStep(this.chart.width)===0?String(m[0]):''}}};
 
   if(main){main.destroy();res.destroy();near.destroy();}
-  main=new Chart(el('main'),{type:'line',plugins:[epochPlugin,forecastPlugin],
+  main=new Chart(el('main'),{type:'line',plugins:[epochPlugin,forecastPlugin,yearPlugin],
     data:{labels,datasets:[
       {data:hi,borderColor:'transparent',pointRadius:0,fill:'+1',backgroundColor:C.band},
       {data:lo,borderColor:'transparent',pointRadius:0,fill:false},
@@ -1303,10 +1338,11 @@ function build(){
       plugins:{legend:{display:false},tooltip:{filter:c=>c.dataset.label&&c.parsed.y!=null,
         callbacks:{label:c=>c.dataset.label+': '+fmt(c.parsed.y)}}},
       scales:{y:{type:'logarithmic',min:.04,max:4e6,grid:{color:C.rule},border:{color:C.ax},
+        afterFit:s=>{s.width=AXW},
         ticks:{color:C.m3,font:{family:'IBM Plex Mono',size:10},
           callback:v=>[.1,1,10,100,1e3,1e4,1e5,1e6].includes(v)?fmt(v):''}},x:xopt}}});
 
-  res=new Chart(el('res'),{type:'line',plugins:[epochPlugin,bandPlugin,forecastPlugin],
+  res=new Chart(el('res'),{type:'line',plugins:[epochPlugin,bandPlugin,forecastPlugin,yearPlugin],
     data:{labels,datasets:[
       {label:'Model',data:residM,borderColor:C.mdl,borderWidth:1.6,pointRadius:0,fill:false,tension:.2},
       {label:'Observed',data:resid,borderColor:C.obs,borderWidth:1.6,pointRadius:0,fill:false,tension:.1}
@@ -1316,6 +1352,7 @@ function build(){
       plugins:{legend:{display:false},tooltip:{filter:c=>c.parsed.y!=null,
         callbacks:{label:c=>c.dataset.label+': '+(c.parsed.y>=0?'+':'')+c.parsed.y.toFixed(2)+' dex'}}},
       scales:{y:{min:-.75,max:1.35,grid:{color:C.rule},border:{color:C.ax},
+        afterFit:s=>{s.width=AXW},
         ticks:{color:C.m3,font:{family:'IBM Plex Mono',size:10},stepSize:.5,
           callback:v=>(v>0?'+':'')+v.toFixed(1)}},x:xopt}}});
 
@@ -1331,7 +1368,7 @@ function build(){
   NLAB=[NFC,idx(EPOCHS[5].h)-na,idx(EPOCHS[5].pk)-na,idx(EPOCHS[5].tr)-na,nb-na]
        .filter(i=>i>=0&&i<nmid.length).sort((x,y)=>x-y)
        .filter((v,i,a)=>i===0||v-a[i-1]>2);
-  const NTICK=nmid.map((_,i)=>i).filter(i=>(i-NFC)%6===0);
+  NTICK=nmid.map((_,i)=>i).filter(i=>(i-NFC)%6===0);
   const nvals=[].concat(nmid,nlo,nhi,nobs).filter(v=>v!=null);
   const nmx=Math.max.apply(null,nvals),nmn=Math.min.apply(null,nvals);
   const npad=(nmx-nmn)*.09;
@@ -1353,7 +1390,7 @@ function build(){
           grid:{color:C.rule},border:{color:C.ax},
           ticks:{color:C.m3,font:{family:'IBM Plex Mono',size:10},maxTicksLimit:8,callback:v=>fmt(v)}},
         x:{grid:{display:false},border:{color:C.ax},
-          ticks:{color:C.m3,font:{family:'IBM Plex Mono',size:10},maxRotation:0,autoSkip:false,
+          ticks:{color:C.m3,font:{family:'IBM Plex Mono',size:10},maxRotation:0,autoSkip:false,padding:8,
             callback:(v,i)=>NTICK.indexOf(i)>=0?nlab[i]:''}}}}});
 
   let act=null;
