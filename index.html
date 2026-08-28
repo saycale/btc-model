@@ -150,6 +150,7 @@ figure.chartbox>.legend,figure.chartbox>.axis-note{flex:none}
 .main-h{position:relative;flex:1 1 auto;min-height:320px}
 .res-h{position:relative;flex:none;height:170px;border-top:1px solid var(--rule-soft);margin-top:6px;padding-top:8px}
 .near-h{position:relative;height:330px}
+.met-h{position:relative;height:270px}
 .fcap{font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);padding:0 0 10px;margin:0}
 .axis-note{font-family:var(--mono);font-size:10.5px;color:var(--ink-3);padding:6px 8px 0;max-width:none;line-height:1.5}
 .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(142px,1fr));gap:8px}
@@ -291,6 +292,7 @@ ul.tight li{margin-bottom:5px}
   text-transform:uppercase;color:var(--ink-3);margin-bottom:3px;line-height:1.25}
 .fit .v{font-family:var(--mono);font-size:12.5px;font-weight:500;white-space:nowrap;color:var(--sev-col)}
 .fit .v.sev{--sev-c0:var(--pos)}
+.fit .n{font-size:11px;line-height:1.38;color:var(--ink-2);margin-top:4px}
 /* The headroom check sits under the ceiling slider; it reacts to the ceiling and to euphoria decay */
 .fuel{padding:7px 10px 8px;margin-top:2px;background:var(--band-soft);
   border:1px solid var(--rule);border-left:3px solid var(--sev-col);border-radius:4px}
@@ -401,6 +403,11 @@ ul.tight li{margin-bottom:5px}
         <div class="k">Misses from the trend over history<span class="info" tabindex="0" role="button" aria-label="What a miss from the trend is"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="7.15" y="6.9" width="1.7" height="4.9" rx=".85" fill="currentColor"/><circle cx="8" cy="4.5" r="1.05" fill="currentColor"/></svg><span class="tip">How many observed months lie further than <b>±0.5 dex</b> from the trend — that is, deviate from it by more than a factor of three. At the reference β there are 14 out of 194; 10 of them fall in 2011 and 2013/14, where the price itself behaved abnormally.<br><br>The colour of the counter changes continuously along with the number of misses, without steps. The counter reacts only to the β slider above it. A shift of one tenth downward takes the misses to 17, two tenths to 26, and more than half of the new ones fall on 2010–2012. The fit holds inside a very narrow corridor — that is the point of the check.</span></span></div>
         <span class="v" id="g-fit">—</span>
       </div>
+      <div class="fit" id="fit-met">
+        <div class="k">β measured on addresses<span class="info" tabindex="0" role="button" aria-label="What is measured here"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="7.15" y="6.9" width="1.7" height="4.9" rx=".85" fill="currentColor"/><circle cx="8" cy="4.5" r="1.05" fill="currentColor"/></svg><span class="tip">The one place on the page where beta is measured rather than assigned. It regresses log10 price on log10 of the count of addresses holding a non-zero balance, over every month carrying both.<br><br>Over the whole history it comes to <b>1.840</b> — against 1.838 in the source and the 1.897 the model runs on, which is the remainder of dividing 5.69 by 3. The growth exponent of the addresses themselves is 3.03 against the claimed 3.046. The assumption holds.<br><br>It is not stable, though: on a rolling sixty-month window beta travels from 1.16 to 3.59, and R² in the last window falls to 0.43. The chart below the dashboard shows the whole drift. The custody objection — the one that thins the connection graph — is measured here, not merely discussed.<br><br>None of this feeds the price. It sits beside the slider so the assumption can be checked against data instead of taken on trust.</span></span></div>
+        <span class="v" id="g-met">—</span>
+        <span class="n" id="g-met2"></span>
+      </div>
 
       <!-- New sliders go in as .ctl blocks above this line;
            start a new .grp heading if needed. -->
@@ -451,6 +458,12 @@ ul.tight li{margin-bottom:5px}
   <div class="near-h"><canvas id="near"></canvas></div>
   <p class="axis-note">The same data as on the upper panel, but on a linear scale and across one whole cycle: from the October 2025 peak through the trough, the April 2028 halving, the H5 peak and trough — up to the H6 halving. The model's nodes are labelled: the observed/computed boundary, the halving, the peak, the trough and the end of the window. Left of the boundary the orange line is fact, to the right it is calculation only, at the current slider positions. The blue band runs the owner ceiling ±40% and opens up noticeably by the end of the window.</p>
 </figure>
+
+<figure id="beta-drift">
+  <p class="fcap">The Metcalfe exponent: measurement against assumption</p>
+  <div class="met-h"><canvas id="met"></canvas></div>
+  <p class="axis-note">The blue line is beta, measured by regressing log10 price on log10 of the count of addresses holding a non-zero balance over a rolling sixty-month window; each point sits at the last month of its window. The band is the slider's range, n log n to n². The dashed line is the whole-history value, 1.840. The solid horizontal is the slider's current position and moves with it. The address series stops in May 2026, so the measurement stops there too: to the right the model runs on with nothing to check it against. History does not supply one value of beta — the window ending January 2018 holds 1.16, the window to February 2022 reaches 3.59, and R² in the last window falls to 0.43.</p>
+</figure>
 <h2 id="read">How to read the chart, briefly</h2>
 <p>Three lines. The grey dashed one carries the trend: a power law with saturation, cycles removed. The dashes work as a spine the asset keeps returning to, and by themselves predict nothing. The blue one multiplies that spine by the cycle overlay. The orange one shows what happened.</p>
 <p>The upper panel runs on a logarithmic scale. The lower one carries the residual, measured in <b>dex</b>. Dex expresses “how many times” in logarithmic form: +1 dex puts the price ten times above the trend, −0.3 dex roughly halves it, zero lands exactly on the spine.</p>
@@ -471,17 +484,20 @@ ul.tight li{margin-bottom:5px}
 
 <h3>Layer 1. The power law — why the price grows at all</h3>
 <p>Early intuition about bitcoin often said “exponential growth”, but that would be a strong oversimplification. An exponential doubles over equal intervals: a year, another year, another year. A power law needs an ever longer stretch for the same multiple.</p>
-<p>The formula <code>P ∝ t<sup>3β</sup></code> reads as follows: the price grows as the age of the network raised to 3β, with age counted in days from the genesis block of 3 January 2009. The exponent 5.69 is measured straight off the price, and it has a separately measured decomposition into two quantities, each with its own physical reading:</p>
+<p>The formula <code>P ∝ t<sup>3β</sup></code> reads as follows: the price grows as the age of the network raised to 3β, with age counted in days from the genesis block of 3 January 2009. The exponent 5.69 is measured straight off the price, and it decomposes into two quantities, each with its own physical reading. That decomposition used to be borrowed from the source: no participant count sat on the page, so there was nothing to check it against. The series of non-zero addresses is here now, and the page measures all four numbers itself:</p>
 <table class="expl">
- <tr><td class="n"><b>3.046</b></td><td>The number of non-zero addresses grew roughly as the cube of the network's age, R² = 0.977 over the whole history. The estimate rests on the early years: over the data of the last decade the growth is noticeably slower — <a href="#objections">discussed in the objections</a>.</td></tr>
- <tr><td class="n"><b>1.838</b></td><td>The value of a network grows faster than the number of participants — Metcalfe's law in generalised form. Each new participant adds not only themselves but the connections to everyone else. The measured value lies between textbook Metcalfe (n²) and Odlyzko (n log n).</td></tr>
- <tr><td class="n"><b>5.60</b></td><td>The product of the two measured quantities: 3.046 × 1.838. It differs from the slope read straight off the price by 1.6% — and that discrepancy is worth keeping in mind.</td></tr>
- <tr><td class="n"><b>5.69</b></td><td>The slope measured directly from the price, R² = 0.961. The model computes with it rather than with the product; the β slider shows 5.69 / 3 = 1.897, that is, the Metcalfe exponent at which the product would come out exact.</td></tr>
+ <tr><td class="n"><b>3.03</b></td><td>The number of non-zero addresses grew roughly as the cube of the network's age: <b>3.029</b> at R² = 0.976 over 191 months. The source has 3.046 — a gap smaller than the standard error. But the estimate rests on the early years: after 2018 the exponent falls by about half, and the <a href="#beta-drift">drift chart</a> shows it directly.</td></tr>
+ <tr><td class="n"><b>1.840</b></td><td>The value of a network grows faster than the number of participants — Metcalfe's law in generalised form. Each new participant adds not only themselves but the connections to everyone else. Regressing price on addresses gives <b>1.840 ± 0.030</b> at R² = 0.952, against 1.838 in the source. The value lies between textbook Metcalfe (n²) and Odlyzko (n log n) — and this is the one place where β is measured rather than assigned.</td></tr>
+ <tr><td class="n"><b>5.57</b></td><td>The product of the two measured quantities: 3.029 × 1.840. It differs from the slope read straight off the price by 1.7%. The discrepancy reproduces on the page's own data — in the source it is 1.6% — and is worth keeping in mind: two quantities measured apart do not compose to exactly one third.</td></tr>
+ <tr><td class="n"><b>5.67</b></td><td>The slope measured directly from the price, R² = 0.962 over the same months. The model computes with the constant 5.69, taken across the full length of the price series; the β slider shows 5.69 / 3 = 1.897, that is, the Metcalfe exponent at which the product would come out exact. Measured against addresses it is 1.840, and the gap between the two shows in the block under the slider.</td></tr>
 </table>
+<p>The agreement is stronger than one had a right to expect: both quantities, taken from the source sight unseen, reproduce on the page's own data to the third decimal. The cubic-growth assumption and generalised Metcalfe are not fitted to the price — they measure independently.</p>
+<p>And the same place shows what that agreement is worth. History holds no single value of β: on a rolling sixty-month window the exponent falls to 1.16 by early 2018, climbs to 3.59 by February 2022 and ends near 2.9, while the explanatory power drops from 0.95 over the whole history to 0.43 in the last window. The number 1.840 is an average over two regimes that disagree with each other. That is not a technical caveat but the measured version of the custody objection: the graph of connections between participants really is thinning, and the <a href="#objections">objections take it up</a>.</p>
 <p>Hence the logarithmic scale on the chart, where each division means a factor of ten. A power law straightens out on such a scale, and departures from it become visible to the eye. Proportions are preserved too: a fall from $100 to $50 looks like a fall from $100,000 to $50,000, because for the owner both mean a half.</p>
 <div class="aside">
   <div class="t">Two free parameters and a way to check them</div>
   <p>Layer 1 carries two fitted numbers: the exponent and a multiplier. Those two have to reproduce 194 monthly observations spanning six orders of magnitude in price, and the residual leaves ±0.5 dex in only 14 of them; 10 fall in 2011 and 2013/14, where the price itself behaved abnormally.</p>
+  <p>The layer now carries two checks, and they ask different questions. The miss counter under the β slider answers whether such a slope describes the history of the price. The block beneath it asks something stricter: whether β agrees with what a direct regression of price on the participant count returns — 1.840 against 1.897, a measurement that does not depend on where the slider sits.</p>
   <p>Those same 14 out of 194 are what the miss counter under the β slider shows, so the claim “β was measured, not chosen” is not to be taken on trust. Move the β slider to 1.70 and the misses become 26, with more than half of the new ones falling on 2010–2012: the early history falls off first, because it is what sets the slope. Nearly doubling on a shift of two tenths is what the words “narrow corridor” amount to.</p>
   <p>When β changes, the curve is recalibrated through a reference point at the logarithmic centre of the observations — day 2971 from genesis, February 2017. The rotation happens around the centre of mass of the data rather than around an arbitrary end, otherwise the slider would break the fit for a reason having nothing to do with the exponent itself.</p>
   <p>Whether all of this counts as evidence or as curve fitting is discussed below, in the <a href="#objections">objections</a>, since it comes up first thing every time.</p>
@@ -500,7 +516,7 @@ ul.tight li{margin-bottom:5px}
 <p>Sensitivity to all of this is what the “owner ceiling” slider exposes. Move it: the whole right-hand part of the chart travels up and down — and not by level alone. The ceiling enters the cycle by a second route, through the multiplier ζ, so the amplitude travels along with the plateau: at the base decays the H5 drawdown runs from 23% at a ceiling of 700M to 40% at 3200, and at the lower edge the troughs almost flatten out. Two things stay untouched: the historical part of the chart, where φ = 1.00 and saturation has not yet kicked in, and the whole of the first layer — the ceiling does not turn the slope of the power law. The travel of the slider measures what share of the 2030s rests on a quantity nobody has yet counted.</p>
 <div class="aside">
   <div class="t">Why the ceiling is not counted in addresses</div>
-  <p>As of August 2026 about 57M non-zero addresses can be measured on-chain, but the number of owners cannot: industry estimates vary widely, and custodial services or exchange-traded funds can place many holders behind one address. There is therefore no defensible one-to-one address-to-owner ratio. Measuring the size of the network in addresses alone makes less sense with every year.</p>
+  <p>Non-zero addresses at the end of May 2026 number 56.8M, and that series now sits on the page: it is what yields the measured 3.03 and 1.840 in the first layer. It does not stand in for a number of owners, though. Industry estimates vary widely, and custodial services or exchange-traded funds can place many holders behind one address, so there is no defensible one-to-one address-to-owner ratio. Measuring the size of the network in addresses alone makes less sense with every year — and the drift of β is exactly that showing up.</p>
   <p>As long as the decay reads as moderate, the contradiction is tolerable. If the decay is irreversible, the contradiction becomes direct: you cannot claim at once that euphoria died because the composition of holders changed and count the ceiling as if the ratio of addresses to owners had stayed historical. So the plateau is computed from the number of owners. The number of addresses does not enter the calculation at all.</p>
 </div>
 
@@ -666,7 +682,7 @@ ul.tight li{margin-bottom:5px}
 
 <h3>The exponent 3 is about addresses, and addresses have long stopped growing as a cube.</h3>
 <p class="verdict cede">Conceded — the decomposition does not hold</p>
-<p>The exponent 3.046 in Santostasi &amp; Perrenod is measured over the whole history and rests on the early years, where the network grew from nothing. It does not reproduce on fresh data. The number of non-zero addresses per public summaries: about 18M in August 2017, 28M in January 2020, 40M in February 2022, on the order of 57M by mid-2026. Over nine years that is growth by a little over three times, whereas the cube of the network's age would require growth by eight and a half. The exponent implied by that window is about 1.6, and over the last four years only 1.2.</p>
+<p>The exponent 3.046 in Santostasi &amp; Perrenod is measured over the whole history and rests on the early years, where the network grew from nothing. Over the whole history it reproduces here too — <a href="#layers">3.03 in the first layer's table</a>. On recent data it does not reproduce at all, and that is no longer a retelling of summaries: the series of non-zero addresses sits on the page and can be cut into windows. 19.3M in August 2017, 28.8M in January 2020, 40.5M in February 2022, 56.8M in May 2026. Over those not quite nine years the network grew by a factor of 2.95, whereas the cube of its age would have required 8.1 — nearly three times more than happened. The exponent over that same window is <b><span id="g-a9">—</span></b>, and over the last four years <b><span id="g-a4">—</span></b>, with a tight fit in both cases: R² = 0.97 and 0.91. This is not scatter around three; it is a different quantity.</p>
 <p>Something unpleasant follows: <em>the decomposition 5.69 = 3 × 1.897 works more as a note on where the number came from than as a live check</em>. The power law in the price itself holds — 14 misses out of 194 over sixteen years — but it holds as a regularity in the price, not as the product of two quantities measurable today. The instrument broke on the same side it broke on under the ceiling: custodial services and exchange-traded funds recruit holders who create no addresses.</p>
 
 <h3>There are no confidence intervals here. This is a line, not a forecast.</h3>
@@ -780,6 +796,33 @@ const OBS=[0.06,0.06,0.06,0.20,0.28,0.30,
 42580,61150,71330,60640,67500,62680,64620,58970,63330,70200,96450,93430,
 102400,84400,82500,94200,104600,107200,115800,108500,114000,110500,91000,88000,
 82000,76500,79000,74500,75000,60000,63600,77400];
+
+/* Addresses holding a non-zero balance, month-end, Jan 2010 - May 2026.
+   Source: the coinmetrics/data mirror on GitHub, metric AdrBalCnt; the
+   series stops on 23 May 2026 and the mirror carries no continuation.
+   This row does not price anything. The model still runs its trend off
+   time; the addresses are here to check it. Beta was obtained by dividing
+   5.69 by 3 and could not be measured before, because no participant count
+   appeared on the page. Now it can: regress log10 price on log10 addresses. */
+const ADR_START=[2010,1];
+const ADR=[
+34346,37278,40330,42692,44596,47012,53232,56000,56488,58391,60625,65624,
+69037,78797,90306,99127,132182,197183,380257,487872,533657,546273,553160,568221,
+580441,597862,621713,643321,670629,718103,767289,827757,902841,953141,1019099,1080400,
+1161895,1252291,1339755,1576618,1684608,1734213,1786151,1883025,1933578,2022134,2185912,2365777,
+2571825,2626792,2773551,2861925,2948147,3050443,3197479,3345048,3477882,3666252,3791136,3936099,
+4155769,4377897,4507835,4712615,4954438,5127102,5370333,5622633,5994684,6094126,6399903,7039189,
+7208944,7649599,7624925,8136269,8569997,9117166,9610509,10143001,10819034,11359259,12370594,13189705,
+13758014,14437652,15262537,16229179,17716394,18306354,18280925,19247315,19991465,21287533,23362357,26918930,
+27206731,24294733,21660940,22084625,22358323,22593139,21777381,21996454,22342656,22636769,22738271,22399258,
+22841829,23066529,23729954,24360250,25313217,25902954,26586672,26842236,27144595,27806658,28249668,28404831,
+28843492,29325483,29858458,30320653,30012052,30285868,30912504,31201355,31684743,32890231,32851108,33220938,
+34133414,36061641,37294603,38783598,37815171,38406086,38139298,38458761,38420919,38518176,39419108,39751362,
+40380200,40527746,41339247,41958138,42016682,42379800,42901518,42850450,42937994,43173203,43423653,43463590,
+43714591,44209080,45643263,46023137,47803557,48082565,48464438,48945918,48999787,48882464,50724036,52327173,
+51938073,51901173,51915230,53097206,53309520,53325034,52871179,52989062,53123758,53132238,53315012,53126438,
+53262261,53180775,53321005,53589052,53657152,53640323,53964608,54820855,54981501,55301897,55404003,55782613,
+56051019,56304427,56653978,56965294,56840943];
 
 const GEN=Date.UTC(2009,0,3), DAY=864e5;
 const EPOCHS=[
@@ -967,6 +1010,91 @@ const C=cs();
 const obsSeries=months.map((mm,i)=>{
   const j=(mm[0]*12+mm[1])-(OBS_START[0]*12+OBS_START[1]);
   return j>=0&&j<OBS.length?OBS[j]:null;});
+
+/* ── The Metcalfe exponent, measured ────────────────────────────────────
+   Both series are observed and nothing is fitted to the sliders. A fit over
+   the whole history returns one number; a rolling window shows there is no
+   one number to return - beta doubles and the explanatory power collapses.
+   The model does not depend on either: they sit beside the assumption. */
+const adrSeries=months.map(([y,m])=>{
+  const j=(y*12+m)-(ADR_START[0]*12+ADR_START[1]);
+  return j>=0&&j<ADR.length?ADR[j]:null;});
+
+function regress(xs,ys){
+  const n=xs.length;if(n<3)return null;
+  let mx=0,my=0;for(let i=0;i<n;i++){mx+=xs[i];my+=ys[i];}mx/=n;my/=n;
+  let sxx=0,syy=0,sxy=0;
+  for(let i=0;i<n;i++){const dx=xs[i]-mx,dy=ys[i]-my;sxx+=dx*dx;syy+=dy*dy;sxy+=dx*dy;}
+  if(!sxx||!syy)return null;
+  const b=sxy/sxx;let sse=0;
+  for(let i=0;i<n;i++){const e=ys[i]-(my+b*(xs[i]-mx));sse+=e*e;}
+  /* The standard error treats the residuals as independent and they are
+     autocorrelated, so the true interval is wider. Trust its sign, not its size. */
+  return{b:b,r2:1-sse/syy,se:Math.sqrt(sse/(n-2)/sxx),n:n};
+}
+
+const MET=[];
+months.forEach((mm,i)=>{
+  const a=adrSeries[i],p=obsSeries[i];
+  if(a!=null&&p!=null&&a>0&&p>0)
+    MET.push({i:i,ln:Math.log10(a),lp:Math.log10(p),
+      /* The addresses are read at month end, so the day matches. Dating them
+         mid-month, as ms[] does, shears every point by a fortnight and
+         understates the growth exponent: 3.006 against 3.029. */
+      lt:Math.log10((Date.UTC(mm[0],mm[1],0)-GEN)/DAY)});});
+const BETA_OBS=regress(MET.map(o=>o.ln),MET.map(o=>o.lp));
+const ALPHA_OBS=regress(MET.map(o=>o.lt),MET.map(o=>o.ln));
+const SLOPE_OBS=regress(MET.map(o=>o.lt),MET.map(o=>o.lp));
+
+/* The address growth exponent over a slice. The same regression that returns
+   3.03 across the full length, but windowed: the objection below argues from a
+   measurement rather than from retold summaries, and moves with the series. */
+function alphaFrom(y0,m0){
+  const xs=[],ys=[];
+  months.forEach(([y,m],i)=>{const a=adrSeries[i];
+    if(a!=null&&y*12+m>=y0*12+m0){
+      xs.push(Math.log10((Date.UTC(y,m,0)-GEN)/DAY));ys.push(Math.log10(a));}});
+  return regress(xs,ys);
+}
+const ALPHA_9Y=alphaFrom(2017,8), ALPHA_4Y=alphaFrom(2022,5);
+el('g-a9').textContent=ALPHA_9Y.b.toFixed(2);
+el('g-a4').textContent=ALPHA_4Y.b.toFixed(2);
+
+const MET_WIN=60;
+const BETA_ROW=months.map(()=>null),R2_ROW=months.map(()=>null);
+for(let s=0;s+MET_WIN<=MET.length;s++){
+  const w=MET.slice(s,s+MET_WIN),r=regress(w.map(o=>o.ln),w.map(o=>o.lp));
+  if(r){const k=w[MET_WIN-1].i;BETA_ROW[k]=r.b;R2_ROW[k]=r.r2;}
+}
+let MET_B=1.897;
+/* The slider's range: n log n at the left, n**2 at the right; the band is it. */
+const MET_LO=1.60, MET_HI=2.05;
+const metPlugin={id:'mt',
+  beforeDatasetsDraw(c){
+    const{ctx,chartArea:ca,scales:{y}}=c;if(!ca)return;ctx.save();
+    const st=getComputedStyle(document.documentElement);
+    ctx.fillStyle=st.getPropertyValue('--band-soft');
+    const y0=y.getPixelForValue(MET_HI),y1=y.getPixelForValue(MET_LO);
+    ctx.fillRect(ca.left,y0,ca.right-ca.left,y1-y0);
+    ctx.restore();
+  },
+  afterDatasetsDraw(c){
+    const{ctx,chartArea:ca,scales:{y}}=c;if(!ca)return;ctx.save();
+    const st=getComputedStyle(document.documentElement);
+    ctx.font="500 10px 'IBM Plex Mono',monospace";
+    /* Measured over the whole history, dashed; the slider's current value
+       solid, so the gap stays visible while the slider is being dragged. */
+    [[BETA_OBS.b,st.getPropertyValue('--ink-2'),[2,3],'measured '+BETA_OBS.b.toFixed(3),'left'],
+     [MET_B,st.getPropertyValue('--mdl'),[],'slider '+MET_B.toFixed(3),'right']].forEach(r=>{
+      const py=y.getPixelForValue(r[0]);
+      if(py<ca.top||py>ca.bottom)return;
+      ctx.strokeStyle=r[1];ctx.lineWidth=1;ctx.setLineDash(r[2]);
+      ctx.beginPath();ctx.moveTo(ca.left,py);ctx.lineTo(ca.right,py);ctx.stroke();
+      ctx.setLineDash([]);ctx.fillStyle=r[1];ctx.textAlign=r[4];
+      ctx.fillText(r[3],r[4]==='left'?ca.left+6:ca.right-6,py-4);
+    });
+    ctx.restore();
+  }};
 
 let NFC=0,NLAB=[],NTICK=[],NA=0,NFCLAB='';
 /* Halving epochs on the detail panel. The same trick as on the upper one,
@@ -1184,7 +1312,7 @@ function setSev(e,base,sv,mid){
   e.style.setProperty('--sev',(v<=m?0.5*v/m:0.5+0.5*(v-m)/(1-m)).toFixed(3));
 }
 
-let main,res,near;
+let main,res,near,met;
 function build(){
   const W=+el('k').value,de=+el('de').value,dp=+el('dp').value,B=+el('mb').value;
   const L=plateau(W),A=amps(de,dp,W,B);
@@ -1227,6 +1355,13 @@ function build(){
   const nobsv=resid.filter(v=>v!=null).length;
   el('g-fit').textContent=bad+' of '+nobsv+' outside \u00b10.5 dex';
   setSev(el('g-fit'),'v sev',cl01((bad-14)/12),0.5);
+  /* The measurement ignores the sliders; the gap to beta is what gets coloured. */
+  MET_B=B;
+  el('g-met').textContent=BETA_OBS.b.toFixed(3)+' \u00b1'+BETA_OBS.se.toFixed(3)
+    +' \u00b7 R\u00b2 '+BETA_OBS.r2.toFixed(2);
+  el('g-met2').textContent='against 1.897 in the model \u00b7 address growth '
+    +ALPHA_OBS.b.toFixed(2)+' against 3.046 \u00b7 '+BETA_OBS.n+' months';
+  setSev(el('g-met'),'v sev',cl01(Math.abs(B-BETA_OBS.b)/0.25),0.5);
 
 
   const CO=coherence(de,dp,W,B);
@@ -1324,7 +1459,7 @@ function build(){
       callback:function(v,i){const m=months[i];
         return m&&m[1]===1&&m[0]%yearStep(this.chart.width)===0?String(m[0]):''}}};
 
-  if(main){main.destroy();res.destroy();near.destroy();}
+  if(main){main.destroy();res.destroy();near.destroy();met.destroy();}
   main=new Chart(el('main'),{type:'line',plugins:[epochPlugin,forecastPlugin,yearPlugin],
     data:{labels,datasets:[
       {data:hi,borderColor:'transparent',pointRadius:0,fill:'+1',backgroundColor:C.band},
@@ -1392,6 +1527,21 @@ function build(){
         x:{grid:{display:false},border:{color:C.ax},
           ticks:{color:C.m3,font:{family:'IBM Plex Mono',size:10},maxRotation:0,autoSkip:false,padding:8,
             callback:(v,i)=>NTICK.indexOf(i)>=0?nlab[i]:''}}}}});
+
+  met=new Chart(el('met'),{type:'line',plugins:[metPlugin,yearPlugin],
+    data:{labels,datasets:[
+      {label:'β',data:BETA_ROW,borderColor:C.mdl,borderWidth:2,pointRadius:0,
+       fill:false,tension:.25,spanGaps:false}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,animation:false,
+      interaction:{mode:'index',intersect:false},
+      plugins:{legend:{display:false},tooltip:{filter:c=>c.parsed.y!=null,
+        callbacks:{label:c=>'β '+c.parsed.y.toFixed(2)
+          +(R2_ROW[c.dataIndex]!=null?' · R² '+R2_ROW[c.dataIndex].toFixed(2):'')}}},
+      scales:{y:{min:1,max:3.75,grid:{color:C.rule},border:{color:C.ax},
+        afterFit:s=>{s.width=AXW},
+        ticks:{color:C.m3,font:{family:'IBM Plex Mono',size:10},stepSize:.5,
+          callback:v=>v.toFixed(1)}},x:xopt}}});
 
   let act=null;
   PB.forEach(btn=>{
