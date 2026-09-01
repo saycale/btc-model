@@ -21,7 +21,7 @@ L = W · A / S        A = $8,447 terminal holding per owner
                      S ≈ 20.7M coins in circulation by the mid-2030s
 ```
 
-The ceiling enters linearly: be wrong by a factor of two and the plateau moves by a factor of two. `A` is not measured separately — it is the calibration base expressed per person. The outer two quantities are pinned: the base ceiling of 1610M owners (near the middle of the plausible corridor, ~27% of adults) and a terminal capitalisation of $13.6T, about 42% of the August 2026 value of all the gold ever mined. `A` follows from dividing one by the other.
+The ceiling enters linearly: be wrong by a factor of two and the plateau moves by a factor of two. `A` is not measured separately — it is the calibration base expressed per person. The outer two quantities are pinned: the base ceiling of 1610M owners (near the middle of the plausible corridor, ~27% of adults) and a terminal capitalisation of $13.6T, about 43% of the value of all the gold ever mined at the 31 August 2026 close. `A` follows from dividing one by the other.
 
 **3. Halving cycles** with the top and the bottom decaying separately. These are the four-year waves inside. Peak 18 months after the halving, trough at 26–30, return to trend by the next halving, cosine interpolation between the nodes.
 
@@ -60,11 +60,11 @@ Three indicators check the reader's settings while advising nothing. Their colou
 
 **Misses from the trend.** How many observed months lie further than ±0.5 dex from the trend. At the reference β there are 14 of 194; 10 fall in 2011 and 2013/14. Shifting β down by two tenths brings the count to 26, with more than half of the new misses in 2010–2012. The reference value is therefore exposed to a direct sensitivity check.
 
-Below the chart a fourth block, **what this requires of money**, converts the same trajectory into capitalisation: $1.55T today against $13.6T at the plateau, an average of $1.59T a year along the way, against which the dollar value of issuance amounts to 0.8% and keeps falling. This is an accounting comparison; it does not show that halvings cease to affect marginal supply or expectations.
+Below the chart a fourth block, **what this requires of money**, converts the same trajectory into capitalisation: about $1.58T at the latest close against $13.6T at the plateau. It also shows the average annual increase along the path and the much smaller dollar value of issuance. This is an accounting comparison; it does not show that halvings cease to affect marginal supply or expectations.
 
 ## Data
 
-194 monthly observations from July 2010 to 24 August 2026 — approximate month closes compiled from public sources; the last point is the intramonth price on that date. The series sits in the page source in plain text, the array `OBS`. That is enough for the shape of the residual and not enough for anything requiring precision.
+194 monthly observations from July 2010 to 31 August 2026 — approximate month closes compiled from public sources. January–July 2026 use StatMuse closes; the final point is CoinGecko's `$78,553` UTC close, cross-checked against CoinMarketCap. The series sits in the page source in plain text, the array `OBS`. That is enough for the shape of the residual and not enough for anything requiring precision.
 
 The Metcalfe exponent β = 1.897 is derived from external work rather than fitted to the chart, though the slope it decomposes was read off the price. The page says so in the objections and does not pretend otherwise.
 
