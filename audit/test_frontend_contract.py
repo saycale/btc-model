@@ -11,8 +11,8 @@ class FrontendContractTests(unittest.TestCase):
     def test_pages_load_shared_assets_and_share_control(self):
         for name in ("index.html", "ru.html"):
             page = (ROOT / name).read_text(encoding="utf-8")
-            self.assertIn('src="model-core.js"', page)
-            self.assertIn('src="data/observations.js"', page)
+            self.assertIn('GENERATED_RUNTIME_START', page)
+            self.assertIn('window.BTC_MODEL_DATA', page)
             self.assertIn('id="share"', page)
             self.assertIn('id="g-unc"', page)
 

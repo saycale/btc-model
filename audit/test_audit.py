@@ -31,7 +31,7 @@ class AuditReproductionTests(unittest.TestCase):
     def test_english_and_russian_samples_match(self):
         root = Path(__file__).resolve().parents[1]
         pages = [(root / name).read_text(encoding="utf-8") for name in ("index.html", "ru.html")]
-        self.assertTrue(all('data/observations.js' in page for page in pages))
+        self.assertTrue(all('GENERATED_RUNTIME_START' in page for page in pages))
         data = (root / 'data' / 'observations.js').read_text(encoding="utf-8")
         self.assertIn('OBS_LAST_DATE:[2026,9,9]', data)
 

@@ -70,7 +70,7 @@ The displayed β is the current price slope divided by three. The price/address 
 
 ## Reproducibility and change control
 
-`data/observations.js` is the single browser data bundle used by both language pages. `data/provenance.json` records the date, kind and update contract for its latest observation; run `python3 tools/validate_data.py` after any change. `model-core.js` contains the shared regression, calibration and permalink mechanics.
+`data/observations.js` is the single browser data bundle used by both language pages. `data/provenance.json` records the date, kind and update contract for its latest observation; run `python3 tools/validate_data.py` after any change. `model-core.js` contains the shared regression, calibration and permalink mechanics. Then run `python3 tools/build_pages.py`: deployed pages inline that runtime deliberately, so GitHub Pages can never serve a new HTML file before its data or model code.
 
 The project keeps a versioned [forecast ledger](FORECAST_LEDGER.md). It records a scenario before its target date and is intentionally append-only for open claims. Continuous integration runs data validation, the independent audit tests and JavaScript syntax checks on every push and pull request.
 

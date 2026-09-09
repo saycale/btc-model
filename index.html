@@ -785,14 +785,59 @@ ul.tight li{margin-bottom:5px}
 </div>
 
 <script src="chart.umd.js"></script>
-<script src="model-core.js"></script>
-<script src="data/observations.js"></script>
 <script>
-/* GitHub Pages deploys assets separately. Keep a tiny self-contained recovery
-   path so a freshly deployed HTML page never renders blank while an asset CDN
-   is catching up. The canonical copy remains data/observations.js. */
-if(!window.BTC_MODEL_DATA)window.BTC_MODEL_DATA={OBS_START:[2010,7],OBS:[0.06,0.06,0.06,0.20,0.28,0.30,0.30,0.95,0.79,3.30,8.60,16.90,13.30,8.20,5.10,3.20,3.00,4.70,5.60,4.90,4.90,5.10,5.20,6.70,9.50,10.30,12.40,11.20,12.40,13.50,20.40,33.50,93,139,128,97.5,106,129,137,205,1120,754,830,555,465,456,622,641,587,505,386,338,378,320,217,254,244,236,230,263,285,230,236,314,377,430,369,437,416,448,531,673,625,575,609,700,745,963,970,1190,1080,1350,2300,2480,2875,4735,4340,6470,9950,14156,10240,10400,6930,9240,7490,6400,7730,7040,6620,6350,4020,3742,3450,3820,4100,5320,8560,10800,10080,9600,8290,9200,7550,7193,9380,8560,6440,8630,9460,9140,11330,11650,10780,13800,19700,28990,33100,45200,58800,57800,37300,35000,41500,47100,43800,61300,57000,46300,38500,43200,45500,37700,31800,19900,23300,20050,19400,20500,17150,16540,23100,23150,28450,29250,27200,30480,29230,25930,26970,34670,37720,42280,42580,61150,71330,60640,67500,62680,64620,58970,63330,70200,96450,93430,102400,84400,82500,94200,104600,107200,115800,108500,114000,110500,91000,88000,78621.12,66995.86,68233.31,76304.32,73579.69,58558.86,62813.75,78553,78587],OBS_LAST_DATE:[2026,9,9],OBS_LAST_PROVISIONAL:true};
-if(!window.BTCModelCore){const regress=(x,y)=>{const n=x.length,mx=x.reduce((s,v)=>s+v,0)/n,my=y.reduce((s,v)=>s+v,0)/n;let xx=0,xy=0,yy=0;for(let i=0;i<n;i++){const a=x[i]-mx,b=y[i]-my;xx+=a*a;xy+=a*b;yy+=b*b;}const b=xy/xx,a=my-b*mx,u=y.map((v,i)=>v-a-b*x[i]),sse=u.reduce((s,v)=>s+v*v,0),sx=x.reduce((s,v)=>s+v,0),sx2=x.reduce((s,v)=>s+v*v,0),d=n*sx2-sx*sx,I=[[sx2/d,-sx/d],[-sx/d,n/d]],M=[[0,0],[0,0]],L=Math.min(12,n-1);for(let i=0;i<n;i++)for(let r=0;r<2;r++)for(let c=0;c<2;c++)M[r][c]+=u[i]*u[i]*[1,x[i]][r]*[1,x[i]][c];for(let l=1;l<=L;l++)for(let i=l;i<n;i++)for(let r=0;r<2;r++)for(let c=0;c<2;c++){const v=(1-l/(L+1))*u[i]*u[i-l];M[r][c]+=v*([1,x[i]][r]*[1,x[i-l]][c]+[1,x[i-l]][r]*[1,x[i]][c]);}let vv=0;for(let j=0;j<2;j++)for(let k=0;k<2;k++)vv+=I[1][j]*M[j][k]*I[k][1];return{a,b,r2:1-sse/yy,se:Math.sqrt(sse/(n-2)/xx),hac:Math.sqrt(Math.max(vv,0)),n};};window.BTCModelCore={regress,priceFit:(o,s,d,g)=>{const x=[],y=[];for(let j=0;j<o.length;j++){const n=s[0]*12+s[1]+j,m=[Math.floor((n-1)/12),(n-1)%12+1],t=j===o.length-1?Date.UTC(d[0],d[1]-1,d[2]):Date.UTC(m[0],m[1],0);x.push(Math.log10((t-g)/864e5));y.push(Math.log10(o[j]));}const r=regress(x,y),mx=x.reduce((z,v)=>z+v,0)/x.length,my=y.reduce((z,v)=>z+v,0)/y.length;return{q:r.b,beta:r.b/3,tPivot:10**mx,logPPivot:my,r2:r.r2,hac:r.hac};},readScenario:(d)=>d,scenarioURL:()=>location.href,replaceScenarioURL:()=>{}};}
+/* GENERATED_RUNTIME_START — do not edit; run tools/build_pages.py */
+/* Shared, dependency-free math and state helpers for both language pages.
+   The page-specific layer owns rendering; this file owns reproducible mechanics. */
+(function(global){
+  'use strict';
+  function regress(xs,ys){
+    const n=xs.length;if(n<3)return null;
+    let mx=0,my=0;for(let i=0;i<n;i++){mx+=xs[i];my+=ys[i];}mx/=n;my/=n;
+    let sxx=0,syy=0,sxy=0;
+    for(let i=0;i<n;i++){const dx=xs[i]-mx,dy=ys[i]-my;sxx+=dx*dx;syy+=dy*dy;sxy+=dx*dy;}
+    if(!sxx||!syy)return null;
+    const b=sxy/sxx,a=my-b*mx,u=[];let sse=0;
+    for(let i=0;i<n;i++){const e=ys[i]-a-b*xs[i];u.push(e);sse+=e*e;}
+    const sx=xs.reduce((s,v)=>s+v,0),sx2=xs.reduce((s,v)=>s+v*v,0),det=n*sx2-sx*sx;
+    const inv=[[sx2/det,-sx/det],[-sx/det,n/det]],M=[[0,0],[0,0]],L=Math.min(12,n-1);
+    const add=(i,j,w)=>{const xi=[1,xs[i]],xj=[1,xs[j]],v=w*u[i]*u[j];
+      for(let r=0;r<2;r++)for(let c=0;c<2;c++)M[r][c]+=v*(xi[r]*xj[c]+(i===j?0:xj[r]*xi[c]));};
+    for(let i=0;i<n;i++)add(i,i,1);
+    for(let lag=1;lag<=L;lag++){const w=1-lag/(L+1);for(let i=lag;i<n;i++)add(i,i-lag,w);}
+    const V=[[0,0],[0,0]];
+    for(let r=0;r<2;r++)for(let c=0;c<2;c++)for(let j=0;j<2;j++)for(let k=0;k<2;k++)V[r][c]+=inv[r][j]*M[j][k]*inv[k][c];
+    return{a,b,r2:1-sse/syy,se:Math.sqrt(sse/(n-2)/sxx),hac:Math.sqrt(Math.max(V[1][1],0)),n};
+  }
+  function priceFit(observations,start,lastDate,gen){
+    const x=[],y=[];
+    for(let j=0;j<observations.length;j++){
+      const n=start[0]*12+start[1]+j,mm=[Math.floor((n-1)/12),(n-1)%12+1];
+      const t=j===observations.length-1?Date.UTC(...[lastDate[0],lastDate[1]-1,lastDate[2]]):Date.UTC(mm[0],mm[1],0);
+      x.push(Math.log10((t-gen)/864e5));y.push(Math.log10(observations[j]));
+    }
+    const r=regress(x,y),mx=x.reduce((s,v)=>s+v,0)/x.length,my=y.reduce((s,v)=>s+v,0)/y.length;
+    return{q:r.b,beta:r.b/3,tPivot:10**mx,logPPivot:my,r2:r.r2,hac:r.hac};
+  }
+  function readScenario(defaults){
+    const q=new URLSearchParams(location.search),out={...defaults};
+    for(const k of Object.keys(defaults)){const v=Number(q.get(k));if(Number.isFinite(v))out[k]=v;}
+    return out;
+  }
+  function scenarioURL(state){
+    const u=new URL(location.href);for(const[k,v]of Object.entries(state))u.searchParams.set(k,v);return u.toString();
+  }
+  function replaceScenarioURL(state){history.replaceState(null,'',scenarioURL(state));}
+  global.BTCModelCore={regress,priceFit,readScenario,scenarioURL,replaceScenarioURL};
+})(window);
+/* Generated data bundle. Canonical provenance: data/provenance.json.
+   Do not edit the two HTML pages to update a price observation. */
+window.BTC_MODEL_DATA={
+  OBS_START:[2010,7],
+  OBS:[0.06,0.06,0.06,0.20,0.28,0.30,0.30,0.95,0.79,3.30,8.60,16.90,13.30,8.20,5.10,3.20,3.00,4.70,5.60,4.90,4.90,5.10,5.20,6.70,9.50,10.30,12.40,11.20,12.40,13.50,20.40,33.50,93.00,139.00,128.00,97.50,106.00,129.00,137.00,205.00,1120.00,754.00,830,555,465,456,622,641,587,505,386,338,378,320,217,254,244,236,230,263,285,230,236,314,377,430,369,437,416,448,531,673,625,575,609,700,745,963,970,1190,1080,1350,2300,2480,2875,4735,4340,6470,9950,14156,10240,10400,6930,9240,7490,6400,7730,7040,6620,6350,4020,3742,3450,3820,4100,5320,8560,10800,10080,9600,8290,9200,7550,7193,9380,8560,6440,8630,9460,9140,11330,11650,10780,13800,19700,28990,33100,45200,58800,57800,37300,35000,41500,47100,43800,61300,57000,46300,38500,43200,45500,37700,31800,19900,23300,20050,19400,20500,17150,16540,23100,23150,28450,29250,27200,30480,29230,25930,26970,34670,37720,42280,42580,61150,71330,60640,67500,62680,64620,58970,63330,70200,96450,93430,102400,84400,82500,94200,104600,107200,115800,108500,114000,110500,91000,88000,78621.12,66995.86,68233.31,76304.32,73579.69,58558.86,62813.75,78553,78587],
+  OBS_LAST_DATE:[2026,9,9],OBS_LAST_PROVISIONAL:true
+};
+/* GENERATED_RUNTIME_END */
 const {OBS_START,OBS,OBS_LAST_DATE,OBS_LAST_PROVISIONAL}=window.BTC_MODEL_DATA;
 
 /* Addresses holding a non-zero balance, month-end, Jan 2010 - May 2026.

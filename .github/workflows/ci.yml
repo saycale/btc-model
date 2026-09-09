@@ -10,6 +10,7 @@ jobs:
       - uses: actions/setup-node@v4
         with: {node-version: '20'}
       - run: pip install numpy scipy
+      - run: python3 tools/build_pages.py --check
       - run: python3 tools/validate_data.py
       - run: python3 -m unittest discover -s audit -v
       - run: awk '/^<script>$/{p=1;next}/^<\/script>$/{p=0}p' index.html | node --check
