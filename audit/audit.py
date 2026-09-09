@@ -21,21 +21,22 @@ from scipy import optimize, stats
 
 ROOT = Path(__file__).resolve().parents[1]
 HTML = (ROOT / "index.html").read_text(encoding="utf-8")
+DATA = (ROOT / "data" / "observations.js").read_text(encoding="utf-8")
 DAY = 86_400_000.0
 GENESIS = datetime(2009, 1, 3, tzinfo=timezone.utc)
 
 
-def extract_array(name: str) -> np.ndarray:
-    match = re.search(rf"const\s+{name}\s*=\s*\[(.*?)\];", HTML, re.S)
+def extract_array(name: str, source: str = HTML) -> np.ndarray:
+    match = re.search(rf"(?:const\s+{name}\s*=|{name}:)\s*\[(.*?)\]", source, re.S)
     if not match:
         raise RuntimeError(f"array {name!r} not found")
     body = re.sub(r"/\*.*?\*/|//.*?$", "", match.group(1), flags=re.S | re.M)
     return np.asarray([float(x) for x in body.replace("\n", " ").split(",") if x.strip()])
 
 
-OBS = extract_array("OBS")
+OBS = extract_array("OBS", DATA)
 ADR = extract_array("ADR")
-_last_date = re.search(r"const\s+OBS_LAST_DATE\s*=\s*\[(\d+),(\d+),(\d+)\]", HTML)
+_last_date = re.search(r"OBS_LAST_DATE:\s*\[(\d+),(\d+),(\d+)\]", DATA)
 if not _last_date:
     raise RuntimeError("OBS_LAST_DATE not found")
 OBS_LAST_DATE = tuple(map(int, _last_date.groups()))

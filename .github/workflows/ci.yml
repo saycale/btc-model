@@ -1,0 +1,17 @@
+name: model checks
+on: [push, pull_request]
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - uses: actions/setup-node@v4
+        with: {node-version: '20'}
+      - run: pip install numpy scipy
+      - run: python3 tools/validate_data.py
+      - run: python3 -m unittest discover -s audit -v
+      - run: awk '/^<script>$/{p=1;next}/^<\/script>$/{p=0}p' index.html | node --check
+      - run: awk '/^<script>$/{p=1;next}/^<\/script>$/{p=0}p' ru.html | node --check
+      - run: node --check model-core.js && node --check data/observations.js

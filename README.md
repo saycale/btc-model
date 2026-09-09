@@ -68,6 +68,12 @@ Below the chart a fourth block, **what this requires of money**, converts the sa
 
 The displayed β is the current price slope divided by three. The price/address regression is explicitly labeled a co-trend check and reports a Newey–West HAC(12) uncertainty estimate because monthly residuals are autocorrelated. Owner ceiling, saturation and future cycle amplitudes remain scenarios rather than estimates from the price sample.
 
+## Reproducibility and change control
+
+`data/observations.js` is the single browser data bundle used by both language pages. `data/provenance.json` records the date, kind and update contract for its latest observation; run `python3 tools/validate_data.py` after any change. `model-core.js` contains the shared regression, calibration and permalink mechanics.
+
+The project keeps a versioned [forecast ledger](FORECAST_LEDGER.md). It records a scenario before its target date and is intentionally append-only for open claims. Continuous integration runs data validation, the independent audit tests and JavaScript syntax checks on every push and pull request.
+
 The number of owners is not directly measurable; the 106M figure appears only as a lower industry benchmark in a sensitivity example. Together with `A`, this is the weakest point of the model. Neither the number of owners nor the average holding size is measured separately. The multiplier ζ does not depend on the level anchoring: φ is a ratio of two growth rates.
 
 Addresses are deliberately absent from the plateau calculation. About 57M non-zero addresses are measurable, but there is no defensible one-to-one mapping to owners: one owner may control many addresses, while a custodian can place many owners behind one. The institutionalisation explanation therefore remains a hypothesis until it can be tested against a consistent independent series for beneficial owners or custodied holdings.

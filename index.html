@@ -349,6 +349,7 @@ ul.tight li{margin-bottom:5px}
       <button type="button" data-k="1610" data-de="0.15" data-dp="0.5" data-b="1.880" data-desc="The base scenario. Under the current fit H5 peaks near $371k, bottoms near $228k and draws down 38%. These are conditional scenario outputs, not statistical point forecasts.">Quiet cycle<span class="bdg">base</span></button>
       <button type="button" data-k="1350" data-de="0.5" data-dp="0.25" data-b="1.880" data-desc="Euphoria returns halfway and panic is almost untouched. Under the current fit H5 peaks near $411k, bottoms near $196k and draws down 52%.">Cycle returns</button>
       <button type="button" data-k="1300" data-de="1" data-dp="0" data-b="1.880" data-desc="The H4 break is treated as temporary. Under the current fit H5 peaks near $513k, bottoms near $162k and draws down 69%.">Cycle never broke</button>
+      <button type="button" id="share">Copy scenario link</button>
       <div class="pdesc" id="pdesc">—</div>
     </div>
     <div class="tie" id="tie">
@@ -408,6 +409,12 @@ ul.tight li{margin-bottom:5px}
         <span class="v" id="g-met">—</span>
         <span class="n" id="g-met2"></span>
       </div>
+      <div class="fit" id="fit-unc">
+        <div class="k">Structural alternative range</div>
+        <span class="v" id="g-unc">—</span>
+        <span class="n">H5 peak under four origin-date power-law fits; not a probability interval.</span>
+      </div>
+      <details class="aside" id="rules"><summary>Scenario consistency rules, not a statistical test</summary><p>The indicator combines five transparent tensions: peak/trough decay, decay/ceiling, cycle support, scale/regime and trend/custody. It warns when sliders imply competing stories; it does not estimate likelihood or validate a forecast.</p></details>
 
       <!-- New sliders go in as .ctl blocks above this line;
            start a new .grp heading if needed. -->
@@ -778,27 +785,10 @@ ul.tight li{margin-bottom:5px}
 </div>
 
 <script src="chart.umd.js"></script>
+<script src="model-core.js"></script>
+<script src="data/observations.js"></script>
 <script>
-const OBS_START=[2010,7];
-const OBS=[0.06,0.06,0.06,0.20,0.28,0.30,
-0.30,0.95,0.79,3.30,8.60,16.90,13.30,8.20,5.10,3.20,3.00,4.70,
-5.60,4.90,4.90,5.10,5.20,6.70,9.50,10.30,12.40,11.20,12.40,13.50,
-20.40,33.50,93.00,139.00,128.00,97.50,106.00,129.00,137.00,205.00,1120.00,754.00,
-830,555,465,456,622,641,587,505,386,338,378,320,
-217,254,244,236,230,263,285,230,236,314,377,430,
-369,437,416,448,531,673,625,575,609,700,745,963,
-970,1190,1080,1350,2300,2480,2875,4735,4340,6470,9950,14156,
-10240,10400,6930,9240,7490,6400,7730,7040,6620,6350,4020,3742,
-3450,3820,4100,5320,8560,10800,10080,9600,8290,9200,7550,7193,
-9380,8560,6440,8630,9460,9140,11330,11650,10780,13800,19700,28990,
-33100,45200,58800,57800,37300,35000,41500,47100,43800,61300,57000,46300,
-38500,43200,45500,37700,31800,19900,23300,20050,19400,20500,17150,16540,
-23100,23150,28450,29250,27200,30480,29230,25930,26970,34670,37720,42280,
-42580,61150,71330,60640,67500,62680,64620,58970,63330,70200,96450,93430,
-102400,84400,82500,94200,104600,107200,115800,108500,114000,110500,91000,88000,
-78621.12,66995.86,68233.31,76304.32,73579.69,58558.86,62813.75,78553,78587];
-const OBS_LAST_DATE=[2026,9,9];
-const OBS_LAST_PROVISIONAL=true;
+const {OBS_START,OBS,OBS_LAST_DATE,OBS_LAST_PROVISIONAL}=window.BTC_MODEL_DATA;
 
 /* Addresses holding a non-zero balance, month-end, Jan 2010 - May 2026.
    Source: the coinmetrics/data mirror on GitHub, metric AdrBalCnt; the
@@ -858,16 +848,7 @@ const mnum=(a)=>a[0]*12+a[1];
 /* Re-estimated from every dated observation. Closed months use month-end;
    a current partial month uses its exact spot date. This is a price fit,
    not an independent measurement of a Metcalfe exponent. */
-const PRICE_FIT=(()=>{
-  const x=[],y=[];
-  for(let j=0;j<OBS.length;j++){
-    const n=OBS_START[0]*12+OBS_START[1]+j,mm=[Math.floor((n-1)/12),(n-1)%12+1];
-    x.push(Math.log10((obsDate(mm,j)-GEN)/DAY));y.push(Math.log10(OBS[j]));
-  }
-  const mx=x.reduce((s,v)=>s+v,0)/x.length,my=y.reduce((s,v)=>s+v,0)/y.length;
-  let xx=0,xy=0;for(let i=0;i<x.length;i++){xx+=(x[i]-mx)**2;xy+=(x[i]-mx)*(y[i]-my);}
-  return{q:xy/xx,beta:xy/xx/3,tPivot:10**mx,logPPivot:my};
-})();
+const PRICE_FIT=BTCModelCore.priceFit(OBS,OBS_START,OBS_LAST_DATE,GEN);
 const B_REF=PRICE_FIT.beta,T_PIV=PRICE_FIT.tPivot,LOGP_PIV=PRICE_FIT.logPPivot;
 function pure(t,b){const q=3*b,A=LOGP_PIV-q*Math.log10(T_PIV);return Math.pow(10,A+q*Math.log10((t-GEN)/DAY));}
 function sat(p,L){return p*L/Math.cbrt(p*p*p+L*L*L);}
@@ -1037,24 +1018,7 @@ const adrSeries=months.map(([y,m])=>{
   const j=(y*12+m)-(ADR_START[0]*12+ADR_START[1]);
   return j>=0&&j<ADR.length?ADR[j]:null;});
 
-function regress(xs,ys){
-  const n=xs.length;if(n<3)return null;
-  let mx=0,my=0;for(let i=0;i<n;i++){mx+=xs[i];my+=ys[i];}mx/=n;my/=n;
-  let sxx=0,syy=0,sxy=0;
-  for(let i=0;i<n;i++){const dx=xs[i]-mx,dy=ys[i]-my;sxx+=dx*dx;syy+=dy*dy;sxy+=dx*dy;}
-  if(!sxx||!syy)return null;
-  const b=sxy/sxx,a=my-b*mx,u=[];let sse=0;
-  for(let i=0;i<n;i++){const e=ys[i]-a-b*xs[i];u.push(e);sse+=e*e;}
-  const sx=xs.reduce((s,v)=>s+v,0),sx2=xs.reduce((s,v)=>s+v*v,0),det=n*sx2-sx*sx;
-  const inv=[[sx2/det,-sx/det],[-sx/det,n/det]],M=[[0,0],[0,0]],L=Math.min(12,n-1);
-  const add=(i,j,w)=>{const xi=[1,xs[i]],xj=[1,xs[j]],v=w*u[i]*u[j];
-    for(let r=0;r<2;r++)for(let c=0;c<2;c++)M[r][c]+=v*(xi[r]*xj[c]+(i===j?0:xj[r]*xi[c]));};
-  for(let i=0;i<n;i++)add(i,i,1);
-  for(let lag=1;lag<=L;lag++){const w=1-lag/(L+1);for(let i=lag;i<n;i++)add(i,i-lag,w);}
-  const V=[[0,0],[0,0]];
-  for(let r=0;r<2;r++)for(let c=0;c<2;c++)for(let j=0;j<2;j++)for(let k=0;k<2;k++)V[r][c]+=inv[r][j]*M[j][k]*inv[k][c];
-  return{b:b,r2:1-sse/syy,se:Math.sqrt(sse/(n-2)/sxx),hac:Math.sqrt(Math.max(V[1][1],0)),n:n};
-}
+const regress=BTCModelCore.regress;
 
 const MET=[];
 months.forEach((mm,i)=>{
@@ -1336,6 +1300,8 @@ function setSev(e,base,sv,mid){
 }
 
 let main,res,near,met;
+function scenarioState(){return{k:+el('k').value,de:+el('de').value,dp:+el('dp').value,b:+el('mb').value};}
+function updateScenarioURL(){BTCModelCore.replaceScenarioURL(scenarioState());}
 function build(){
   const W=+el('k').value,de=+el('de').value,dp=+el('dp').value,B=+el('mb').value;
   const L=plateau(W),A=amps(de,dp,W,B);
@@ -1418,6 +1384,9 @@ function build(){
   const i5p=idx(EPOCHS[5].pk),i5t=idx(EPOCHS[5].tr);
   el('s-p5').textContent=mid[i5p]?fmt(mid[i5p]):'—';el('s-p5n').textContent=mlab(EPOCHS[5].pk);
   el('s-t5').textContent=mid[i5t]?fmt(mid[i5t]):'—';el('s-t5n').textContent=mlab(EPOCHS[5].tr);
+  const altQ=[4.501,5.116,5.640,6.587];
+  const altPeak=altQ.map(q=>sat(pure(ms[i5p],q/3),L)*Math.pow(10,modAt(i5p,amps(de,dp,W,q/3))));
+  el('g-unc').textContent=fmt(Math.min(...altPeak))+'–'+fmt(Math.max(...altPeak));
 
   /* ---- capital flow: the same trajectory in money ---- */
   const spot=OBS[OBS.length-1];
@@ -1574,10 +1543,13 @@ function build(){
     btn.setAttribute('aria-pressed',on?'true':'false'); if(on)act=btn;});
   el('pdesc').textContent=act?act.dataset.desc
     :'Custom settings — none of the ready-made scenarios matches. The buttons above set all the sliders at once and form a single axis: from a cycle that faded irreversibly to a cycle that is trying to come back in its former shape. The base calculation of the model is “Quiet cycle”.';
+  updateScenarioURL();
 }
-const PB=[].slice.call(document.querySelectorAll('.presets button'));
+const PB=[].slice.call(document.querySelectorAll('.presets button[data-k]'));
 el('mb').value=B_REF.toFixed(3);
 PB.forEach(btn=>btn.dataset.b=B_REF.toFixed(3));
+const initialScenario=BTCModelCore.readScenario({k:1610,de:.15,dp:.5,b:B_REF});
+Object.entries(initialScenario).forEach(([k,v])=>el(k).value=v);
 el('ctl-mb').querySelector('.lb').childNodes[0].nodeValue='Price-trend coordinate β';
 el('ctl-mb').querySelector('.tip').innerHTML='<b>Current full-sample price slope divided by three.</b> It is re-estimated whenever the embedded price sample changes; today q='+PRICE_FIT.q.toFixed(3)+' and β='+B_REF.toFixed(3)+'. This is a sensitivity coordinate, not an independently identified Metcalfe exponent.<br><br>The slider rotates the fitted curve around the logarithmic centre of the observations. The ceiling remains a scenario and is not estimated from these prices.';
 el('g-met').parentElement.querySelector('.k').childNodes[0].nodeValue='Price/address co-trend check';
@@ -1585,6 +1557,11 @@ PB.forEach(btn=>btn.addEventListener('click',()=>{
   el('k').value=btn.dataset.k;el('de').value=btn.dataset.de;el('dp').value=btn.dataset.dp;
   el('mb').value=btn.dataset.b;build();}));
 ['k','de','dp','mb'].forEach(i=>el(i).addEventListener('input',build));
+el('share').addEventListener('click',async()=>{
+  const url=BTCModelCore.scenarioURL(scenarioState());
+  try{await navigator.clipboard.writeText(url);el('share').textContent='Link copied';}
+  catch(_){prompt('Copy this scenario link:',url);}
+});
 build();
 
 </script>

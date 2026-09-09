@@ -31,10 +31,9 @@ class AuditReproductionTests(unittest.TestCase):
     def test_english_and_russian_samples_match(self):
         root = Path(__file__).resolve().parents[1]
         pages = [(root / name).read_text(encoding="utf-8") for name in ("index.html", "ru.html")]
-        arrays = [re.search(r"const\s+OBS\s*=\s*\[(.*?)\];", page, re.S).group(1) for page in pages]
-        dates = [re.search(r"const\s+OBS_LAST_DATE\s*=\s*\[(.*?)\]", page).group(1) for page in pages]
-        self.assertEqual(arrays[0], arrays[1])
-        self.assertEqual(dates[0], dates[1])
+        self.assertTrue(all('data/observations.js' in page for page in pages))
+        data = (root / 'data' / 'observations.js').read_text(encoding="utf-8")
+        self.assertIn('OBS_LAST_DATE:[2026,9,9]', data)
 
     def test_phi_is_bounded(self):
         for month in ((2025, 10), (2029, 10), (2033, 10), (2037, 10)):

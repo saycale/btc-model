@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "series": "BTC/USD approximate monthly closes",
+  "observation_start": "2010-07",
+  "last_observation": {"date": "2026-09-09", "value_usd": 78587, "kind": "provisional_spot"},
+  "monthly_sources": ["Public-source series compiled in the project history; replace with a verified single-source export before research use."],
+  "address_metric": "Coin Metrics AdrBalCnt mirror, month-end, through 2026-05",
+  "update_contract": "A partial month must be marked provisional and dated exactly; replace it with a monthly close after month end. Run tools/validate_data.py and audit tests before publishing."
+}
