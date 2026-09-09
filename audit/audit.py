@@ -35,6 +35,10 @@ def extract_array(name: str) -> np.ndarray:
 
 OBS = extract_array("OBS")
 ADR = extract_array("ADR")
+_last_date = re.search(r"const\s+OBS_LAST_DATE\s*=\s*\[(\d+),(\d+),(\d+)\]", HTML)
+if not _last_date:
+    raise RuntimeError("OBS_LAST_DATE not found")
+OBS_LAST_DATE = tuple(map(int, _last_date.groups()))
 
 
 def month_range(year: int, month: int, count: int) -> list[tuple[int, int]]:
@@ -62,6 +66,15 @@ def month_end_age(month: tuple[int, int]) -> float:
     year, mon = month
     nxt = datetime(year + (mon == 12), 1 if mon == 12 else mon + 1, 1, tzinfo=timezone.utc)
     return (nxt - GENESIS).total_seconds() / 86_400.0 - 1.0
+
+
+def observed_age(month: tuple[int, int], origin: datetime = GENESIS) -> float:
+    if month == OBS_MONTHS[-1]:
+        dt = datetime(*OBS_LAST_DATE, tzinfo=timezone.utc)
+        return (dt - origin).total_seconds() / 86_400.0
+    year, mon = month
+    nxt = datetime(year + (mon == 12), 1 if mon == 12 else mon + 1, 1, tzinfo=timezone.utc)
+    return (nxt - origin).total_seconds() / 86_400.0 - 1.0
 
 
 def ols(x: np.ndarray, y: np.ndarray) -> dict[str, float]:
@@ -111,15 +124,18 @@ def ljung_box_q(x: np.ndarray, lags: int) -> tuple[float, float]:
 
 
 def power_fit(prices: np.ndarray, months: list[tuple[int, int]], origin: datetime = GENESIS) -> dict[str, float]:
-    x = np.log10([age_days(m, origin=origin) for m in months])
+    x = np.log10([observed_age(m, origin=origin) for m in months])
     return ols(x, np.log10(prices))
 
 
-T_PIV = 2971.0
-LOGP_PIV = -16.509 + 5.69 * math.log10(T_PIV)
+REFERENCE_FIT = power_fit(OBS, OBS_MONTHS)
+_REFERENCE_X = np.log10([observed_age(m) for m in OBS_MONTHS])
+T_PIV = 10.0 ** float(_REFERENCE_X.mean())
+LOGP_PIV = float(np.log10(OBS).mean())
+B_REF = REFERENCE_FIT["slope"] / 3.0
 
 
-def pure(month: tuple[int, int], beta: float = 1.897) -> float:
+def pure(month: tuple[int, int], beta: float = B_REF) -> float:
     q = 3.0 * beta
     intercept = LOGP_PIV - q * math.log10(T_PIV)
     return 10.0 ** (intercept + q * math.log10(age_days(month)))
@@ -299,7 +315,7 @@ def saturation_profile() -> list[dict[str, float]]:
 
 def cycle_checks() -> dict[str, object]:
     level = plateau(1610)
-    amps = amplitudes(0.15, 0.50, 1610, 1.897)
+    amps = amplitudes(0.15, 0.50, 1610, B_REF)
     trend = np.asarray([float(saturation(pure(m), level)) for m in OBS_MONTHS])
     overlay = np.asarray([cycle_overlay(m, amps) for m in OBS_MONTHS])
     residual_trend = np.log10(OBS / trend)
@@ -343,13 +359,16 @@ def main() -> None:
     best_profile = min(profile, key=lambda r: r["rmse_dex"])
     highest = profile[-1]
     result = {
-        "revision": "6827439d34570254eb220fcd51d37f2511956e35",
+        "source_revision_audited": "6827439d34570254eb220fcd51d37f2511956e35",
+        "data_as_of": "2026-09-09 provisional spot",
         "sample": {"observations": len(OBS), "addresses": len(ADR), "common": len(common_months)},
         "reproduction": {
             "holding_usd_per_owner": HOLD,
             "plateau_usd": plateau(1610),
-            "base_amplitudes_h5_h7": [amplitudes(0.15, 0.50, 1610, 1.897)[i] for i in range(5, 8)],
-            "base_zeta_h5_h7": [0.15 + 0.85 * phi_at(EPOCHS[i][2], 1610, 1.897) for i in range(5, 8)],
+            "reference_price_slope": REFERENCE_FIT["slope"],
+            "reference_beta_coordinate": B_REF,
+            "base_amplitudes_h5_h7": [amplitudes(0.15, 0.50, 1610, B_REF)[i] for i in range(5, 8)],
+            "base_zeta_h5_h7": [0.15 + 0.85 * phi_at(EPOCHS[i][2], 1610, B_REF) for i in range(5, 8)],
         },
         "power_law_full_sample": {
             k: v for k, v in age_fit.items() if k != "resid"

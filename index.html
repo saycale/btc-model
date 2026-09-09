@@ -323,7 +323,7 @@ ul.tight li{margin-bottom:5px}
   <p class="eyebrow">P(t) = 10<sup>A</sup> · t<sup>3β</sup> × saturation(W) × ζ·[euphoria(d<sub>e</sub>) − panic(d<sub>p</sub>)]</p>
   <div class="hrow">
     <h1>Cross-scale Bitcoin price model, 2010–2040</h1>
-    <p class="dateline">Updated 1 September 2026 · observed through the 31 August close · everything to the right is computed</p>
+    <p class="dateline">Updated 9 September 2026 · latest point is a provisional $78,587 spot observation · everything later is computed</p>
   </div>
   <p class="sub">Three layers stitched together: the Metcalfe exponent sets the slope of power-law growth, the monetary ceiling sets the height that growth runs into, and the cycle layer describes four-year rallies and drawdowns. As the trend approaches the ceiling it flattens: with cycle amplitude held constant this would deepen the peak-to-trough drawdown and weaken the subsequent recovery, but the multiplier ζ simultaneously damps the cycle itself. Each layer acts on its own time scale: the first governs decades, the second determines the long-run plateau, and the third governs the four-year fluctuations within the trend.</p>
   <nav class="nav">
@@ -345,10 +345,10 @@ ul.tight li{margin-bottom:5px}
   <div class="dash-top">
     <div class="presets">
       <span class="pl">Scenarios · maturity on the left, speculation on the right</span>
-      <button type="button" data-k="1800" data-de="0" data-dp="1" data-b="1.897" data-desc="Both phases of the cycle have disappeared: euphoria faded for good, panic followed it. By 2030 bitcoin behaves like a mature network asset — an H5 drawdown of just 21%, like a large technology stock rather than like a cryptocurrency. The number of owners is the highest, a third of adults, mostly through funds; plateau $735k.">Cycle faded</button>
-      <button type="button" data-k="1610" data-de="0.15" data-dp="0.5" data-b="1.897" data-desc="The base scenario of the model. Euphoria has gone almost irreversibly, panic fades with a lag — by the requirement of coherence: the cause that killed the top is obliged to reach the bottom as well. The H5 trough sits at −0.24 dex, at the very shallow edge of the H1–H4 corridor, and the drawdown is 38% — a bad year on the stock market rather than a crypto crash.">Quiet cycle<span class="bdg">base</span></button>
-      <button type="button" data-k="1350" data-de="0.5" data-dp="0.25" data-b="1.897" data-desc="H4 was partly a fluke. Euphoria comes back halfway, panic is almost untouched. The peak is higher than in the two scenarios to the left — $432k — but so is the drawdown at 52%. A middle position for those who want to bet neither on the irreversibility of the decay nor on a full return of the amplitude.">Cycle returns</button>
-      <button type="button" data-k="1300" data-de="1" data-dp="0" data-b="1.897" data-desc="Nothing changed in the market itself, the break in H4 was a ripple. Peak height returns to the former rate of decline, ×0.67 per cycle — not to the former values. The highest peak of the four ($542k) and the lowest trough ($169k), a 69% drawdown — comparable to the 78% of H3.">Cycle never broke</button>
+      <button type="button" data-k="1800" data-de="0" data-dp="1" data-b="1.880" data-desc="Both phases of the cycle have disappeared. Under the current fit H5 peaks near $356k, bottoms near $281k and draws down 21%; the $735k ceiling remains a scenario, not an estimate.">Cycle faded</button>
+      <button type="button" data-k="1610" data-de="0.15" data-dp="0.5" data-b="1.880" data-desc="The base scenario. Under the current fit H5 peaks near $371k, bottoms near $228k and draws down 38%. These are conditional scenario outputs, not statistical point forecasts.">Quiet cycle<span class="bdg">base</span></button>
+      <button type="button" data-k="1350" data-de="0.5" data-dp="0.25" data-b="1.880" data-desc="Euphoria returns halfway and panic is almost untouched. Under the current fit H5 peaks near $411k, bottoms near $196k and draws down 52%.">Cycle returns</button>
+      <button type="button" data-k="1300" data-de="1" data-dp="0" data-b="1.880" data-desc="The H4 break is treated as temporary. Under the current fit H5 peaks near $513k, bottoms near $162k and draws down 69%.">Cycle never broke</button>
       <div class="pdesc" id="pdesc">—</div>
     </div>
     <div class="tie" id="tie">
@@ -396,7 +396,7 @@ ul.tight li{margin-bottom:5px}
       <div class="grp">Calibration</div>
       <div class="ctl" id="ctl-mb">
         <label for="mb"><span class="lb">Metcalfe exponent β<span class="info" tabindex="0" role="button" aria-label="Explanation"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="7.15" y="6.9" width="1.7" height="4.9" rx=".85" fill="currentColor"/><circle cx="8" cy="4.5" r="1.05" fill="currentColor"/></svg><span class="tip">The Metcalfe exponent: how fast the value of a network grows with the number of participants. It lies between n log n and n². The source measures 1.838, here it stands at <b>1.897 = 5.69 / 3</b>: the model takes the address exponent as exactly three and picks the second factor so that the product gives the slope read straight off the price.<br><br>It enters the calculation once, in the growth exponent 3β. The plateau level does not depend on it: the plateau is set by money, so the slider turns the slope and leaves the ceiling alone. It does touch the cycle, though — through ζ: a steeper slope reaches the ceiling earlier, less headroom is left, and the H5 trough gets shallower from −0.27 to −0.18 dex across the full travel of the slider.<br><br>The rotation happens around the reference day, February 2017. So when you move right, the model's nodes to the left of that date go down and those to the right go up, and the troughs of the early epochs travel toward the late ones.<br><br>The slider is here as a check. Move it and watch the miss counter right below it.<br><br>There are two checks on it, in fact. The counter answers whether such a slope describes the history. The coherence indicator above the chart answers a different question: whether the slope agrees with the other sliders. The thinning of the graph of links between participants comes from custodial holding — the same process by which the death of euphoria and the removal of the barrier to entry are explained. So a low β with a live cycle is treated by the indicator as a direct contradiction, and a high β with a high ceiling as a caveat.</span></span></span><b><span id="mbv">1.897</span></b></label>
-        <input type="range" id="mb" min="1.60" max="2.05" step="0.001" value="1.897">
+        <input type="range" id="mb" min="1.60" max="2.05" step="0.001" value="1.880">
         <div class="hint"><span>1.60 · n log n</span><span class="mark" id="mbmark">reference value</span><span>2.05 · n²</span></div>
       </div>
       <div class="fit" id="fit">
@@ -419,7 +419,7 @@ ul.tight li{margin-bottom:5px}
         <span><i class="sw" style="border-top-color:var(--obs)"></i>Observed price, month close</span>
         <span><i class="sw" style="border-top-color:var(--mdl)"></i>Model, central trajectory</span>
         <span><i class="sw" style="border-top-color:var(--ink-3);border-top-style:dashed"></i>Trend without cycles</span>
-      <span><i class="sw b"></i>Owner ceiling ±40%</span>
+      <span><i class="sw b"></i>Ceiling scenario ±40%</span>
         <span><i class="sw" style="border-top-color:var(--ink-2);border-top-style:dotted"></i>Observed/computed boundary</span>
       </div>
       <div class="main-h"><canvas id="main"></canvas></div>
@@ -460,7 +460,7 @@ ul.tight li{margin-bottom:5px}
 </figure>
 
 <figure id="beta-drift">
-  <p class="fcap">The Metcalfe exponent: measurement against assumption</p>
+  <p class="fcap">Price/address co-trend: stability check, not causal identification</p>
   <div class="met-h"><canvas id="met"></canvas></div>
   <p class="axis-note">The blue line is beta, measured by regressing log10 price on log10 of the count of addresses holding a non-zero balance over a rolling sixty-month window; each point sits at the last month of its window. The band is the slider's range, n log n to n². The dashed line is the whole-history value, 1.840. The solid horizontal is the slider's current position and moves with it. The address series stops in May 2026, so the measurement stops there too: to the right the model runs on with nothing to check it against. History does not supply one value of beta — the window ending January 2018 holds 1.16, the window to February 2022 reaches 3.59, and R² in the last window falls to 0.43.</p>
 </figure>
@@ -468,7 +468,7 @@ ul.tight li{margin-bottom:5px}
 <p>Three lines. The grey dashed one carries the trend: a power law with saturation, cycles removed. The dashes work as a spine the asset keeps returning to, and by themselves predict nothing. The blue one multiplies that spine by the cycle overlay. The orange one shows what happened.</p>
 <p>The upper panel runs on a logarithmic scale. The lower one carries the residual, measured in <b>dex</b>. Dex expresses “how many times” in logarithmic form: +1 dex puts the price ten times above the trend, −0.3 dex roughly halves it, zero lands exactly on the spine.</p>
 <p>Everything else on both panels is markup. The grey bands are the halving epochs H0–H8. The dashed vertical separates fact from calculation: observations to the left, model only to the right, at the current slider positions. The thin lines at ±0.5 dex below are the regime band from falsification criterion 5.</p>
-<p>At the 31 August 2026 close the residual is about <b>−0.27 dex</b>: the price of $78.6k is roughly 54% of the trend. This is comparable with the calibrated intramonth trough nodes of earlier cycles, which lie between −0.24 and −0.38 dex, although the <code>OBS</code> array contains approximate monthly closes and does not reproduce that range directly. Of 194 monthly observations, 14 left the ±0.5 dex band; the longest continuous excursion lasted five months, from November 2013 through March 2014. Falsification criterion 5 requires an excursion lasting more than two years and has never fired.</p>
+<p>At the provisional 9 September 2026 observation the residual is about <b>−0.25 dex</b>: $78.6k is roughly 57% of the saturated trend. Of 195 observations, 17 lie outside ±0.5 dex. The last point is spot data, not a September close; it updates the fit without pretending that the month is complete.</p>
 
 <h2 id="cycles">Cycles</h2>
 <table id="cyc">
@@ -761,7 +761,7 @@ ul.tight li{margin-bottom:5px}
 <p>The <code>OBS</code> array contains approximate month closes compiled from public sources. That is enough for the shape of the residual and not enough for anything requiring precision; before any serious use, replace it with a verified series from one consistent source.</p>
 
 <footer>
-  <p><strong>Data.</strong> Observed values are approximate month closes compiled from public sources. January–July 2026 use StatMuse month closes; the final value is CoinGecko’s $78,553 UTC close on 31 August, cross-checked against CoinMarketCap. The page is static: the calculation runs entirely in the browser, with no external requests. The only dependencies are Chart.js 4.4.1 (MIT) for drawing and the IBM Plex fonts (SIL OFL 1.1); both are bundled locally.</p>
+  <p><strong>Data.</strong> Completed months are approximate closes compiled from public sources. The final value, $78,587 on 9 September 2026, is explicitly provisional spot data rather than a monthly close. The page is static and makes no external requests; updating <code>OBS</code> automatically re-estimates the reference price trend.</p>
   <p><strong>Sources.</strong></p>
   <ul class="srcs">
     <li>Santostasi, G. &amp; Perrenod, S. (2026). <em>A Mechanistic Derivation of the Bitcoin Price Power Law: Network Adoption Dynamics and Generalised Metcalfe Scaling.</em> Zenodo preprint, DOI: <a href="https://doi.org/10.5281/zenodo.19387099">10.5281/zenodo.19387099</a>; peer-reviewed and published in a journal in 2026. Source of the slope 5.69 ± 0.05 at R² = 0.961, the decomposition 3.046 × 1.838, the residual scatter of 0.302 dex and the scale-invariance tests.</li>
@@ -796,7 +796,9 @@ const OBS=[0.06,0.06,0.06,0.20,0.28,0.30,
 23100,23150,28450,29250,27200,30480,29230,25930,26970,34670,37720,42280,
 42580,61150,71330,60640,67500,62680,64620,58970,63330,70200,96450,93430,
 102400,84400,82500,94200,104600,107200,115800,108500,114000,110500,91000,88000,
-78621.12,66995.86,68233.31,76304.32,73579.69,58558.86,62813.75,78553];
+78621.12,66995.86,68233.31,76304.32,73579.69,58558.86,62813.75,78553,78587];
+const OBS_LAST_DATE=[2026,9,9];
+const OBS_LAST_PROVISIONAL=true;
 
 /* Addresses holding a non-zero balance, month-end, Jan 2010 - May 2026.
    Source: the coinmetrics/data mirror on GitHub, metric AdrBalCnt; the
@@ -843,16 +845,30 @@ const NOTE_MIN=0.06;
 const months=[];
 for(let y=2010;y<=2040;y++)for(let m=1;m<=12;m++)months.push([y,m]);
 const labels=months.map(([y,m])=>y+'-'+String(m).padStart(2,'0'));
-const ms=months.map(([y,m])=>Date.UTC(y,m-1,15));
+const obsDate=([y,m],j)=>j===OBS.length-1&&OBS_LAST_PROVISIONAL
+  ?Date.UTC(OBS_LAST_DATE[0],OBS_LAST_DATE[1]-1,OBS_LAST_DATE[2])
+  :Date.UTC(y,m,0);
+const ms=months.map(([y,m])=>{
+  const j=(y*12+m)-(OBS_START[0]*12+OBS_START[1]);
+  return j>=0&&j<OBS.length?obsDate([y,m],j):Date.UTC(y,m-1,15);
+});
 const idx=(a)=>months.findIndex(([y,m])=>y===a[0]&&m===a[1]);
 const mnum=(a)=>a[0]*12+a[1];
 
-/* The calibration reference point: the logarithmic centre of the observations,
-   day 2971. The pair (level, slope) is one fitted curve, so 5.69 enters here in
-   the anchoring of the level, while the slope is then taken from the slider as 3β.
-   Putting 3·1.897 here is not allowed: the level would shift by 0.8% and the
-   H0–H4 amplitudes, measured on intra-month extremes, would stop reproducing them. */
-const T_PIV=2971, LOGP_PIV=-16.509+5.69*Math.log10(T_PIV);
+/* Re-estimated from every dated observation. Closed months use month-end;
+   a current partial month uses its exact spot date. This is a price fit,
+   not an independent measurement of a Metcalfe exponent. */
+const PRICE_FIT=(()=>{
+  const x=[],y=[];
+  for(let j=0;j<OBS.length;j++){
+    const n=OBS_START[0]*12+OBS_START[1]+j,mm=[Math.floor((n-1)/12),(n-1)%12+1];
+    x.push(Math.log10((obsDate(mm,j)-GEN)/DAY));y.push(Math.log10(OBS[j]));
+  }
+  const mx=x.reduce((s,v)=>s+v,0)/x.length,my=y.reduce((s,v)=>s+v,0)/y.length;
+  let xx=0,xy=0;for(let i=0;i<x.length;i++){xx+=(x[i]-mx)**2;xy+=(x[i]-mx)*(y[i]-my);}
+  return{q:xy/xx,beta:xy/xx/3,tPivot:10**mx,logPPivot:my};
+})();
+const B_REF=PRICE_FIT.beta,T_PIV=PRICE_FIT.tPivot,LOGP_PIV=PRICE_FIT.logPPivot;
 function pure(t,b){const q=3*b,A=LOGP_PIV-q*Math.log10(T_PIV);return Math.pow(10,A+q*Math.log10((t-GEN)/DAY));}
 function sat(p,L){return p*L/Math.cbrt(p*p*p+L*L*L);}
 /* The plateau is a monetary constraint, not a consequence of Metcalfe. Terminal
@@ -1027,11 +1043,17 @@ function regress(xs,ys){
   let sxx=0,syy=0,sxy=0;
   for(let i=0;i<n;i++){const dx=xs[i]-mx,dy=ys[i]-my;sxx+=dx*dx;syy+=dy*dy;sxy+=dx*dy;}
   if(!sxx||!syy)return null;
-  const b=sxy/sxx;let sse=0;
-  for(let i=0;i<n;i++){const e=ys[i]-(my+b*(xs[i]-mx));sse+=e*e;}
-  /* The standard error treats the residuals as independent and they are
-     autocorrelated, so the true interval is wider. Trust its sign, not its size. */
-  return{b:b,r2:1-sse/syy,se:Math.sqrt(sse/(n-2)/sxx),n:n};
+  const b=sxy/sxx,a=my-b*mx,u=[];let sse=0;
+  for(let i=0;i<n;i++){const e=ys[i]-a-b*xs[i];u.push(e);sse+=e*e;}
+  const sx=xs.reduce((s,v)=>s+v,0),sx2=xs.reduce((s,v)=>s+v*v,0),det=n*sx2-sx*sx;
+  const inv=[[sx2/det,-sx/det],[-sx/det,n/det]],M=[[0,0],[0,0]],L=Math.min(12,n-1);
+  const add=(i,j,w)=>{const xi=[1,xs[i]],xj=[1,xs[j]],v=w*u[i]*u[j];
+    for(let r=0;r<2;r++)for(let c=0;c<2;c++)M[r][c]+=v*(xi[r]*xj[c]+(i===j?0:xj[r]*xi[c]));};
+  for(let i=0;i<n;i++)add(i,i,1);
+  for(let lag=1;lag<=L;lag++){const w=1-lag/(L+1);for(let i=lag;i<n;i++)add(i,i-lag,w);}
+  const V=[[0,0],[0,0]];
+  for(let r=0;r<2;r++)for(let c=0;c<2;c++)for(let j=0;j<2;j++)for(let k=0;k<2;k++)V[r][c]+=inv[r][j]*M[j][k]*inv[k][c];
+  return{b:b,r2:1-sse/syy,se:Math.sqrt(sse/(n-2)/sxx),hac:Math.sqrt(Math.max(V[1][1],0)),n:n};
 }
 
 const MET=[];
@@ -1067,7 +1089,7 @@ for(let s=0;s+MET_WIN<=MET.length;s++){
   const w=MET.slice(s,s+MET_WIN),r=regress(w.map(o=>o.ln),w.map(o=>o.lp));
   if(r){const k=w[MET_WIN-1].i;BETA_ROW[k]=r.b;R2_ROW[k]=r.r2;}
 }
-let MET_B=1.897;
+let MET_B=B_REF;
 /* The slider's range: n log n at the left, n**2 at the right; the band is it. */
 const MET_LO=1.60, MET_HI=2.05;
 const metPlugin={id:'mt',
@@ -1338,10 +1360,10 @@ function build(){
   }
   el('kv').textContent=W;el('dev').textContent=de.toFixed(2);el('dpv').textContent=dp.toFixed(2);
   el('mbv').textContent=B.toFixed(3);
-  const offB=Math.abs(B-1.897)>5e-4;
+  const offB=Math.abs(B-B_REF)>5e-4;
   el('ctl-mb').className='ctl'+(offB?' off':'');
   el('mbmark').textContent=offB
-    ?'shifted by '+(B>1.897?'+':'\u2212')+Math.abs(B-1.897).toFixed(3)
+    ?'shifted by '+(B>B_REF?'+':'\u2212')+Math.abs(B-B_REF).toFixed(3)
     :'reference value';
   el('a5v').textContent=A[5].a.toFixed(2);el('b5v').textContent=Math.abs(A[5].b).toFixed(2);
   el('plat').textContent=Math.round(L/1000).toLocaleString('en-US');
@@ -1355,12 +1377,12 @@ function build(){
   const bad=resid.filter(v=>v!=null&&Math.abs(v)>RES_BAND).length;
   const nobsv=resid.filter(v=>v!=null).length;
   el('g-fit').textContent=bad+' of '+nobsv+' outside \u00b10.5 dex';
-  setSev(el('g-fit'),'v sev',cl01((bad-14)/12),0.5);
+  setSev(el('g-fit'),'v sev',cl01((bad-17)/12),0.5);
   /* The measurement ignores the sliders; the gap to beta is what gets coloured. */
   MET_B=B;
-  el('g-met').textContent=BETA_OBS.b.toFixed(3)+' \u00b1'+BETA_OBS.se.toFixed(3)
+  el('g-met').textContent=BETA_OBS.b.toFixed(3)+' \u00b1'+BETA_OBS.hac.toFixed(3)+' HAC(12)'
     +' \u00b7 R\u00b2 '+BETA_OBS.r2.toFixed(2);
-  el('g-met2').textContent='against 1.897 in the model \u00b7 address growth '
+  el('g-met2').textContent='against '+B_REF.toFixed(3)+' price-trend coordinate \u00b7 address growth '
     +ALPHA_OBS.b.toFixed(2)+' against 3.046 \u00b7 '+BETA_OBS.n+' months';
   setSev(el('g-met'),'v sev',cl01(Math.abs(B-BETA_OBS.b)/0.25),0.5);
 
@@ -1554,6 +1576,11 @@ function build(){
     :'Custom settings — none of the ready-made scenarios matches. The buttons above set all the sliders at once and form a single axis: from a cycle that faded irreversibly to a cycle that is trying to come back in its former shape. The base calculation of the model is “Quiet cycle”.';
 }
 const PB=[].slice.call(document.querySelectorAll('.presets button'));
+el('mb').value=B_REF.toFixed(3);
+PB.forEach(btn=>btn.dataset.b=B_REF.toFixed(3));
+el('ctl-mb').querySelector('.lb').childNodes[0].nodeValue='Price-trend coordinate β';
+el('ctl-mb').querySelector('.tip').innerHTML='<b>Current full-sample price slope divided by three.</b> It is re-estimated whenever the embedded price sample changes; today q='+PRICE_FIT.q.toFixed(3)+' and β='+B_REF.toFixed(3)+'. This is a sensitivity coordinate, not an independently identified Metcalfe exponent.<br><br>The slider rotates the fitted curve around the logarithmic centre of the observations. The ceiling remains a scenario and is not estimated from these prices.';
+el('g-met').parentElement.querySelector('.k').childNodes[0].nodeValue='Price/address co-trend check';
 PB.forEach(btn=>btn.addEventListener('click',()=>{
   el('k').value=btn.dataset.k;el('de').value=btn.dataset.de;el('dp').value=btn.dataset.dp;
   el('mb').value=btn.dataset.b;build();}));

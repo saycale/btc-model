@@ -12,7 +12,7 @@ An interactive page: three layers, four sliders, three diagnostics, five falsifi
 
 Three layers multiplied by one another. Each owns its own time scale, and they are stitched together rather than stacked: the third depends on the second.
 
-**1. A power law** in the age of the network, `P ∝ t^3β`, with age counted in days from the genesis block. This layer runs the decades. The exponent 5.69 is measured directly from the price and has a separately measured decomposition: address count against time (3.046) and value against address count (β = 1.838). Their product is 5.60, a 1.6% discrepancy from the fitted slope. The model computes with 5.69 and splits it into a flat three and β = 1.897 = 5.69 / 3.
+**1. A power law** in the age of the network, `P ∝ t^3β`, with age counted in days from the genesis block. The browser now re-estimates the price slope whenever the embedded observations change. With the provisional 9 September 2026 point the full-sample slope is 5.640, exposed as the sensitivity coordinate β = 1.880. This is a price fit, not an independently measured Metcalfe exponent. The address decomposition remains beside it as a co-trend diagnostic and does not feed the forecast.
 
 **2. Saturation** against a limiting number of owners. This layer decides how everything ends. Soft braking, `P = P_trend · L / (P_trend³ + L³)^⅓`, where the plateau `L` is a monetary constraint rather than a consequence of Metcalfe:
 
@@ -58,15 +58,15 @@ Three indicators check the reader's settings while advising nothing. Their colou
 
 **Share of amplitude by epoch.** Shows ζ for H5–H7: what the 2030s cycle rests on — the surviving headroom, or the premise that the speculative character of the asset survived on its own. At the base setting it reads H5 87% · H6 33% · H7 17%.
 
-**Misses from the trend.** How many observed months lie further than ±0.5 dex from the trend. At the reference β there are 14 of 194; 10 fall in 2011 and 2013/14. Shifting β down by two tenths brings the count to 26, with more than half of the new misses in 2010–2012. The reference value is therefore exposed to a direct sensitivity check.
+**Misses from the trend.** How many observations lie further than ±0.5 dex from the saturated trend. At the current reference β there are 17 of 195. The control is a sensitivity check; it is not a confidence interval.
 
 Below the chart a fourth block, **what this requires of money**, converts the same trajectory into capitalisation: about $1.58T at the latest close against $13.6T at the plateau. It also shows the average annual increase along the path and the much smaller dollar value of issuance. This is an accounting comparison; it does not show that halvings cease to affect marginal supply or expectations.
 
 ## Data
 
-194 monthly observations from July 2010 to 31 August 2026 — approximate month closes compiled from public sources. January–July 2026 use StatMuse closes; the final point is CoinGecko's `$78,553` UTC close, cross-checked against CoinMarketCap. The series sits in the page source in plain text, the array `OBS`. That is enough for the shape of the residual and not enough for anything requiring precision.
+195 observations from July 2010 through 9 September 2026. Completed months are approximate month closes compiled from public sources; the final `$78,587` value is a provisional spot observation dated 9 September, not a monthly close. The series sits in the page source as `OBS`, with `OBS_LAST_DATE` and `OBS_LAST_PROVISIONAL` preventing the partial month from being mislabeled.
 
-The Metcalfe exponent β = 1.897 is derived from external work rather than fitted to the chart, though the slope it decomposes was read off the price. The page says so in the objections and does not pretend otherwise.
+The displayed β is the current price slope divided by three. The price/address regression is explicitly labeled a co-trend check and reports a Newey–West HAC(12) uncertainty estimate because monthly residuals are autocorrelated. Owner ceiling, saturation and future cycle amplitudes remain scenarios rather than estimates from the price sample.
 
 The number of owners is not directly measurable; the 106M figure appears only as a lower industry benchmark in a sensitivity example. Together with `A`, this is the weakest point of the model. Neither the number of owners nor the average holding size is measured separately. The multiplier ζ does not depend on the level anchoring: φ is a ratio of two growth rates.
 
