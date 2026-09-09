@@ -32,7 +32,14 @@
   }
   function readScenario(defaults){
     const q=new URLSearchParams(location.search),out={...defaults};
-    for(const k of Object.keys(defaults)){const v=Number(q.get(k));if(Number.isFinite(v))out[k]=v;}
+    // Missing/empty URL values are not zero: retain the calibrated baseline.
+    const bounds={k:[700,3200],de:[0,1],dp:[0,1],b:[1.6,2.05]};
+    for(const k of Object.keys(defaults)){
+      const raw=q.get(k);
+      if(raw===null||raw.trim()==='')continue;
+      const v=Number(raw),range=bounds[k];
+      if(Number.isFinite(v)&&(!range||(v>=range[0]&&v<=range[1])))out[k]=v;
+    }
     return out;
   }
   function scenarioURL(state){

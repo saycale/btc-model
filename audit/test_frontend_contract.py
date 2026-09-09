@@ -8,6 +8,9 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class FrontendContractTests(unittest.TestCase):
+    def test_scenario_state_behaviour(self):
+        subprocess.run(["node", "audit/test_scenario.js"], cwd=ROOT, check=True)
+
     def test_pages_load_shared_assets_and_share_control(self):
         for name in ("index.html", "ru.html"):
             page = (ROOT / name).read_text(encoding="utf-8")
