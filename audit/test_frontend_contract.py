@@ -15,6 +15,8 @@ class FrontendContractTests(unittest.TestCase):
             self.assertIn('window.BTC_MODEL_DATA', page)
             self.assertIn('id="share"', page)
             self.assertIn('id="g-unc"', page)
+            self.assertIn("el('mb').value=initialScenario.b", page)
+            self.assertNotIn("Object.entries(initialScenario)", page)
 
     def test_forecast_ledger_is_open_and_described(self):
         ledger = json.loads((ROOT / "data" / "forecast-ledger.json").read_text(encoding="utf-8"))

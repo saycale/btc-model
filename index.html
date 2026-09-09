@@ -1599,7 +1599,7 @@ const PB=[].slice.call(document.querySelectorAll('.presets button[data-k]'));
 el('mb').value=B_REF.toFixed(3);
 PB.forEach(btn=>btn.dataset.b=B_REF.toFixed(3));
 const initialScenario=BTCModelCore.readScenario({k:1610,de:.15,dp:.5,b:B_REF});
-Object.entries(initialScenario).forEach(([k,v])=>el(k).value=v);
+el('k').value=initialScenario.k;el('de').value=initialScenario.de;el('dp').value=initialScenario.dp;el('mb').value=initialScenario.b;
 el('ctl-mb').querySelector('.lb').childNodes[0].nodeValue='Price-trend coordinate β';
 el('ctl-mb').querySelector('.tip').innerHTML='<b>Current full-sample price slope divided by three.</b> It is re-estimated whenever the embedded price sample changes; today q='+PRICE_FIT.q.toFixed(3)+' and β='+B_REF.toFixed(3)+'. This is a sensitivity coordinate, not an independently identified Metcalfe exponent.<br><br>The slider rotates the fitted curve around the logarithmic centre of the observations. The ceiling remains a scenario and is not estimated from these prices.';
 el('g-met').parentElement.querySelector('.k').childNodes[0].nodeValue='Price/address co-trend check';

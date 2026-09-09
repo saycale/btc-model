@@ -1584,7 +1584,7 @@ const PB=[].slice.call(document.querySelectorAll('.presets button[data-k]'));
 el('mb').value=B_REF.toFixed(3);
 PB.forEach(btn=>btn.dataset.b=B_REF.toFixed(3));
 const initialScenario=BTCModelCore.readScenario({k:1610,de:.15,dp:.5,b:B_REF});
-Object.entries(initialScenario).forEach(([k,v])=>el(k).value=v);
+el('k').value=initialScenario.k;el('de').value=initialScenario.de;el('dp').value=initialScenario.dp;el('mb').value=initialScenario.b;
 el('ctl-mb').querySelector('.lb').childNodes[0].nodeValue='Координата ценового тренда β';
 el('ctl-mb').querySelector('.tip').innerHTML='<b>Текущий наклон полного ряда цены, делённый на три.</b> Он переоценивается при каждом обновлении встроенной выборки; сейчас q='+PRICE_FIT.q.toFixed(3)+' и β='+B_REF.toFixed(3)+'. Это координата чувствительности, а не независимо идентифицированный показатель Меткалфа.<br><br>Ползунок поворачивает подогнанную кривую вокруг логарифмического центра наблюдений. Потолок остаётся сценарием и из этих цен не оценивается.';
 el('g-met').parentElement.querySelector('.k').childNodes[0].nodeValue='Проверка совместного тренда цены и адресов';
