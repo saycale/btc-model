@@ -1,5 +1,7 @@
 # Local tooling, not part of the site.
 .claude/
+__pycache__/
+*.py[cod]
 
 # Saved copies of the source articles: read for research, never redistributed.
 # The project's own pages are index.html and ru.html — short, space-free names —
