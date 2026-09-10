@@ -1015,19 +1015,24 @@ const mlab=a=>MON[a[1]-1]+' '+a[0];
 const epochPlugin={id:'ep',beforeDatasetsDraw(c){
   const{ctx,chartArea:ca,scales:{x}}=c;if(!ca)return;ctx.save();
   const st=getComputedStyle(document.documentElement);
-  ctx.fillStyle=st.getPropertyValue('--epoch');
   EPOCHS.forEach((e,i)=>{
-    if(i%2)return;
-    const s=idx(e.h),n=i+1<EPOCHS.length?idx(EPOCHS[i+1].h):months.length-1;
-    if(s<0)return;const x0=x.getPixelForValue(s),x1=x.getPixelForValue(n<0?months.length-1:n);
-    ctx.fillRect(x0,ca.top,x1-x0,ca.bottom-ca.top);
+    // Clip epochs to the visible monthly range, including pre-chart H0.
+    const start=mnum(e.h)-mnum(months[0]);
+    const end=i+1<EPOCHS.length?mnum(EPOCHS[i+1].h)-mnum(months[0]):months.length-1;
+    if(end<=0||start>=months.length-1)return;
+    const x0=Math.max(ca.left,x.getPixelForValue(Math.max(0,start)));
+    const x1=Math.min(ca.right,x.getPixelForValue(Math.min(months.length-1,end)));
+    if(x1<=x0)return;
+    if(i%2===0){
+      ctx.fillStyle=st.getPropertyValue('--epoch');
+      ctx.fillRect(x0,ca.top,x1-x0,ca.bottom-ca.top);
+    }
+    if(c.canvas.id==='main'&&x1-x0>26){
+      ctx.fillStyle=st.getPropertyValue('--ink-3');
+      ctx.font='500 10px IBM Plex Mono, monospace';ctx.textAlign='center';
+      ctx.fillText(e.n,(x0+x1)/2,ca.top+12);
+    }
   });
-  if(c.canvas.id==='main'){
-    ctx.fillStyle=st.getPropertyValue('--ink-3');ctx.font='500 10px IBM Plex Mono, monospace';ctx.textAlign='center';
-    EPOCHS.forEach((e,i)=>{const s=idx(e.h),n=i+1<EPOCHS.length?idx(EPOCHS[i+1].h):months.length-1;
-      if(s<0)return;const x0=x.getPixelForValue(s),x1=x.getPixelForValue(n<0?months.length-1:n);
-      if(x1-x0>26)ctx.fillText(e.n,(x0+x1)/2,ca.top+12);});
-  }
   ctx.restore();
 }};
 
