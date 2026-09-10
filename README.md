@@ -10,6 +10,13 @@ An interactive page: three layers, four sliders, three diagnostics, five falsifi
 
 ## What this is
 
+Historical diagnostics now offer ±0.1 / 0.2 / 0.3 / 0.5 dex thresholds
+(default ±0.2), with separate counts, MAE and RMSE for the trend and cycle
+model. These describe historical fit, not forecast accuracy. The threshold
+is preserved in scenario links and does not change the author's regime rule.
+Forecast testing uses a separate [reproducible walk-forward protocol](audit/README.md#monthly-walk-forward-comparison)
+with a [results report in Russian](audit/WALK_FORWARD.ru.md).
+
 Three layers multiplied by one another. Each owns its own time scale, and they are stitched together rather than stacked: the third depends on the second.
 
 **1. A power law** in the age of the network, `P ∝ t^3β`, with age counted in days from the genesis block. The browser now re-estimates the price slope whenever the embedded observations change. With the provisional 9 September 2026 point the full-sample slope is 5.640, exposed as the sensitivity coordinate β = 1.880. This is a price fit, not an independently measured Metcalfe exponent. The address decomposition remains beside it as a co-trend diagnostic and does not feed the forecast.

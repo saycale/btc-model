@@ -38,6 +38,7 @@
       const raw=q.get(k);
       if(raw===null||raw.trim()==='')continue;
       const v=Number(raw),range=bounds[k];
+      if(k==='band'&&![0.1,0.2,0.3,0.5].includes(v))continue;
       if(Number.isFinite(v)&&(!range||(v>=range[0]&&v<=range[1])))out[k]=v;
     }
     return out;
@@ -46,5 +47,13 @@
     const u=new URL(location.href);for(const[k,v]of Object.entries(state))u.searchParams.set(k,v);return u.toString();
   }
   function replaceScenarioURL(state){history.replaceState(null,'',scenarioURL(state));}
-  global.BTCModelCore={regress,priceFit,readScenario,scenarioURL,replaceScenarioURL};
+  function residualMetrics(residuals,band){
+    if(!Number.isFinite(band)||band<=0)throw new RangeError('Positive finite band required');
+    const values=residuals.filter(Number.isFinite),n=values.length;
+    if(!n)return{n:0,bad:0,mae:null,rmse:null};
+    return{n,bad:values.filter(v=>Math.abs(v)>band).length,
+      mae:values.reduce((s,v)=>s+Math.abs(v),0)/n,
+      rmse:Math.sqrt(values.reduce((s,v)=>s+v*v,0)/n)};
+  }
+  global.BTCModelCore={regress,priceFit,readScenario,scenarioURL,replaceScenarioURL,residualMetrics};
 })(window);

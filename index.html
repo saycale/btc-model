@@ -292,6 +292,10 @@ ul.tight li{margin-bottom:5px}
   text-transform:uppercase;color:var(--ink-3);margin-bottom:3px;line-height:1.25}
 .fit .v{font-family:var(--mono);font-size:12.5px;font-weight:500;white-space:nowrap;color:var(--sev-col)}
 .fit .v.sev{--sev-c0:var(--pos)}
+#fit .v{color:var(--ink);white-space:normal}
+#fit select{display:block;width:100%;margin:5px 0;padding:4px;font:inherit;color:var(--ink);background:var(--paper);border:1px solid var(--rule);border-radius:3px}
+#fit summary{cursor:pointer}
+#fit details p{margin:6px 0}
 .fit .n{font-size:11px;line-height:1.38;color:var(--ink-2);margin-top:4px}
 /* The headroom check sits under the ceiling slider; it reacts to the ceiling and to euphoria decay */
 .fuel{padding:7px 10px 8px;margin-top:2px;background:var(--band-soft);
@@ -401,8 +405,27 @@ ul.tight li{margin-bottom:5px}
         <div class="hint"><span>1.60 · n log n</span><span class="mark" id="mbmark">reference value</span><span>2.05 · n²</span></div>
       </div>
       <div class="fit" id="fit">
-        <div class="k">Misses from the trend over history<span class="info" tabindex="0" role="button" aria-label="What a miss from the trend is"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="7.15" y="6.9" width="1.7" height="4.9" rx=".85" fill="currentColor"/><circle cx="8" cy="4.5" r="1.05" fill="currentColor"/></svg><span class="tip">How many observed months lie further than <b>±0.5 dex</b> from the trend — that is, deviate from it by more than a factor of three. At the reference β there are 14 out of 194; 10 of them fall in 2011 and 2013/14, where the price itself behaved abnormally.<br><br>The colour of the counter changes continuously along with the number of misses, without steps. The counter reacts only to the β slider above it. A shift of one tenth downward takes the misses to 17, two tenths to 26, and more than half of the new ones fall on 2010–2012. The fit holds inside a very narrow corridor — that is the point of the check.</span></span></div>
-        <span class="v" id="g-fit">—</span>
+        <div class="k">Historical deviations</div>
+        <label class="n" for="fit-band">Deviation threshold</label>
+        <select id="fit-band">
+          <option value="0.1">±0.1 dex</option>
+          <option value="0.2" selected>±0.2 dex</option>
+          <option value="0.3">±0.3 dex</option>
+          <option value="0.5">±0.5 dex</option>
+        </select>
+        <div class="n" id="fit-range">—</div>
+        <div class="n"><b>Trend without cycles</b></div>
+        <div class="v" id="g-fit">—</div>
+        <div class="n" id="g-fit-metrics">—</div>
+        <div class="n"><b>Model with cycles</b></div>
+        <div class="v" id="g-fit-model">—</div>
+        <div class="n" id="g-fit-model-metrics">—</div>
+        <details class="n"><summary>How to read these numbers</summary>
+          <p>Residual = log₁₀(observed / calculated). MAE is the mean absolute residual; RMSE is the root mean squared residual. Both use all observations and are in dex, independent of the selected threshold. The residual chart lines show the selected threshold around the trend.</p>
+          <p>These are historical fit diagnostics, not forecast validation: the trend uses the full sample and cycle nodes were chosen using history. A smaller cycle-model error alone does not establish better forecasting.</p>
+          <p id="fit-sample">—</p>
+        </details>
+        <div class="n">Separate author-proposed regime rule: outside ±0.5 dex from the trend for more than two consecutive years. This is not a confidence interval; the selector above does not change that rule.</div>
       </div>
       <div class="fit" id="fit-met">
         <div class="k">β measured on addresses<span class="info" tabindex="0" role="button" aria-label="What is measured here"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="7.15" y="6.9" width="1.7" height="4.9" rx=".85" fill="currentColor"/><circle cx="8" cy="4.5" r="1.05" fill="currentColor"/></svg><span class="tip">The one place on the page where beta is measured rather than assigned. It regresses log10 price on log10 of the count of addresses holding a non-zero balance, over every month carrying both.<br><br>Over the whole history it comes to <b>1.840</b> — against 1.838 in the source and the 1.897 the model runs on, which is the remainder of dividing 5.69 by 3. The growth exponent of the addresses themselves is 3.03 against the claimed 3.046. The assumption holds.<br><br>It is not stable, though: on a rolling sixty-month window beta travels from 1.16 to 3.59, and R² in the last window falls to 0.43. The chart below the dashboard shows the whole drift. The custody objection — the one that thins the connection graph — is measured here, not merely discussed.<br><br>None of this feeds the price. It sits beside the slider so the assumption can be checked against data instead of taken on trust.</span></span></div>
@@ -474,7 +497,7 @@ ul.tight li{margin-bottom:5px}
 <h2 id="read">How to read the chart, briefly</h2>
 <p>Three lines. The grey dashed one carries the trend: a power law with saturation, cycles removed. The dashes work as a spine the asset keeps returning to, and by themselves predict nothing. The blue one multiplies that spine by the cycle overlay. The orange one shows what happened.</p>
 <p>The upper panel runs on a logarithmic scale. The lower one carries the residual, measured in <b>dex</b>. Dex expresses “how many times” in logarithmic form: +1 dex puts the price ten times above the trend, −0.3 dex roughly halves it, zero lands exactly on the spine.</p>
-<p>Everything else on both panels is markup. The grey bands are the halving epochs H0–H8. The dashed vertical separates fact from calculation: observations to the left, model only to the right, at the current slider positions. The thin lines at ±0.5 dex below are the regime band from falsification criterion 5.</p>
+<p>Grey stripes mark halving epochs H0–H8. The dotted vertical line separates observations from projections. Horizontal residual-panel lines show the selected diagnostic threshold (default ±0.2 dex) around the trend without cycles. They are not a confidence interval or forecast bounds.</p>
 <p>At the provisional 9 September 2026 observation the residual is about <b>−0.25 dex</b>: $78.6k is roughly 57% of the saturated trend. Of 195 observations, 17 lie outside ±0.5 dex. The last point is spot data, not a September close; it updates the fit without pretending that the month is complete.</p>
 
 <h2 id="cycles">Cycles</h2>
@@ -503,9 +526,9 @@ ul.tight li{margin-bottom:5px}
 <p>Hence the logarithmic scale on the chart, where each division means a factor of ten. A power law straightens out on such a scale, and departures from it become visible to the eye. Proportions are preserved too: a fall from $100 to $50 looks like a fall from $100,000 to $50,000, because for the owner both mean a half.</p>
 <div class="aside">
   <div class="t">Two free parameters and a way to check them</div>
-  <p>Layer 1 carries two fitted numbers: the exponent and a multiplier. Those two have to reproduce 194 monthly observations spanning six orders of magnitude in price, and the residual leaves ±0.5 dex in only 14 of them; 10 fall in 2011 and 2013/14, where the price itself behaved abnormally.</p>
+  <p>The power-law trend has two fitted parameters: slope and level. The deviation counters and MAE/RMSE panel describe fit to the current sample. A wide threshold does not establish accuracy; historical fit is not forecast performance.</p>
   <p>The layer now carries two checks, and they ask different questions. The miss counter under the β slider answers whether such a slope describes the history of the price. The block beneath it asks something stricter: whether β agrees with what a direct regression of price on the participant count returns — 1.840 against 1.897, a measurement that does not depend on where the slider sits.</p>
-  <p>Those same 14 out of 194 are what the miss counter under the β slider shows, so the claim “β was measured, not chosen” is not to be taken on trust. Move the β slider to 1.70 and the misses become 26, with more than half of the new ones falling on 2010–2012: the early history falls off first, because it is what sets the slope. Nearly doubling on a shift of two tenths is what the words “narrow corridor” amount to.</p>
+  <p>Changing β changes historical residuals. Compare the live counters and metrics at the same threshold rather than fixed counts from an earlier calibration. Few observations outside a wide band do not establish that β was measured independently.</p>
   <p>When β changes, the curve is recalibrated through a reference point at the logarithmic centre of the observations — day 2971 from genesis, February 2017. The rotation happens around the centre of mass of the data rather than around an arbitrary end, otherwise the slider would break the fit for a reason having nothing to do with the exponent itself.</p>
   <p>Whether all of this counts as evidence or as curve fitting is discussed below, in the <a href="#objections">objections</a>, since it comes up first thing every time.</p>
 </div>
@@ -662,7 +685,7 @@ ul.tight li{margin-bottom:5px}
 <h3>A power law on log-log axes fits anything.</h3>
 <p class="verdict part">Answered in part</p>
 <p>The exponent is read straight off the price, but it has an independent decomposition: addresses against time (3.046) and value against addresses (1.838), a product of 5.60 against the measured 5.69. The decomposition confirms the order of magnitude and does not replace the fit — <a href="#objections">caveat below</a>. Layer 1 carries two free numbers in total, set against 194 monthly points across six orders of magnitude. The useful check looks at the structure of the residual; the quality of the fit decides little here. The residual does have structure: humps tied to the halvings, shrinking monotonically. That is evidence against an unstructured error, but it does not by itself prove a power-law mechanism; alternative smooth growth curves and the choice of time origin remain live objections.</p>
-<p>The question would be closed by falsification criterion 5: the residual leaves ±0.5 dex and does not return for two years. The criterion is set for use — if it fires the model is thrown out, and recalibration would be cheating.</p>
+<p>Criterion 5 is a separate author-proposed hypothesis about prolonged residuals outside ±0.5 dex. The threshold is heuristic, not statistically estimated; the diagnostic selector does not change it. Forecast usefulness must be tested on future observations and past-only historical slices.</p>
 
 <h3>You are modelling the one asset that happened to survive.</h3>
 <p class="verdict cede">Conceded, there is no answer inside the model</p>
@@ -685,7 +708,7 @@ ul.tight li{margin-bottom:5px}
 <h3>Where does Metcalfe's 1.897 come from? It looks fitted after the fact.</h3>
 <p class="verdict part">Partly conceded — it is indeed derived</p>
 <p>Santostasi &amp; Perrenod (2026) measure two quantities separately: an address growth exponent of 3.046 ± 0.012 and a Metcalfe exponent of 1.838. Their product gives 5.60, while the slope read straight off the price is 5.69 — a discrepancy of 1.6%, which the authors attribute to scatter in the estimates of the components. The model on this page computes with 5.69 and decomposes it into a flat three and 1.897 = 5.69 / 3. That is, 1.897 is not a third independent measurement but the remainder of a division, and the label under the slider says “reference value” rather than “measured”.<br><br>What remains of the objection: neither 1.838 nor 1.897 was chosen for the beauty of the chart, and both lie between textbook Metcalfe n² and Odlyzko n log n. What does not remain: the claim that the slope was obtained by multiplication and was not fitted to the price. It was fitted, and that is visible in the same miss counter.</p>
-<p>β enters the calculation once, in the slope of the power law, and in the first version of the model its sensitivity was shown nowhere. Now it is: β is exposed as a slider, and the miss counter under it counts the months outside the ±0.5 dex band. The check works both ways. It confirms that 1.897 was computed sensibly, and it also shows how narrow the admissible corridor is.</p>
+<p>The β slider shows sensitivity to trend slope. Separate counters compare observations with the trend and cycle model at the selected threshold; MAE and RMSE use all residuals. These diagnostics do not establish a Metcalfe mechanism or future forecast accuracy.</p>
 
 <h3>The exponent 3 is about addresses, and addresses have long stopped growing as a cube.</h3>
 <p class="verdict cede">Conceded — the decomposition does not hold</p>
@@ -713,7 +736,7 @@ ul.tight li{margin-bottom:5px}
  <tr><td class="n"><b>2</b></td><td>The drawdown of the current cycle goes deeper than 70% from the October 2025 peak, that is, below ≈$37,900. The shallowest fall of the previous cycles was 78% in H3, so at 70% H4 stops differing from them qualitatively and the whole extrapolation of the decay loses its footing: essentially one observation holds it up. <span class="pill ok">as of Aug 2026 — 54%</span></td></tr>
  <tr><td class="n"><b>3</b></td><td>The H5 trough stops shallower than −0.16 dex. The only item on the list the model survives: panic faded following euphoria, the panic slider goes right, the mechanism of the cycle has stopped being purely human. The threshold has moved from −0.24: part of the shallowing of the trough is now explained by saturation through the multiplier ζ, and −0.16 dex is what the right edge of the panic slider gives at the base ceiling. September 2030.</td></tr>
  <tr><td class="n"><b>4</b></td><td>The drawdown of cycle H5 goes deeper than 60% at zero euphoria decay. Rejects irreversible decay in favour of a temporary collapse. At the base ceiling, zero euphoria decay and panic decay of 1 the model gives 20%; with the reverse arrangement, 68%.</td></tr>
- <tr><td class="n"><b>5</b></td><td>The residual log₁₀(observed / trend) leaves ±0.5 dex and does not return for more than two years running. It means the power-law regime is broken and the model must not be used at all. Over the whole history the longest excursion outside that band lasted five months — the winter of 2013/14. <span class="pill ok">never fired</span></td></tr>
+ <tr><td class="n"><b>5</b></td><td>Author-proposed hypothesis: log₁₀(observed / trend) stays outside ±0.5 dex for more than two consecutive years. This threshold is not an estimated confidence interval or proof of a regime break. The diagnostic threshold selector does not change this rule.</td></tr>
 </table>
 <div class="aside">
   <div class="t">Where the threshold in the second condition comes from</div>
@@ -827,6 +850,7 @@ ul.tight li{margin-bottom:5px}
       const raw=q.get(k);
       if(raw===null||raw.trim()==='')continue;
       const v=Number(raw),range=bounds[k];
+      if(k==='band'&&![0.1,0.2,0.3,0.5].includes(v))continue;
       if(Number.isFinite(v)&&(!range||(v>=range[0]&&v<=range[1])))out[k]=v;
     }
     return out;
@@ -835,7 +859,15 @@ ul.tight li{margin-bottom:5px}
     const u=new URL(location.href);for(const[k,v]of Object.entries(state))u.searchParams.set(k,v);return u.toString();
   }
   function replaceScenarioURL(state){history.replaceState(null,'',scenarioURL(state));}
-  global.BTCModelCore={regress,priceFit,readScenario,scenarioURL,replaceScenarioURL};
+  function residualMetrics(residuals,band){
+    if(!Number.isFinite(band)||band<=0)throw new RangeError('Positive finite band required');
+    const values=residuals.filter(Number.isFinite),n=values.length;
+    if(!n)return{n:0,bad:0,mae:null,rmse:null};
+    return{n,bad:values.filter(v=>Math.abs(v)>band).length,
+      mae:values.reduce((s,v)=>s+Math.abs(v),0)/n,
+      rmse:Math.sqrt(values.reduce((s,v)=>s+v*v,0)/n)};
+  }
+  global.BTCModelCore={regress,priceFit,readScenario,scenarioURL,replaceScenarioURL,residualMetrics};
 })(window);
 /* Generated data bundle. Canonical provenance: data/provenance.json.
    Do not edit the two HTML pages to update a price observation. */
@@ -885,7 +917,7 @@ const EPOCHS=[
  {n:'H6',h:[2032,4],pk:[2033,10],tr:[2034,9],obs:0,i:1},
  {n:'H7',h:[2036,4],pk:[2037,10],tr:[2038,9],obs:0,i:2},
  {n:'H8',h:[2040,4],pk:[2041,10],tr:[2042,9],obs:0,i:3}];
-const ATH=126198, H4LOW=57950, DD_LIMIT=70, RES_BAND=0.5;
+const ATH=126198, H4LOW=57950, DD_LIMIT=70;
 /* below this tension the remark is not shown: the colour is already nearly blue */
 const NOTE_MIN=0.06;
 
@@ -1046,7 +1078,8 @@ const bandPlugin={id:'bd',beforeDatasetsDraw(c){
   const{ctx,chartArea:ca,scales:{y}}=c;if(!ca)return;ctx.save();
   const st=getComputedStyle(document.documentElement);
   ctx.strokeStyle=st.getPropertyValue('--ink-3');ctx.lineWidth=1;ctx.globalAlpha=.55;ctx.setLineDash([1,4]);
-  [RES_BAND,-RES_BAND].forEach(v=>{const py=y.getPixelForValue(v);
+  const band=+el('fit-band').value;
+  [band,-band].forEach(v=>{const py=y.getPixelForValue(v);
     ctx.beginPath();ctx.moveTo(ca.left,py);ctx.lineTo(ca.right,py);ctx.stroke();});
   ctx.setLineDash([]);ctx.globalAlpha=1;
   ctx.strokeStyle=st.getPropertyValue('--rule');
@@ -1357,7 +1390,7 @@ function setSev(e,base,sv,mid){
 }
 
 let main,res,near,met;
-function scenarioState(){return{k:+el('k').value,de:+el('de').value,dp:+el('dp').value,b:+el('mb').value};}
+function scenarioState(){return{k:+el('k').value,de:+el('de').value,dp:+el('dp').value,b:+el('mb').value,band:+el('fit-band').value};}
 function updateScenarioURL(){BTCModelCore.replaceScenarioURL(scenarioState());}
 function build(){
   const W=+el('k').value,de=+el('de').value,dp=+el('dp').value,B=+el('mb').value;
@@ -1397,10 +1430,19 @@ function build(){
   const dev=[];for(let i=0;i<months.length;i++)if(resid[i]!=null)dev.push(resid[i]-residM[i]);
   const SG=Math.sqrt(dev.reduce((s,v)=>s+v*v,0)/dev.length);
 
-  const bad=resid.filter(v=>v!=null&&Math.abs(v)>RES_BAND).length;
-  const nobsv=resid.filter(v=>v!=null).length;
-  el('g-fit').textContent=bad+' of '+nobsv+' outside \u00b10.5 dex';
-  setSev(el('g-fit'),'v sev',cl01((bad-17)/12),0.5);
+  const band=+el('fit-band').value;
+  const trendMetrics=BTCModelCore.residualMetrics(resid,band);
+  const modelMetrics=BTCModelCore.residualMetrics(dev,band);
+  const countText=m=>m.bad+' of '+m.n+' outside ±'+band.toFixed(1)+' dex';
+  const metricText=m=>'MAE '+m.mae.toFixed(3)+' · RMSE '+m.rmse.toFixed(3)+' dex';
+  el('g-fit').textContent=countText(trendMetrics);
+  el('g-fit-model').textContent=countText(modelMetrics);
+  el('g-fit-metrics').textContent=metricText(trendMetrics);
+  el('g-fit-model-metrics').textContent=metricText(modelMetrics);
+  el('fit-range').textContent='Relative to calculated value: −'+((1-10**(-band))*100).toFixed(1)+'% … +'+((10**band-1)*100).toFixed(1)+'%';
+  el('fit-sample').textContent=trendMetrics.n+' observations; '+(OBS_LAST_PROVISIONAL
+    ?'including provisional spot price on '+OBS_LAST_DATE.map((v,i)=>i?String(v).padStart(2,'0'):v).join('-')+'.'
+    :'month closes only.');
   /* The measurement ignores the sliders; the gap to beta is what gets coloured. */
   MET_B=B;
   el('g-met').textContent=BETA_OBS.b.toFixed(3)+' \u00b1'+BETA_OBS.hac.toFixed(3)+' HAC(12)'
@@ -1605,8 +1647,9 @@ function build(){
 const PB=[].slice.call(document.querySelectorAll('.presets button[data-k]'));
 el('mb').value=B_REF.toFixed(3);
 PB.forEach(btn=>btn.dataset.b=B_REF.toFixed(3));
-const initialScenario=BTCModelCore.readScenario({k:1610,de:.15,dp:.5,b:B_REF});
+const initialScenario=BTCModelCore.readScenario({k:1610,de:.15,dp:.5,b:B_REF,band:.2});
 el('k').value=initialScenario.k;el('de').value=initialScenario.de;el('dp').value=initialScenario.dp;el('mb').value=initialScenario.b;
+el('fit-band').value=initialScenario.band;
 el('ctl-mb').querySelector('.lb').childNodes[0].nodeValue='Price-trend coordinate β';
 el('ctl-mb').querySelector('.tip').innerHTML='<b>Current full-sample price slope divided by three.</b> It is re-estimated whenever the embedded price sample changes; today q='+PRICE_FIT.q.toFixed(3)+' and β='+B_REF.toFixed(3)+'. This is a sensitivity coordinate, not an independently identified Metcalfe exponent.<br><br>The slider rotates the fitted curve around the logarithmic centre of the observations. The ceiling remains a scenario and is not estimated from these prices.';
 el('g-met').parentElement.querySelector('.k').childNodes[0].nodeValue='Price/address co-trend check';
@@ -1614,6 +1657,7 @@ PB.forEach(btn=>btn.addEventListener('click',()=>{
   el('k').value=btn.dataset.k;el('de').value=btn.dataset.de;el('dp').value=btn.dataset.dp;
   el('mb').value=btn.dataset.b;build();}));
 ['k','de','dp','mb'].forEach(i=>el(i).addEventListener('input',build));
+el('fit-band').addEventListener('change',build);
 el('share').addEventListener('click',async()=>{
   const url=BTCModelCore.scenarioURL(scenarioState());
   try{await navigator.clipboard.writeText(url);el('share').textContent='Link copied';}

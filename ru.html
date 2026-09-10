@@ -291,6 +291,10 @@ ul.tight li{margin-bottom:5px}
   text-transform:uppercase;color:var(--ink-3);margin-bottom:3px;line-height:1.25}
 .fit .v{font-family:var(--mono);font-size:12.5px;font-weight:500;white-space:nowrap;color:var(--sev-col)}
 .fit .v.sev{--sev-c0:var(--pos)}
+#fit .v{color:var(--ink);white-space:normal}
+#fit select{display:block;width:100%;margin:5px 0;padding:4px;font:inherit;color:var(--ink);background:var(--paper);border:1px solid var(--rule);border-radius:3px}
+#fit summary{cursor:pointer}
+#fit details p{margin:6px 0}
 .fit .n{font-size:11px;line-height:1.38;color:var(--ink-2);margin-top:4px}
 /* Проверка запаса хода — под ползунком потолка; реагирует на потолок и на затухание эйфории */
 .fuel{padding:7px 10px 8px;margin-top:2px;background:var(--band-soft);
@@ -400,8 +404,27 @@ ul.tight li{margin-bottom:5px}
         <div class="hint"><span>1.60 · n log n</span><span class="mark" id="mbmark">опорное значение</span><span>2.05 · n²</span></div>
       </div>
       <div class="fit" id="fit">
-        <div class="k">Промахи от тренда на истории<span class="info" tabindex="0" role="button" aria-label="Что такое промахи от тренда"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="7.15" y="6.9" width="1.7" height="4.9" rx=".85" fill="currentColor"/><circle cx="8" cy="4.5" r="1.05" fill="currentColor"/></svg><span class="tip">Сколько наблюдаемых месяцев лежат дальше <b>±0.5 dex</b> от тренда — то есть отклоняются от него больше чем втрое. При опорном β таких 14 из 194; 10 из них приходятся на 2011 и 2013/14 годы, где ненормально вела себя сама цена.<br><br>Цвет счётчика меняется непрерывно вместе с числом промахов, без ступенек. Счётчик реагирует только на ползунок β над ним. Сдвиг на одну десятую вниз доводит промахи до 17, на две десятых — до 26, причём больше половины новых приходится на 2010–2012 годы. Держится подгонка в очень узком коридоре — в этом и смысл проверки.</span></span></div>
-        <span class="v" id="g-fit">—</span>
+        <div class="k">Отклонения на истории</div>
+        <label class="n" for="fit-band">Порог отклонения</label>
+        <select id="fit-band">
+          <option value="0.1">±0.1 dex</option>
+          <option value="0.2" selected>±0.2 dex</option>
+          <option value="0.3">±0.3 dex</option>
+          <option value="0.5">±0.5 dex</option>
+        </select>
+        <div class="n" id="fit-range">—</div>
+        <div class="n"><b>Тренд без циклов</b></div>
+        <div class="v" id="g-fit">—</div>
+        <div class="n" id="g-fit-metrics">—</div>
+        <div class="n"><b>Модель с циклами</b></div>
+        <div class="v" id="g-fit-model">—</div>
+        <div class="n" id="g-fit-model-metrics">—</div>
+        <details class="n"><summary>Как читать эти числа</summary>
+          <p>Остаток = log₁₀(факт / расчёт). MAE — среднее абсолютное отклонение; RMSE — корень из среднего квадрата отклонений. Обе метрики в dex, по всем наблюдениям, независимо от выбранного порога. Линии на графике остатков показывают выбранный порог относительно тренда.</p>
+          <p>Это описание исторической подгонки, не проверка прогноза: тренд оценён по всей выборке, узлы циклов заданы с учётом истории. Меньшая ошибка модели с циклами сама по себе не доказывает её прогностическое преимущество.</p>
+          <p id="fit-sample">—</p>
+        </details>
+        <div class="n">Отдельная авторская гипотеза о сломе режима: вне ±0.5 dex от тренда дольше двух лет подряд. Это не доверительный интервал; выбор порога выше её не меняет.</div>
       </div>
       <div class="fit" id="fit-met">
         <div class="k">β по адресам, измерение<span class="info" tabindex="0" role="button" aria-label="Что здесь измерено"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="7.15" y="6.9" width="1.7" height="4.9" rx=".85" fill="currentColor"/><circle cx="8" cy="4.5" r="1.05" fill="currentColor"/></svg><span class="tip">Единственное место на странице, где β не назначается, а измеряется. Регрессия log10 цены на log10 числа адресов с ненулевым балансом по всем месяцам, где есть обе величины.<br><br>По всей истории выходит <b>1.840</b> — против 1.838 в источнике и 1.897, которое стоит в модели как остаток от деления 5.69 / 3. Показатель роста самих адресов при этом 3.03 против заявленных 3.046. Допущение подтверждается.<br><br>Устойчивости, однако, нет: на скользящем шестидесятимесячном окне β ходит от 1.16 до 3.59, а R² в последнем окне падает до 0.43. График под дашбордом показывает этот дрейф целиком. Возражение о кастодиальном хранении — то самое, что разрежает граф связей, — здесь измерено, а не обсуждено.<br><br>На расчёт цены ряд адресов не влияет никак. Он стоит рядом с ползунком, чтобы допущение можно было сверить с данными, а не принять на слово.</span></span></div>
@@ -474,7 +497,7 @@ ul.tight li{margin-bottom:5px}
 <h2 id="read">Как читать график, кратко</h2>
 <p>Три линии. Серая пунктирная ведёт тренд: степенной закон с насыщением, циклы сняты. Пунктир работает как хребет, к которому актив возвращается, и сам по себе ничего не предсказывает. Синяя умножает этот хребет на цикловое наложение. Оранжевая показывает, что произошло.</p>
 <p>Верхняя панель идёт логарифмической шкалой. Нижняя несёт остаток, измеренный в <b>dex</b>. Dex выражает «во сколько раз» в логарифмической форме: +1 dex ставит цену в десять раз выше тренда, −0.3 dex примерно её вдвое опускает, ноль попадает ровно на хребет.</p>
-<p>Остальное на обеих панелях — разметка. Серые полосы — халвинг-эпохи H0–H8. Пунктирная вертикаль отделяет факт от расчёта: левее наблюдения, правее только модель при текущем положении ползунков. Тонкие линии на ±0.5 dex внизу — полоса режима из критерия опровержения 5.</p>
+<p>Серые полосы — халвинг-эпохи H0–H8. Пунктирная вертикаль отделяет факт от расчёта. Горизонтальные линии на графике остатков показывают выбранный диагностический порог (по умолчанию ±0.2 dex) относительно тренда без циклов. Это не доверительный интервал и не границы прогноза.</p>
 <p>У предварительного наблюдения 9 сентября 2026 года остаток составляет около <b>−0.25 dex</b>: $78.6k — примерно 57% насыщенного тренда. Из 195 наблюдений 17 лежат за пределами ±0.5 dex. Последняя точка — spot, а не закрытие сентября: она обновляет оценку, не выдавая неполный месяц за завершённый.</p>
 
 <h2 id="cycles">Циклы</h2>
@@ -503,9 +526,9 @@ ul.tight li{margin-bottom:5px}
 <p>Отсюда логарифмическая шкала на графике, где каждое деление означает множитель десять. Степенной закон на такой шкале выпрямляется, и отклонения от него становятся видны глазом. Пропорции тоже сохраняются: падение с $100 до $50 выглядит как падение с $100 000 до $50 000, потому что для владельца оба означают половину.</p>
 <div class="aside">
   <div class="t">Два свободных параметра и способ их проверить</div>
-  <p>Слой 1 несёт два подобранных числа: показатель степени и множитель. Этим двум приходится воспроизвести 194 помесячных наблюдения, охватывающих шесть порядков по цене, и остаток выходит за ±0.5 dex только в 14 из них; 10 приходятся на 2011 и 2013/14 годы, где сама цена вела себя ненормально.</p>
+  <p>Степенной тренд имеет два подбираемых параметра: наклон и уровень. Счётчики отклонений и MAE/RMSE в панели показывают качество описания текущей выборки. Широкий порог сам по себе не подтверждает точность; историческая подгонка не равна прогнозу.</p>
   <p>Проверок на слое теперь две, и они спрашивают разное. Счётчик промахов под ползунком β отвечает, описывает ли такой наклон историю цены. Блок под ним отвечает на вопрос строже: совпадает ли β с тем, что даёт прямая регрессия цены на число участников, — 1.840 против 1.897, и это измерение от положения ползунка не зависит вовсе.</p>
-  <p>Ровно эти 14 из 194 и показывает счётчик промахов под ползунком β, поэтому утверждение «β измерен, а не выбран» не принимается на слово. Сдвиньте ползунок β к 1.70 — промахов станет 26, причём больше половины новых придётся на 2010–2012 годы: ранняя история отваливается первой, потому что именно она задаёт наклон. Рост почти вдвое от сдвига на две десятых и есть содержание слов «узкий коридор».</p>
+  <p>Изменение β меняет исторические отклонения. Для оценки чувствительности используйте текущие счётчики и метрики при одинаковом пороге, а не фиксированные числа из прежней калибровки. Малое число выходов за широкую полосу не доказывает, что β измерен независимо.</p>
   <p>При смене β кривая перекалибровывается через опорную точку на логарифмическом центре наблюдений — 2971-й день от генезиса, февраль 2017 года. Поворот происходит вокруг центра масс данных, а не вокруг случайного конца, иначе ползунок ломал бы подгонку по причине, не имеющей отношения к самому показателю.</p>
   <p>Считать ли всё это свидетельством или подгонкой кривой — разбирается ниже, в <a href="#objections">возражениях</a>, поскольку всплывает первым делом каждый раз.</p>
 </div>
@@ -662,7 +685,7 @@ ul.tight li{margin-bottom:5px}
 <h3>Степенной закон на лог-логарифмических осях ложится на что угодно.</h3>
 <p class="verdict part">Отвечено частично</p>
 <p>Показатель степени снят с цены напрямую, но у него есть независимое разложение: число адресов против времени (3.046) и ценность против числа адресов (1.838), произведение 5.60 против измеренных 5.69. Разложение подтверждает порядок величины и не заменяет подгонку — <a href="#objections">оговорка ниже</a>. Слой 1 несёт в сумме два свободных числа, поставленных против 194 помесячных точек в шести порядках. Полезная проверка смотрит на структуру остатка, качество подгонки тут решает мало. У остатка структура есть: привязанные к халвингам горбы, монотонно уменьшающиеся. Это довод против неструктурированной ошибки, но само по себе не доказательство степенного механизма: альтернативные гладкие кривые роста и выбор начала отсчёта остаются содержательными возражениями.</p>
-<p>Вопрос закрыл бы критерий опровержения 5: остаток уходит за ±0.5 dex и не возвращается два года. Критерий поставлен ради употребления — при его срабатывании модель выбрасывается, а перекалибровка была бы жульничеством.</p>
+<p>Критерий 5 задаёт отдельную авторскую гипотезу о длительном выходе остатка за ±0.5 dex. Этот эвристический порог не оценён статистически; диагностический переключатель его не меняет. Проверять прогностическую полезность следует на будущих наблюдениях и исторических срезах без знания будущего.</p>
 
 <h3>Вы моделируете единственный актив, которому случилось выжить.</h3>
 <p class="verdict cede">Признаю, ответа внутри модели нет</p>
@@ -685,7 +708,7 @@ ul.tight li{margin-bottom:5px}
 <h3>Откуда 1.897 у Меткалфа? Выглядит подогнанным задним числом.</h3>
 <p class="verdict part">Признаю частично — оно и есть производное</p>
 <p>Santostasi &amp; Perrenod (2026) измеряют две величины по отдельности: показатель роста адресов 3.046 ± 0.012 и показатель Меткалфа 1.838. Их произведение даёт 5.60, а наклон, снятый прямо с цены, равен 5.69 — расхождение 1.6%, которое авторы относят на разброс в оценке компонент. Модель на этой странице считает по 5.69 и раскладывает его на ровную тройку и 1.897 = 5.69 / 3. То есть 1.897 — не третье независимое измерение, а остаток от деления, и подпись под ползунком говорит «опорное значение», а не «измеренное».<br><br>Что от возражения остаётся в силе: ни 1.838, ни 1.897 не выбирались под красоту графика, и оба лежат между учебниковым n² Меткалфа и n log n Одлыжко. Что не остаётся: утверждение, будто наклон получен перемножением и не подгонялся под цену. Подгонялся, и это видно по тому же счётчику промахов.</p>
-<p>β входит в расчёт один раз, в наклон степенного закона, и в первой версии модели его чувствительность нигде не показывалась. Теперь показывается: β выведен в ползунок, а счётчик промахов под ним считает месяцы вне полосы ±0.5 dex. Проверка работает в обе стороны. Она подтверждает, что 1.897 посчитан логично, и она же показывает, насколько узок допустимый коридор.</p>
+<p>Ползунок β показывает чувствительность к наклону тренда. Счётчики отдельно сравнивают факт с трендом и моделью с циклами при выбранном пороге; MAE и RMSE учитывают все отклонения. Эта диагностика не подтверждает механизм Меткалфа и не оценивает точность будущего прогноза.</p>
 
 <h3>Показатель 3 — это про адреса, а адреса давно не растут как куб.</h3>
 <p class="verdict cede">Признаю — разложение не держится</p>
@@ -713,7 +736,7 @@ ul.tight li{margin-bottom:5px}
  <tr><td class="n"><b>2</b></td><td>Просадка текущего цикла глубже 70% от пика октября 2025 года, то есть уход ниже ≈$37 900. Самый мелкий провал предыдущих циклов — 78% в H3, так что на 70% H4 перестаёт качественно от них отличаться и вся экстраполяция затухания теряет опору: её держит по существу одно наблюдение. <span class="pill ok">на авг 2026 — 54%</span></td></tr>
  <tr><td class="n"><b>3</b></td><td>Дно H5 останавливается мельче −0.16 dex. Единственный пункт списка, срабатывание которого модель переживает: паника затухла вслед за эйфорией, ползунок паники идёт вправо, механизм цикла перестал быть чисто человеческим. Порог сдвинут с −0.24: часть обмеления дна теперь объясняется насыщением через множитель ζ, и −0.16 dex — это то, что даёт правый край ползунка паники при базовом потолке. Сентябрь 2030 года.</td></tr>
  <tr><td class="n"><b>4</b></td><td>Просадка цикла H5 глубже 60% при нулевом затухании эйфории. Отвергает необратимое затухание в пользу временного провала. При базовом потолке, нулевом затухании эйфории и затухании паники 1 модель даёт 20%; при обратной расстановке — 68%.</td></tr>
- <tr><td class="n"><b>5</b></td><td>Остаток log₁₀(факт / тренд) уходит за ±0.5 dex и не возвращается дольше двух лет подряд. Означает, что режим степенного закона нарушен и модель применять нельзя вовсе. За всю историю самый долгий выход за эту полосу длился пять месяцев — зима 2013/14. <span class="pill ok">не срабатывал</span></td></tr>
+ <tr><td class="n"><b>5</b></td><td>Авторская гипотеза: остаток log₁₀(факт / тренд) остаётся вне ±0.5 dex дольше двух лет подряд. Порог не является статистически оценённым доверительным интервалом или доказательством слома режима. Переключатель диагностического порога в панели не меняет это правило.</td></tr>
 </table>
 <div class="aside">
   <div class="t">Откуда взялся порог во втором условии</div>
@@ -827,6 +850,7 @@ ul.tight li{margin-bottom:5px}
       const raw=q.get(k);
       if(raw===null||raw.trim()==='')continue;
       const v=Number(raw),range=bounds[k];
+      if(k==='band'&&![0.1,0.2,0.3,0.5].includes(v))continue;
       if(Number.isFinite(v)&&(!range||(v>=range[0]&&v<=range[1])))out[k]=v;
     }
     return out;
@@ -835,7 +859,15 @@ ul.tight li{margin-bottom:5px}
     const u=new URL(location.href);for(const[k,v]of Object.entries(state))u.searchParams.set(k,v);return u.toString();
   }
   function replaceScenarioURL(state){history.replaceState(null,'',scenarioURL(state));}
-  global.BTCModelCore={regress,priceFit,readScenario,scenarioURL,replaceScenarioURL};
+  function residualMetrics(residuals,band){
+    if(!Number.isFinite(band)||band<=0)throw new RangeError('Positive finite band required');
+    const values=residuals.filter(Number.isFinite),n=values.length;
+    if(!n)return{n:0,bad:0,mae:null,rmse:null};
+    return{n,bad:values.filter(v=>Math.abs(v)>band).length,
+      mae:values.reduce((s,v)=>s+Math.abs(v),0)/n,
+      rmse:Math.sqrt(values.reduce((s,v)=>s+v*v,0)/n)};
+  }
+  global.BTCModelCore={regress,priceFit,readScenario,scenarioURL,replaceScenarioURL,residualMetrics};
 })(window);
 /* Generated data bundle. Canonical provenance: data/provenance.json.
    Do not edit the two HTML pages to update a price observation. */
@@ -885,7 +917,7 @@ const EPOCHS=[
  {n:'H6',h:[2032,4],pk:[2033,10],tr:[2034,9],obs:0,i:1},
  {n:'H7',h:[2036,4],pk:[2037,10],tr:[2038,9],obs:0,i:2},
  {n:'H8',h:[2040,4],pk:[2041,10],tr:[2042,9],obs:0,i:3}];
-const ATH=126198, H4LOW=57950, DD_LIMIT=70, RES_BAND=0.5;
+const ATH=126198, H4LOW=57950, DD_LIMIT=70;
 /* ниже этого напряжения замечание не показывается: цвет уже почти синий */
 const NOTE_MIN=0.06;
 
@@ -1043,7 +1075,8 @@ const bandPlugin={id:'bd',beforeDatasetsDraw(c){
   const{ctx,chartArea:ca,scales:{y}}=c;if(!ca)return;ctx.save();
   const st=getComputedStyle(document.documentElement);
   ctx.strokeStyle=st.getPropertyValue('--ink-3');ctx.lineWidth=1;ctx.globalAlpha=.55;ctx.setLineDash([1,4]);
-  [RES_BAND,-RES_BAND].forEach(v=>{const py=y.getPixelForValue(v);
+  const band=+el('fit-band').value;
+  [band,-band].forEach(v=>{const py=y.getPixelForValue(v);
     ctx.beginPath();ctx.moveTo(ca.left,py);ctx.lineTo(ca.right,py);ctx.stroke();});
   ctx.setLineDash([]);ctx.globalAlpha=1;
   ctx.strokeStyle=st.getPropertyValue('--rule');
@@ -1345,7 +1378,7 @@ function setSev(e,base,sv,mid){
 }
 
 let main,res,near,met;
-function scenarioState(){return{k:+el('k').value,de:+el('de').value,dp:+el('dp').value,b:+el('mb').value};}
+function scenarioState(){return{k:+el('k').value,de:+el('de').value,dp:+el('dp').value,b:+el('mb').value,band:+el('fit-band').value};}
 function updateScenarioURL(){BTCModelCore.replaceScenarioURL(scenarioState());}
 function build(){
   const W=+el('k').value,de=+el('de').value,dp=+el('dp').value,B=+el('mb').value;
@@ -1384,10 +1417,19 @@ function build(){
   const dev=[];for(let i=0;i<months.length;i++)if(resid[i]!=null)dev.push(resid[i]-residM[i]);
   const SG=Math.sqrt(dev.reduce((s,v)=>s+v*v,0)/dev.length);
 
-  const bad=resid.filter(v=>v!=null&&Math.abs(v)>RES_BAND).length;
-  const nobsv=resid.filter(v=>v!=null).length;
-  el('g-fit').textContent=bad+' из '+nobsv+' вне \u00b10.5 dex';
-  setSev(el('g-fit'),'v sev',cl01((bad-17)/12),0.5);
+  const band=+el('fit-band').value;
+  const trendMetrics=BTCModelCore.residualMetrics(resid,band);
+  const modelMetrics=BTCModelCore.residualMetrics(dev,band);
+  const countText=m=>m.bad+' из '+m.n+' вне ±'+band.toFixed(1)+' dex';
+  const metricText=m=>'MAE '+m.mae.toFixed(3)+' · RMSE '+m.rmse.toFixed(3)+' dex';
+  el('g-fit').textContent=countText(trendMetrics);
+  el('g-fit-model').textContent=countText(modelMetrics);
+  el('g-fit-metrics').textContent=metricText(trendMetrics);
+  el('g-fit-model-metrics').textContent=metricText(modelMetrics);
+  el('fit-range').textContent='Относительно расчёта: −'+((1-10**(-band))*100).toFixed(1)+'% … +'+((10**band-1)*100).toFixed(1)+'%';
+  el('fit-sample').textContent=trendMetrics.n+' наблюдений; '+(OBS_LAST_PROVISIONAL
+    ?'включая предварительную spot-цену на '+OBS_LAST_DATE.map((v,i)=>i?String(v).padStart(2,'0'):v).join('-')+'.'
+    :'только закрытия месяцев.');
   /* Измерение не зависит от ползунков; подсвечивается разрыв между ним и β. */
   MET_B=B;
   el('g-met').textContent=BETA_OBS.b.toFixed(3)+' \u00b1'+BETA_OBS.hac.toFixed(3)+' HAC(12)'
@@ -1590,8 +1632,9 @@ function build(){
 const PB=[].slice.call(document.querySelectorAll('.presets button[data-k]'));
 el('mb').value=B_REF.toFixed(3);
 PB.forEach(btn=>btn.dataset.b=B_REF.toFixed(3));
-const initialScenario=BTCModelCore.readScenario({k:1610,de:.15,dp:.5,b:B_REF});
+const initialScenario=BTCModelCore.readScenario({k:1610,de:.15,dp:.5,b:B_REF,band:.2});
 el('k').value=initialScenario.k;el('de').value=initialScenario.de;el('dp').value=initialScenario.dp;el('mb').value=initialScenario.b;
+el('fit-band').value=initialScenario.band;
 el('ctl-mb').querySelector('.lb').childNodes[0].nodeValue='Координата ценового тренда β';
 el('ctl-mb').querySelector('.tip').innerHTML='<b>Текущий наклон полного ряда цены, делённый на три.</b> Он переоценивается при каждом обновлении встроенной выборки; сейчас q='+PRICE_FIT.q.toFixed(3)+' и β='+B_REF.toFixed(3)+'. Это координата чувствительности, а не независимо идентифицированный показатель Меткалфа.<br><br>Ползунок поворачивает подогнанную кривую вокруг логарифмического центра наблюдений. Потолок остаётся сценарием и из этих цен не оценивается.';
 el('g-met').parentElement.querySelector('.k').childNodes[0].nodeValue='Проверка совместного тренда цены и адресов';
@@ -1599,6 +1642,7 @@ PB.forEach(btn=>btn.addEventListener('click',()=>{
   el('k').value=btn.dataset.k;el('de').value=btn.dataset.de;el('dp').value=btn.dataset.dp;
   el('mb').value=btn.dataset.b;build();}));
 ['k','de','dp','mb'].forEach(i=>el(i).addEventListener('input',build));
+el('fit-band').addEventListener('change',build);
 el('share').addEventListener('click',async()=>{
   const url=BTCModelCore.scenarioURL(scenarioState());
   try{await navigator.clipboard.writeText(url);el('share').textContent='Ссылка скопирована';}

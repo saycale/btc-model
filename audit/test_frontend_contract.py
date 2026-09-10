@@ -8,6 +8,9 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class FrontendContractTests(unittest.TestCase):
+    def test_diagnostic_metrics_and_thresholds(self):
+        subprocess.run(["node", "audit/test_diagnostics.js"], cwd=ROOT, check=True)
+
     def test_scenario_state_behaviour(self):
         subprocess.run(["node", "audit/test_scenario.js"], cwd=ROOT, check=True)
 
@@ -20,6 +23,10 @@ class FrontendContractTests(unittest.TestCase):
             self.assertIn('id="g-unc"', page)
             self.assertIn("el('mb').value=initialScenario.b", page)
             self.assertNotIn("Object.entries(initialScenario)", page)
+            for control in ("fit-band", "g-fit-model", "g-fit-metrics", "g-fit-model-metrics"):
+                self.assertIn(f'id="{control}"', page)
+            self.assertIn("el('fit-band').value=initialScenario.band", page)
+            self.assertNotIn("(bad-17)/12", page)
 
     def test_forecast_ledger_is_open_and_described(self):
         ledger = json.loads((ROOT / "data" / "forecast-ledger.json").read_text(encoding="utf-8"))

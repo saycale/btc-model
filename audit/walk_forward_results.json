@@ -1,0 +1,250 @@
+{
+  "protocol_version": 1,
+  "source_sha256": "91b5d240d9bb46a692855e7863958ad839d51b2fa6af57eb4cb812324d3b6b06",
+  "first_month_end": "2010-07-31",
+  "last_month_end": "2026-08-31",
+  "n_closed_months": 194,
+  "min_training_months": 60,
+  "origin_stride_months": 1,
+  "horizons_months": [
+    1,
+    3,
+    6,
+    12,
+    24
+  ],
+  "limitations": [
+    "Retrospective pseudo-out-of-sample exercise, not a preregistered experiment.",
+    "Approximate current-vintage prices; not a verified point-in-time dataset.",
+    "Overlapping errors and shared training samples: counts are not independent trials.",
+    "No significance claim or confidence interval; no model selected for deployment.",
+    "Full cross-scale model excluded: historical cycle nodes and ceiling are not past-only fitted."
+  ],
+  "metrics": [
+    {
+      "horizon_months": 1,
+      "model": "last_price",
+      "n_origins": 134,
+      "rmse_dex": 0.08597737768590714,
+      "mae_dex": 0.06782230499144373,
+      "bias_dex": -0.018471694233179743,
+      "mse_skill_vs_last_price": 0.0
+    },
+    {
+      "horizon_months": 1,
+      "model": "log_drift",
+      "n_origins": 134,
+      "rmse_dex": 0.08771129784334115,
+      "mae_dex": 0.06938357020679353,
+      "bias_dex": 0.026404910021926194,
+      "mse_skill_vs_last_price": -0.04074104918059329
+    },
+    {
+      "horizon_months": 1,
+      "model": "log_linear",
+      "n_origins": 134,
+      "rmse_dex": 0.6215656132505984,
+      "mae_dex": 0.5735414361850294,
+      "bias_dex": 0.5644007579242066,
+      "mse_skill_vs_last_price": -51.26435200233256
+    },
+    {
+      "horizon_months": 1,
+      "model": "power_expanding",
+      "n_origins": 134,
+      "rmse_dex": 0.26170664543083366,
+      "mae_dex": 0.21584683758107587,
+      "bias_dex": 0.07994072661618573,
+      "mse_skill_vs_last_price": -8.265334679622953
+    },
+    {
+      "horizon_months": 1,
+      "model": "power_60m",
+      "n_origins": 134,
+      "rmse_dex": 0.2706449117667956,
+      "mae_dex": 0.22084224085866777,
+      "bias_dex": 0.015697938099749162,
+      "mse_skill_vs_last_price": -8.909034562517917
+    },
+    {
+      "horizon_months": 3,
+      "model": "last_price",
+      "n_origins": 132,
+      "rmse_dex": 0.1700767960227219,
+      "mae_dex": 0.13060960454748238,
+      "bias_dex": -0.05472940656345177,
+      "mse_skill_vs_last_price": 0.0
+    },
+    {
+      "horizon_months": 3,
+      "model": "log_drift",
+      "n_origins": 132,
+      "rmse_dex": 0.1783709767400708,
+      "mae_dex": 0.14620036706246825,
+      "bias_dex": 0.08051497922125858,
+      "mse_skill_vs_last_price": -0.09991278273807769
+    },
+    {
+      "horizon_months": 3,
+      "model": "log_linear",
+      "n_origins": 132,
+      "rmse_dex": 0.6574376186149825,
+      "mae_dex": 0.6074300582436367,
+      "bias_dex": 0.5975798461148194,
+      "mse_skill_vs_last_price": -13.942352240489507
+    },
+    {
+      "horizon_months": 3,
+      "model": "power_expanding",
+      "n_origins": 132,
+      "rmse_dex": 0.2685721789611802,
+      "mae_dex": 0.22146428893820028,
+      "bias_dex": 0.07720876937006914,
+      "mse_skill_vs_last_price": -1.4936294230460816
+    },
+    {
+      "horizon_months": 3,
+      "model": "power_60m",
+      "n_origins": 132,
+      "rmse_dex": 0.2803808450117166,
+      "mae_dex": 0.22790164752891837,
+      "bias_dex": 0.011632194008294667,
+      "mse_skill_vs_last_price": -1.7177315048918769
+    },
+    {
+      "horizon_months": 6,
+      "model": "last_price",
+      "n_origins": 129,
+      "rmse_dex": 0.27121044732770744,
+      "mae_dex": 0.21564988589398845,
+      "bias_dex": -0.11132869910643348,
+      "mse_skill_vs_last_price": 0.0
+    },
+    {
+      "horizon_months": 6,
+      "model": "log_drift",
+      "n_origins": 129,
+      "rmse_dex": 0.29182985076726053,
+      "mae_dex": 0.23763888109600484,
+      "bias_dex": 0.16095954889975395,
+      "mse_skill_vs_last_price": -0.15783479317393323
+    },
+    {
+      "horizon_months": 6,
+      "model": "log_linear",
+      "n_origins": 129,
+      "rmse_dex": 0.7102022494240301,
+      "mae_dex": 0.6573969401699795,
+      "bias_dex": 0.6483577367303704,
+      "mse_skill_vs_last_price": -5.857270112759577
+    },
+    {
+      "horizon_months": 6,
+      "model": "power_expanding",
+      "n_origins": 129,
+      "rmse_dex": 0.27534323100917113,
+      "mae_dex": 0.2272756076543337,
+      "bias_dex": 0.07261512848858354,
+      "mse_skill_vs_last_price": -0.030708787234423607
+    },
+    {
+      "horizon_months": 6,
+      "model": "power_60m",
+      "n_origins": 129,
+      "rmse_dex": 0.2883312535676814,
+      "mae_dex": 0.23227607787684254,
+      "bias_dex": 0.0053938705765356745,
+      "mse_skill_vs_last_price": -0.13023983607443412
+    },
+    {
+      "horizon_months": 12,
+      "model": "last_price",
+      "n_origins": 123,
+      "rmse_dex": 0.4335080303706849,
+      "mae_dex": 0.3534873078401854,
+      "bias_dex": -0.22967754834789525,
+      "mse_skill_vs_last_price": 0.0
+    },
+    {
+      "horizon_months": 12,
+      "model": "log_drift",
+      "n_origins": 123,
+      "rmse_dex": 0.48415350237918003,
+      "mae_dex": 0.39091044991337986,
+      "bias_dex": 0.3218647314918113,
+      "mse_skill_vs_last_price": -0.2473026991261802
+    },
+    {
+      "horizon_months": 12,
+      "model": "log_linear",
+      "n_origins": 123,
+      "rmse_dex": 0.8136659940390142,
+      "mae_dex": 0.7574401896585607,
+      "bias_dex": 0.7552185612675156,
+      "mse_skill_vs_last_price": -2.5228815223302896
+    },
+    {
+      "horizon_months": 12,
+      "model": "power_expanding",
+      "n_origins": 123,
+      "rmse_dex": 0.27666656410961965,
+      "mae_dex": 0.22977437229795494,
+      "bias_dex": 0.06322798723334928,
+      "mse_skill_vs_last_price": 0.5926956393826499
+    },
+    {
+      "horizon_months": 12,
+      "model": "power_60m",
+      "n_origins": 123,
+      "rmse_dex": 0.28538944412872636,
+      "mae_dex": 0.22642170909330983,
+      "bias_dex": -0.004433860713671419,
+      "mse_skill_vs_last_price": 0.5666073742248436
+    },
+    {
+      "horizon_months": 24,
+      "model": "last_price",
+      "n_origins": 111,
+      "rmse_dex": 0.6593044138494153,
+      "mae_dex": 0.5313982268058373,
+      "bias_dex": -0.471821808787496,
+      "mse_skill_vs_last_price": 0.0
+    },
+    {
+      "horizon_months": 24,
+      "model": "log_drift",
+      "n_origins": 111,
+      "rmse_dex": 0.7900505875427017,
+      "mae_dex": 0.6626428056159465,
+      "bias_dex": 0.6590323514910633,
+      "mse_skill_vs_last_price": -0.43594509448143404
+    },
+    {
+      "horizon_months": 24,
+      "model": "log_linear",
+      "n_origins": 111,
+      "rmse_dex": 1.0236459435422782,
+      "mae_dex": 0.9966176341785113,
+      "bias_dex": 0.9966176341785113,
+      "mse_skill_vs_last_price": -1.410613437289645
+    },
+    {
+      "horizon_months": 24,
+      "model": "power_expanding",
+      "n_origins": 111,
+      "rmse_dex": 0.22271660965123186,
+      "mae_dex": 0.19180098963131445,
+      "bias_dex": 0.04844675474101092,
+      "mse_skill_vs_last_price": 0.8858874928664685
+    },
+    {
+      "horizon_months": 24,
+      "model": "power_60m",
+      "n_origins": 111,
+      "rmse_dex": 0.27251068616567836,
+      "mae_dex": 0.2165241358945615,
+      "bias_dex": -0.01567762797193086,
+      "mse_skill_vs_last_price": 0.829157818606048
+    }
+  ]
+}
