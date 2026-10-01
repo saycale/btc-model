@@ -17,7 +17,7 @@ if a.price<=0: raise SystemExit('price must be positive')
 text=bundle.read_text(encoding='utf-8')
 text=re.sub(r'OBS_LAST_DATE:\[\d+,\d+,\d+\]',f'OBS_LAST_DATE:[{dt.year},{dt.month},{dt.day}]',text)
 text=re.sub(r'OBS_LAST_PROVISIONAL:(?:true|false)',f'OBS_LAST_PROVISIONAL:{str(a.kind=="provisional_spot").lower()}',text)
-text=re.sub(r'(OBS:\[.*),[^,\]]+(\],\s*\n\s*OBS_LAST_DATE:)',lambda m:f'{m.group(1)},{a.price:g}{m.group(2)}',text,flags=re.S)
+text=re.sub(r'(OBS:\[.*),[^,\]]+(\],\s*\n\s*OBS_LAST_DATE:)',lambda m:f'{m.group(1)},{a.price:.15g}{m.group(2)}',text,flags=re.S)
 bundle.write_text(text,encoding='utf-8')
 meta=json.loads(provenance.read_text(encoding='utf-8'))
 meta['last_observation']={'date':a.date,'value_usd':a.price,'kind':a.kind}

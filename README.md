@@ -19,7 +19,7 @@ with a [results report in Russian](audit/WALK_FORWARD.ru.md).
 
 Three layers multiplied by one another. Each owns its own time scale, and they are stitched together rather than stacked: the third depends on the second.
 
-**1. A power law** in the age of the network, `P ∝ t^3β`, with age counted in days from the genesis block. The browser now re-estimates the price slope whenever the embedded observations change. With the provisional 9 September 2026 point the full-sample slope is 5.640, exposed as the sensitivity coordinate β = 1.880. This is a price fit, not an independently measured Metcalfe exponent. The address decomposition remains beside it as a co-trend diagnostic and does not feed the forecast.
+**1. A power law** in the age of the network, `P ∝ t^3β`, with age counted in days from the genesis block. The browser now re-estimates the price slope whenever the embedded observations change. With the 30 September 2026 close the full-sample slope is 5.640, exposed as the sensitivity coordinate β = 1.880. This is a price fit, not an independently measured Metcalfe exponent. The address decomposition remains beside it as a co-trend diagnostic and does not feed the forecast.
 
 **2. Saturation** against a limiting number of owners. This layer decides how everything ends. Soft braking, `P = P_trend · L / (P_trend³ + L³)^⅓`, where the plateau `L` is a monetary constraint rather than a consequence of Metcalfe:
 
@@ -71,7 +71,7 @@ Below the chart a fourth block, **what this requires of money**, converts the sa
 
 ## Data
 
-195 observations from July 2010 through 9 September 2026. Completed months are approximate month closes compiled from public sources; the final `$78,587` value is a provisional spot observation dated 9 September, not a monthly close. The series sits in the page source as `OBS`, with `OBS_LAST_DATE` and `OBS_LAST_PROVISIONAL` preventing the partial month from being mislabeled.
+195 observations from July 2010 through 30 September 2026. Completed months are approximate month closes compiled from public sources; the final `$83,553.85` value is StatMuse's UTC close on 30 September, cross-checked against the 1 October open on Investing.com. The series sits in the page source as `OBS`, with `OBS_LAST_DATE` and `OBS_LAST_PROVISIONAL` preventing the partial month from being mislabeled.
 
 The displayed β is the current price slope divided by three. The price/address regression is explicitly labeled a co-trend check and reports a Newey–West HAC(12) uncertainty estimate because monthly residuals are autocorrelated. Owner ceiling, saturation and future cycle amplitudes remain scenarios rather than estimates from the price sample.
 

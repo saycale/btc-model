@@ -361,7 +361,7 @@ def main() -> None:
     highest = profile[-1]
     result = {
         "source_revision_audited": "6827439d34570254eb220fcd51d37f2511956e35",
-        "data_as_of": "2026-09-09 provisional spot",
+        "data_as_of": "2026-09-30 monthly close",
         "sample": {"observations": len(OBS), "addresses": len(ADR), "common": len(common_months)},
         "reproduction": {
             "holding_usd_per_owner": HOLD,

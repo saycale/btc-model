@@ -20,20 +20,20 @@ class AuditReproductionTests(unittest.TestCase):
         self.assertAlmostEqual(a5, (0.030 + 0.15 * (0.207 - 0.030)) * zeta, places=9)
         self.assertAlmostEqual(b5, -0.37 * 0.75 * zeta, places=9)
 
-    def test_current_provisional_observation(self):
-        self.assertEqual(OBS_LAST_DATE, (2026, 9, 9))
+    def test_current_monthly_close(self):
+        self.assertEqual(OBS_LAST_DATE, (2026, 9, 30))
         self.assertEqual(len(OBS), 195)
-        self.assertAlmostEqual(float(OBS[-1]), 78_587.0)
+        self.assertAlmostEqual(float(OBS[-1]), 83_553.85)
 
     def test_dynamic_reference_fit(self):
-        self.assertAlmostEqual(B_REF, 1.8799811585, places=9)
+        self.assertAlmostEqual(B_REF, 1.8801209876, places=9)
 
     def test_english_and_russian_samples_match(self):
         root = Path(__file__).resolve().parents[1]
         pages = [(root / name).read_text(encoding="utf-8") for name in ("index.html", "ru.html")]
         self.assertTrue(all('GENERATED_RUNTIME_START' in page for page in pages))
         data = (root / 'data' / 'observations.js').read_text(encoding="utf-8")
-        self.assertIn('OBS_LAST_DATE:[2026,9,9]', data)
+        self.assertIn('OBS_LAST_DATE:[2026,9,30]', data)
 
     def test_phi_is_bounded(self):
         for month in ((2025, 10), (2029, 10), (2033, 10), (2037, 10)):

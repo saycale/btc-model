@@ -327,7 +327,7 @@ ul.tight li{margin-bottom:5px}
   <p class="eyebrow">P(t) = 10<sup>A</sup> · t<sup>3β</sup> × saturation(W) × ζ·[euphoria(d<sub>e</sub>) − panic(d<sub>p</sub>)]</p>
   <div class="hrow">
     <h1>Cross-scale Bitcoin price model, 2010–2040</h1>
-    <p class="dateline">Updated 9 September 2026 · latest point is a provisional $78,587 spot observation · everything later is computed</p>
+    <p class="dateline">Updated 1 October 2026 · observed through the 30 September close · everything later is computed</p>
   </div>
   <p class="sub">Three layers stitched together: the Metcalfe exponent sets the slope of power-law growth, the monetary ceiling sets the height that growth runs into, and the cycle layer describes four-year rallies and drawdowns. As the trend approaches the ceiling it flattens: with cycle amplitude held constant this would deepen the peak-to-trough drawdown and weaken the subsequent recovery, but the multiplier ζ simultaneously damps the cycle itself. Each layer acts on its own time scale: the first governs decades, the second determines the long-run plateau, and the third governs the four-year fluctuations within the trend.</p>
   <nav class="nav">
@@ -350,7 +350,7 @@ ul.tight li{margin-bottom:5px}
     <div class="presets">
       <span class="pl">Scenarios · maturity on the left, speculation on the right</span>
       <button type="button" data-k="1800" data-de="0" data-dp="1" data-b="1.880" data-desc="Both phases of the cycle have disappeared. Under the current fit H5 peaks near $356k, bottoms near $281k and draws down 21%; the $735k ceiling remains a scenario, not an estimate.">Cycle faded</button>
-      <button type="button" data-k="1610" data-de="0.15" data-dp="0.5" data-b="1.880" data-desc="The base scenario. Under the current fit H5 peaks near $371k, bottoms near $228k and draws down 38%. These are conditional scenario outputs, not statistical point forecasts.">Quiet cycle<span class="bdg">base</span></button>
+      <button type="button" data-k="1610" data-de="0.15" data-dp="0.5" data-b="1.880" data-desc="The base scenario. Under the current fit H5 peaks near $371k, bottoms near $229k and draws down 38%. These are conditional scenario outputs, not statistical point forecasts.">Quiet cycle<span class="bdg">base</span></button>
       <button type="button" data-k="1350" data-de="0.5" data-dp="0.25" data-b="1.880" data-desc="Euphoria returns halfway and panic is almost untouched. Under the current fit H5 peaks near $411k, bottoms near $196k and draws down 52%.">Cycle returns</button>
       <button type="button" data-k="1300" data-de="1" data-dp="0" data-b="1.880" data-desc="The H4 break is treated as temporary. Under the current fit H5 peaks near $513k, bottoms near $162k and draws down 69%.">Cycle never broke</button>
       <button type="button" id="share">Copy scenario link</button>
@@ -498,7 +498,7 @@ ul.tight li{margin-bottom:5px}
 <p>Three lines. The grey dashed one carries the trend: a power law with saturation, cycles removed. The dashes work as a spine the asset keeps returning to, and by themselves predict nothing. The blue one multiplies that spine by the cycle overlay. The orange one shows what happened.</p>
 <p>The upper panel runs on a logarithmic scale. The lower one carries the residual, measured in <b>dex</b>. Dex expresses “how many times” in logarithmic form: +1 dex puts the price ten times above the trend, −0.3 dex roughly halves it, zero lands exactly on the spine.</p>
 <p>Grey stripes mark halving epochs H0–H8. The dotted vertical line separates observations from projections. Horizontal residual-panel lines show the selected diagnostic threshold (default ±0.2 dex) around the trend without cycles. They are not a confidence interval or forecast bounds.</p>
-<p>At the provisional 9 September 2026 observation the residual is about <b>−0.25 dex</b>: $78.6k is roughly 57% of the saturated trend. Of 195 observations, 17 lie outside ±0.5 dex. The last point is spot data, not a September close; it updates the fit without pretending that the month is complete.</p>
+<p>At the 30 September 2026 close the residual is about <b>−0.23 dex</b>: $83.6k is roughly 59% of the saturated trend. Of 195 observations, 17 lie outside ±0.5 dex. September is now a completed monthly close; it replaces the provisional 9 September spot point.</p>
 
 <h2 id="cycles">Cycles</h2>
 <table id="cyc">
@@ -791,7 +791,7 @@ ul.tight li{margin-bottom:5px}
 <p>The <code>OBS</code> array contains approximate month closes compiled from public sources. That is enough for the shape of the residual and not enough for anything requiring precision; before any serious use, replace it with a verified series from one consistent source.</p>
 
 <footer>
-  <p><strong>Data.</strong> Completed months are approximate closes compiled from public sources. The final value, $78,587 on 9 September 2026, is explicitly provisional spot data rather than a monthly close. The page is static and makes no external requests; updating <code>OBS</code> automatically re-estimates the reference price trend.</p>
+  <p><strong>Data.</strong> Completed months are approximate closes compiled from public sources. The final value is StatMuse’s $83,553.85 UTC close on 30 September 2026, cross-checked against the 1 October open on Investing.com. The page is static and makes no external requests; updating <code>OBS</code> automatically re-estimates the reference price trend.</p>
   <p><strong>Sources.</strong></p>
   <ul class="srcs">
     <li>Santostasi, G. &amp; Perrenod, S. (2026). <em>A Mechanistic Derivation of the Bitcoin Price Power Law: Network Adoption Dynamics and Generalised Metcalfe Scaling.</em> Zenodo preprint, DOI: <a href="https://doi.org/10.5281/zenodo.19387099">10.5281/zenodo.19387099</a>; peer-reviewed and published in a journal in 2026. Source of the slope 5.69 ± 0.05 at R² = 0.961, the decomposition 3.046 × 1.838, the residual scatter of 0.302 dex and the scale-invariance tests.</li>
@@ -873,8 +873,8 @@ ul.tight li{margin-bottom:5px}
    Do not edit the two HTML pages to update a price observation. */
 window.BTC_MODEL_DATA={
   OBS_START:[2010,7],
-  OBS:[0.06,0.06,0.06,0.20,0.28,0.30,0.30,0.95,0.79,3.30,8.60,16.90,13.30,8.20,5.10,3.20,3.00,4.70,5.60,4.90,4.90,5.10,5.20,6.70,9.50,10.30,12.40,11.20,12.40,13.50,20.40,33.50,93.00,139.00,128.00,97.50,106.00,129.00,137.00,205.00,1120.00,754.00,830,555,465,456,622,641,587,505,386,338,378,320,217,254,244,236,230,263,285,230,236,314,377,430,369,437,416,448,531,673,625,575,609,700,745,963,970,1190,1080,1350,2300,2480,2875,4735,4340,6470,9950,14156,10240,10400,6930,9240,7490,6400,7730,7040,6620,6350,4020,3742,3450,3820,4100,5320,8560,10800,10080,9600,8290,9200,7550,7193,9380,8560,6440,8630,9460,9140,11330,11650,10780,13800,19700,28990,33100,45200,58800,57800,37300,35000,41500,47100,43800,61300,57000,46300,38500,43200,45500,37700,31800,19900,23300,20050,19400,20500,17150,16540,23100,23150,28450,29250,27200,30480,29230,25930,26970,34670,37720,42280,42580,61150,71330,60640,67500,62680,64620,58970,63330,70200,96450,93430,102400,84400,82500,94200,104600,107200,115800,108500,114000,110500,91000,88000,78621.12,66995.86,68233.31,76304.32,73579.69,58558.86,62813.75,78553,78587],
-  OBS_LAST_DATE:[2026,9,9],OBS_LAST_PROVISIONAL:true
+  OBS:[0.06,0.06,0.06,0.20,0.28,0.30,0.30,0.95,0.79,3.30,8.60,16.90,13.30,8.20,5.10,3.20,3.00,4.70,5.60,4.90,4.90,5.10,5.20,6.70,9.50,10.30,12.40,11.20,12.40,13.50,20.40,33.50,93.00,139.00,128.00,97.50,106.00,129.00,137.00,205.00,1120.00,754.00,830,555,465,456,622,641,587,505,386,338,378,320,217,254,244,236,230,263,285,230,236,314,377,430,369,437,416,448,531,673,625,575,609,700,745,963,970,1190,1080,1350,2300,2480,2875,4735,4340,6470,9950,14156,10240,10400,6930,9240,7490,6400,7730,7040,6620,6350,4020,3742,3450,3820,4100,5320,8560,10800,10080,9600,8290,9200,7550,7193,9380,8560,6440,8630,9460,9140,11330,11650,10780,13800,19700,28990,33100,45200,58800,57800,37300,35000,41500,47100,43800,61300,57000,46300,38500,43200,45500,37700,31800,19900,23300,20050,19400,20500,17150,16540,23100,23150,28450,29250,27200,30480,29230,25930,26970,34670,37720,42280,42580,61150,71330,60640,67500,62680,64620,58970,63330,70200,96450,93430,102400,84400,82500,94200,104600,107200,115800,108500,114000,110500,91000,88000,78621.12,66995.86,68233.31,76304.32,73579.69,58558.86,62813.75,78553,83553.85],
+  OBS_LAST_DATE:[2026,9,30],OBS_LAST_PROVISIONAL:false
 };
 /* GENERATED_RUNTIME_END */
 const {OBS_START,OBS,OBS_LAST_DATE,OBS_LAST_PROVISIONAL}=window.BTC_MODEL_DATA;

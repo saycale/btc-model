@@ -30,11 +30,11 @@ class WalkForwardTests(unittest.TestCase):
             self.assertTrue(all(v == 2 for v in row["predicted_log10"].values()))
         self.assertEqual(sum(r["horizon_months"] == 24 for r in rows), 7)
 
-    def test_provisional_month_excluded(self):
+    def test_closed_months_through_latest_close(self):
         source = (ROOT / "data/observations.js").read_text()
         dates, prices, ages = load_monthly(source)
-        self.assertEqual(dates[-1].isoformat(), "2026-08-31")
-        self.assertEqual(len(prices), 194)
+        self.assertEqual(dates[-1].isoformat(), "2026-09-30")
+        self.assertEqual(len(prices), 195)
 
     def test_saved_results_reproduce(self):
         expected = json.loads((ROOT / "audit/walk_forward_results.json").read_text())

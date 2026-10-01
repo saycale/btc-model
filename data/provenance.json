@@ -2,8 +2,15 @@
   "schema_version": 1,
   "series": "BTC/USD approximate monthly closes",
   "observation_start": "2010-07",
-  "last_observation": {"date": "2026-09-09", "value_usd": 78587, "kind": "provisional_spot"},
-  "monthly_sources": ["Public-source series compiled in the project history; replace with a verified single-source export before research use."],
+  "last_observation": {
+    "date": "2026-09-30",
+    "value_usd": 83553.85,
+    "kind": "monthly_close"
+  },
+  "monthly_sources": [
+    "Public-source series compiled in the project history; replace with a verified single-source export before research use.",
+    "2026-09: StatMuse UTC close $83,553.85 on 30 September, cross-checked against the Investing.com 1 October open ($83,553.9); replaces the provisional 9 September spot point."
+  ],
   "address_metric": "Coin Metrics AdrBalCnt mirror, month-end, through 2026-05",
   "update_contract": "A partial month must be marked provisional and dated exactly; replace it with a monthly close after month end. Run tools/validate_data.py and audit tests before publishing."
 }
